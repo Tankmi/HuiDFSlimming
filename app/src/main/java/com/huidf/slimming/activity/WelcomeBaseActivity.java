@@ -4,24 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
 import com.huidf.slimming.R;
-import com.huidf.slimming.activity.home.HomeActivity;
-import com.huidf.slimming.activity.personal_center.UserInfoActivity;
-import com.huidf.slimming.activity.personal_center.change_phone_number.ChangePhoneNumberActivity;
-import com.huidf.slimming.activity.personal_center.select_photo.SelectPhotoActivity;
-import com.huidf.slimming.activity.personal_center.set.UserSetActivity;
-import com.huidf.slimming.activity.toady_movement.TodayMovementActivity;
+import com.huidf.slimming.activity.home.weight.history.WeightHistoryActivity;
+import com.huidf.slimming.activity.ranking_list.RankingListActivity;
 import com.huidf.slimming.activity.toady_movement.run.RunActivity;
-import com.huidf.slimming.activity.toady_movement.run.RunBaseActivity;
 import com.huidf.slimming.activity.user.SelLoginActivity;
 import com.huidf.slimming.activity.user.perfect_info.PerfectInfoActivity;
 import com.huidf.slimming.context.ApplicationData;
@@ -93,7 +85,9 @@ public class WelcomeBaseActivity extends Activity implements ConsultNet {
 //			intent_home = new Intent(mContext, HomeActivity.class);
 //			intent_home = new Intent(mContext, SelectPhotoActivity.class);
 //            intent_home = new Intent(mContext, TodayMovementActivity.class);
-//            intent_home = new Intent(mContext, RankingListActivity.class);
+            intent_home = new Intent(mContext, RankingListActivity.class);
+            intent_home = new Intent(mContext, WeightHistoryActivity.class);
+//            intent_home = new Intent(mContext, RunActivity.class);
 
             startActivity(intent_home);
             toFinish();

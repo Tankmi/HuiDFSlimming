@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
-import com.huidf.slimming.activity.home.HomeActivity;
+import com.huidf.slimming.activity.HomeActivity;
 import com.huidf.slimming.activity.user.perfect_info.PerfectInfoActivity;
 import com.huidf.slimming.base.BaseFragment;
 import com.huidf.slimming.context.ApplicationData;

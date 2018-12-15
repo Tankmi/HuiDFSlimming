@@ -1,9 +1,7 @@
-package com.huidf.slimming.activity.home;
+package com.huidf.slimming.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;

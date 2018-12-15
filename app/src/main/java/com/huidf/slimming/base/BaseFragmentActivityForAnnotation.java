@@ -55,10 +55,6 @@ public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity
 	@ViewInject(R.id.btn_title_view_right)public Button mBtnRight; // 右边按钮
 	@ViewInject(R.id.iv_title_line) public ImageView mTitleLine; // 底部分割线
 
-	//***************图片操作
-	public ImageLoader imageLoader_base;
-	public ImageLoadingListener animateFirstListener_base;
-	//***************图片操作
 
 	/** 时间展示格式转换工具 */
 	public TransitionTime tranTimes;
@@ -120,6 +116,7 @@ public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity
 			mLayoutUtil.drawViewDefaultLayout(mBtnLeft, 120, 56, -1, 0, 0, 0);
 		}
       }
+
       @Event(value={R.id.btn_title_view_left})
 	  private void getEvent(View view)
 	  {
@@ -139,10 +136,6 @@ public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity
 		mgetNetData = GetNetData.getInstance();
 		tranTimes = TransitionTime.getInstance();
 		imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);//初始化软键盘处理的方法
-
-		//初始化ImageLoader
-		imageLoader_base = ImageLoader.getInstance();
-		animateFirstListener_base = new AnimateFirstDisplayListener();
 	}
 
 	/** 重新登录 */

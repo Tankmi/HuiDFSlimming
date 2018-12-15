@@ -12,7 +12,7 @@ import android.widget.Button;
 import com.dou361.dialogui.DialogUIUtils;
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
-import com.huidf.slimming.activity.home.HomeActivity;
+import com.huidf.slimming.activity.HomeActivity;
 import com.huidf.slimming.base.BaseFragmentActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;

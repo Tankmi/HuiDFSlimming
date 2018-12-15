@@ -1,4 +1,4 @@
-package com.huidf.slimming.activity.home;
+package com.huidf.slimming.activity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;

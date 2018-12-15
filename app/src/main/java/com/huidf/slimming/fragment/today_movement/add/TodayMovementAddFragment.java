@@ -57,7 +57,7 @@ public class TodayMovementAddFragment extends TodayMovementAddBaseFragment {
 //                intent = new Intent(mContext, UserSetActivity.class);
                 break;
             case R.id.rel_sett_info: // 个人设置
-//                intent = new Intent(mContext, UserInfoActivity.class);
+//                intent = new Intent(mContext, WeightHistoryActivity.class);
                 break;
         }
         if (intent != null) {

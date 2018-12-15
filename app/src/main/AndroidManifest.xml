@@ -46,13 +46,18 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
-            android:name=".activity.home.HomeActivity"
+            android:name=".activity.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
             android:name=".activity.personal_center.UserInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.home.weight.history.WeightHistoryActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 

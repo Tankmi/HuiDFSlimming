@@ -78,6 +78,11 @@ public class TransitionTime {
         return convert(time+"", timeFormat);
     }
 
+    public String convert(long time, String timeFormat){
+
+        return convert(time+"", timeFormat);
+    }
+
     /**
      * 时间转换
      *

@@ -2,7 +2,6 @@ package com.huidf.slimming.activity.user;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,12 +16,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.dou361.dialogui.DialogUIUtils;
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
-import com.huidf.slimming.activity.home.HomeActivity;
+import com.huidf.slimming.activity.HomeActivity;
 import com.huidf.slimming.activity.user.perfect_info.PerfectInfoActivity;
 import com.huidf.slimming.base.BaseFragmentActivity;
 import com.huidf.slimming.context.ApplicationData;
