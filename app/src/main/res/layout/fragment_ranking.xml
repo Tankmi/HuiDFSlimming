@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rel_home_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/all_bg"
+    >
+
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/lin_tab_ranking_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_color"
+        android:orientation="horizontal"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rel_trl_sport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_trl_sport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:text="运动排行"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_large"/>
+
+            <ImageView
+                android:id="@+id/iv_trl_sport"
+                style="@style/horizontal_line_style"
+                android:layout_height="2px"
+                android:layout_below="@+id/tv_trl_sport"
+                android:layout_alignLeft="@+id/tv_trl_sport"
+                android:layout_alignRight="@+id/tv_trl_sport"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:background="@drawable/back_white_tra_draw"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_trl_weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_trl_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:text="体重排行"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_large"/>
+
+            <ImageView
+                android:id="@+id/iv_trl_weight"
+                style="@style/horizontal_line_style"
+                android:layout_height="2px"
+                android:layout_below="@+id/tv_trl_weight"
+                android:layout_alignLeft="@+id/tv_trl_weight"
+                android:layout_alignRight="@+id/tv_trl_weight"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:background="@drawable/back_white_tra_draw"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_trl_line"
+        style="@style/horizontal_line_style"
+        android:layout_below="@id/lin_tab_ranking_list"/>
+
+    <FrameLayout
+        android:id="@+id/fl_ranking_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/iv_trl_line"
+        />
+
+</RelativeLayout>

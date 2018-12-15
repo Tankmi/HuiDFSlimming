@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '28.0.2'
+    defaultConfig {
+        applicationId "com.huidf.slimming"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                XG_ACCESS_ID : "2100317972",
+                XG_ACCESS_KEY: "A77NA11DL5RM",
+//                XG_ACCESS_ID:"2100308515",
+//                XG_ACCESS_KEY : "A3XQL533W8UV",
+                HW_APPID     : "华为的APPID"
+        ]
+        //高德
+        ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
+        }
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        repositories {
+            maven {
+                url "http://maven.google.com"
+            }
+            maven { url 'https://maven.aliyun.com/repository/google' }
+            maven { url 'https://maven.aliyun.com/repository/jcenter' }
+            maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    implementation 'com.android.support:recyclerview-v7:26.0.0'
+    //    implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+    //Glide
+
+    //微信登录
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+    implementation project(':jjdxm-dialogui')
+    implementation files('libs/open_sdk_r6019_lite.jar')
+    //信鸽jar start
+    implementation 'com.tencent.xinge:xinge:3.2.6-release'
+    //jg包
+    implementation 'com.tencent.jg:jg:1.1'
+    //wup包
+    implementation 'com.tencent.wup:wup:1.0.0.E-release'
+    //mid包
+    implementation 'com.tencent.mid:mid:4.0.6-release'
+    //信鸽jar end
+    implementation project(':xutils')
+    implementation project(':libztframework')
+
+    //高德start
+    //3D地图so及jar
+    implementation 'com.amap.api:3dmap:latest.integration'
+//    implementation 'com.amap.api:map2d:latest.integration'
+//     定位功能
+    implementation 'com.amap.api:location:latest.integration'
+    // 搜索功能
+    implementation 'com.amap.api:search:latest.integration'
+    //高德end
+}

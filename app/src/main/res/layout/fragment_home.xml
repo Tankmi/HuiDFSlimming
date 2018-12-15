@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:id="@+id/sc_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:fadingEdge="none"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rel_home_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/rel_ht_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparency"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_htd_target_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/margin_tb_normal"
+                        android:text="目标体重"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_normal"
+                        />
+
+                    <com.huidf.slimming.view.home.CircularView
+                        android:id="@+id/circular_ht_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_htd_progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/margin_tb_normal"
+                        android:text="进度"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_normal"
+                        />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_ht_today_movement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:background="@drawable/back_perfect_infogreen_90_draw"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/margin_tb_small"
+                    android:paddingLeft="@dimen/margin_lr_normal"
+                    android:paddingRight="@dimen/margin_lr_normal"
+                    android:paddingTop="@dimen/margin_tb_small"
+                    android:text="今日运动"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_normal"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_home_food"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_hf_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/margin_lr_large"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <TextView
+                    android:id="@+id/tv_hf_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hf_title"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_normal"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_hf_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:background="@drawable/iv_arrows"/>
+
+                <com.huidf.slimming.view.home.HorizonalScheduleView
+                    android:id="@+id/horschedule_hf_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hf_title"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:layout_marginTop="@dimen/margin_tb_xnormal"
+                    android:layout_toLeftOf="@+id/iv_hf_arrow"/>
+
+                <ImageView
+                    style="@style/horizontal_line_style"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_home_sport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_hs_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/margin_lr_large"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <TextView
+                    android:id="@+id/tv_hs_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hs_title"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_normal"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_hs_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:background="@drawable/iv_arrows"/>
+
+                <com.huidf.slimming.view.home.HorizonalScheduleView
+                    android:id="@+id/horschedule_hs_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hs_title"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:layout_marginTop="@dimen/margin_tb_xnormal"
+                    android:layout_toLeftOf="@+id/iv_hs_arrow"/>
+
+                <ImageView
+                    style="@style/horizontal_line_style"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_home_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_hw_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/margin_lr_large"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <TextView
+                    android:id="@+id/tv_hw_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hw_title"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_normal"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_hw_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:background="@drawable/iv_arrows"/>
+
+                <com.huidf.slimming.view.home.WeightTableView
+                    android:id="@+id/weighttable_hw_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:layout_toLeftOf="@+id/iv_hw_arrow"/>
+
+                <ImageView
+                    style="@style/horizontal_line_style"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_home_sleep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_hsl_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/margin_lr_large"
+                    android:gravity="top"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <TextView
+                    android:id="@+id/tv_hsl_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hsl_title"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_normal"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_hsl_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:background="@drawable/iv_arrows"/>
+
+                <ImageView
+                    android:id="@+id/iv_hsl_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hsl_title"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:layout_toLeftOf="@+id/iv_hsl_arrow"/>
+
+                <ImageView
+                    style="@style/horizontal_line_style"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    />
+            </RelativeLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_height="@dimen/margin_tb_normal"
+                android:background="@color/transparency"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

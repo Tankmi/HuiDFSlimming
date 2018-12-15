@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- 标题 -->
+    <color name="title_color_bg">#ffffff</color>
+    <color name="title_color_title">#000000</color>
+    <color name="title_color_name">#1294f6</color>
+    <color name="title_color_orange_name">#f37811</color>
+    <!-- 标题 -->
+
+    <!-- 全局字体颜色 -->
+    <color name="app_text_color">#ff1a1a1a</color>
+    <!-- 提示字体颜色 -->
+    <color name="app_text_color_hint">#ff999999</color>
+    <color name="app_text_color_warn">#ffffce6b</color>
+    <!-- 状态栏默认背景色 -->
+    <color name="status_bar_default_bg">#ffffffff</color>
+    <!-- 线条默认颜色  可改 -->
+    <color name="line_bg">#ffd0d0d0</color>
+    <!-- 虚线默认颜色  可改 -->
+    <color name="line_bg_e1e1e1">#e1e1e1</color>
+
+    <color name="sel_login_btn">#22d7bb</color>
+    <color name="main_color">#22d7bb</color>
+
+    <color name="back_run_color">#584f60</color>
+
+    <color name="navpage">#FFE1E8EB</color>
+
+    <!-- 更新 -->
+    <color name="back_update_progress">#e7e7e7</color>
+    <color name="back_update_progress_pb">#2288da</color>
+</resources>

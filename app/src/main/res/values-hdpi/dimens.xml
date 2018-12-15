@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- 标题栏 -->
+    <dimen name="title_height">62dip</dimen>
+    <dimen name="title_btn_marginTB">3dip</dimen>
+    <dimen name="title_btn_marginLR">5dip</dimen>
+    <dimen name="title_text_H">40dip</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="title_right_text_size">20sp</dimen>
+    <!-- 标题栏 -->
+    <dimen name="selectsex_register">28sp</dimen>
+
+    <!-- 个人中心关于数字 TextView字体大小 -->
+    <dimen name="user_info_number_text_size">12sp</dimen>
+    <dimen name="user_info_number_text_size10">10sp</dimen>
+
+    <dimen name="settings_text_size">21sp</dimen>
+
+    <!-- 间距 -->
+    <dimen name="arrow_margin">35dp</dimen>
+    <dimen name="arrow_margin_large">70dp</dimen>
+
+    <dimen name="margin_lr_small">5dp</dimen>
+    <dimen name="margin_lr_normal">25dp</dimen>
+    <dimen name="margin_lr_large">38dp</dimen>
+    <dimen name="margin_lr_xlarge">64dp</dimen>
+    <dimen name="margin_tb_small">5dp</dimen>
+    <dimen name="margin_tb_xsmall">10dp</dimen>
+    <dimen name="margin_tb_normal">20dp</dimen>
+    <dimen name="margin_tb_xnormal">22dp</dimen>
+    <dimen name="margin_tb_large">50dp</dimen>
+    <dimen name="margin_tb_xlarge">100dp</dimen>
+
+    <dimen name="drawable_padding_normal">10dp</dimen>
+    <dimen name="drawable_padding_large">24dp</dimen>
+    <dimen name="line_spacing_large">24dp</dimen>
+
+    <dimen name="content_text_size_40">40sp</dimen>
+    <dimen name="content_text_size">14sp</dimen>
+    <dimen name="content_text_size13">13sp</dimen>
+    <dimen name="fsq_14dp">14dp</dimen>
+    <!-- 行间距 -->
+    <dimen name="line_space">5dp</dimen>
+
+
+</resources>

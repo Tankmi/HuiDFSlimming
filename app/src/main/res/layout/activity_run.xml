@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rel_home_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/back_run_color"
+                android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/lin_run_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="@dimen/margin_lr_xlarge"
+        android:layout_marginTop="@dimen/margin_tb_xlarge"
+        android:layout_marginRight="@dimen/margin_lr_large"
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_run_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:textSize="45sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_rund_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_lr_normal"
+            android:background="@drawable/icon_running_map"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/lin_run_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_lr_large"
+        android:layout_marginRight="@dimen/margin_lr_large"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_run_info01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_lr_normal"
+            android:drawablePadding="@dimen/margin_tb_normal"
+            android:lineSpacingExtra="@dimen/margin_tb_normal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="配速"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xlarge"/>
+
+        <TextView
+            android:id="@+id/tv_run_info02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_lr_normal"
+            android:drawablePadding="@dimen/margin_tb_normal"
+            android:lineSpacingExtra="@dimen/margin_tb_normal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="用时"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xlarge"/>
+
+        <TextView
+            android:id="@+id/tv_run_info03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_lr_normal"
+            android:drawablePadding="@dimen/margin_tb_normal"
+            android:lineSpacingExtra="@dimen/margin_tb_normal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="千卡"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xlarge"/>
+    </LinearLayout>
+
+    <RelativeLayout
+
+        android:id="@+id/rel_run_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/margin_lr_xlarge"
+        android:layout_marginRight="@dimen/margin_lr_xlarge"
+        android:layout_marginBottom="@dimen/margin_tb_large">
+
+        <Button
+            android:id="@+id/btn_runc_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/icon_run_pause"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/btn_runc_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/icon_run_continue"
+            />
+
+        <Button
+            android:id="@+id/btn_runc_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/icon_run_finish"
+            />
+
+    </RelativeLayout>
+
+    <com.huidf.slimming.view.home.today_movement.RunCircleAnimationView
+        android:id="@+id/runcview_animation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/rel_run_anim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_run_anim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="3"
+            android:textColor="@color/white"
+            android:textSize="80sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rel_run_map"
+        android:layout_below="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/mapview_running"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </com.amap.api.maps.MapView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

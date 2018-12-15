@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/all_bg">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:id="@+id/sc_settings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/all_bg"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_sett_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <RelativeLayout
+                    android:id="@+id/rel_settings_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_sett_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/title_height"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:text="个人中心"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/title_text_size"/>
+
+                    <Button
+                        android:id="@+id/btn_sett_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_tb_small"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/iv_setting"
+                        />
+
+                    <RelativeLayout
+                        android:id="@+id/rel_sett_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/margin_lr_normal"
+                        android:layout_marginRight="@dimen/margin_lr_normal"
+                        android:background="@drawable/back_white_5">
+
+                        <ImageView
+                            android:id="@+id/iv_sett_header"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_lr_large"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_setti_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_lr_large"
+                            android:layout_toRightOf="@id/iv_sett_header"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="@dimen/text_size_normal"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_setti_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_lr_large"
+                            android:layout_below="@+id/tv_setti_name"
+                            android:layout_toRightOf="@id/iv_sett_header"
+                            android:ellipsize="end"
+                            android:gravity="bottom"
+                            android:lines="1"
+                            android:textColor="@color/app_text_color_hint"
+                            android:textSize="@dimen/text_size_small"
+                            />
+
+                        <ImageView
+                            android:id="@+id/iv_setti_arrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_lr_normal"
+                            android:background="@drawable/iv_arrows"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_height="@dimen/margin_tb_normal"
+                android:background="@color/all_bg"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_name"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_name_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_age"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_age_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_dynamic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_dynmic"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_dynamic_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_height="@dimen/margin_tb_normal"
+                android:background="@color/all_bg"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_height"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_height"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_height_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/lin_sett_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_weight"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_weight_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_bmi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_bmi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_bmi"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_bmi_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_target_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_target_weight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_target_weight"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_target_weight_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_target_reach_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_target_reach_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_reach_time"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_target_reach_time_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+
+            <LinearLayout
+                android:id="@+id/lin_sett_step_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sett_step_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:layout_marginLeft="@dimen/margin_lr_large"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_pc_step_num"
+                    android:drawablePadding="@dimen/arrow_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_big"/>
+
+                <TextView
+                    android:id="@+id/tv_sett_step_num_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_large"
+                    android:textColor="@color/sel_login_btn"
+                    android:textSize="@dimen/text_size_normal"
+
+                    />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                />
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_height="@dimen/margin_tb_normal"
+                android:background="@color/all_bg"
+                />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

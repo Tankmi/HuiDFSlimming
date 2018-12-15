@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/sc_bind_phone_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_bind_phone_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginRight="@dimen/margin_lr_large"
+                android:background="@null"
+                android:gravity="left"
+                android:inputType="phone"
+                android:text="为了您的账号安全，请绑定手机号"
+                android:lines="1"
+                android:textColor="@color/app_text_color_hint"
+                android:textSize="@dimen/settings_text_size" />
+
+            <RelativeLayout
+                android:id="@+id/rel_bind_phone_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_bind_phone_hint"
+                android:layout_marginTop="@dimen/margin_tb_large"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginRight="@dimen/margin_lr_large">
+
+                <ImageView
+                    android:id="@+id/iv_bind_phone_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    />
+
+                <EditText
+                    android:id="@+id/et_bind_phone_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="请输入您的手机号"
+                    android:inputType="phone"
+                    android:letterSpacing="1.5"
+                    android:maxLength="20"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <Button
+                    android:id="@+id/btn_bind_phone_account_clear"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <ImageView
+                    style="@style/horizontal_line_style"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_tb_large"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_bind_phone_verification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rel_bind_phone_account"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginRight="@dimen/margin_lr_large"
+                android:layout_marginTop="@dimen/margin_tb_normal">
+
+
+                <ImageView
+                    android:id="@+id/iv_bind_phone_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    />
+
+                <EditText
+                    android:id="@+id/et_bind_phone_veri"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_lr_normal"
+                    android:background="@null"
+                    android:gravity="left"
+                    android:hint="请输入验证码"
+                    android:inputType="phone"
+                    android:lines="1"
+                    android:maxLength="20"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tv_bind_phone_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/margin_tb_large"
+                    android:layout_marginBottom="@dimen/margin_tb_large"
+                    android:layout_centerVertical="true"
+                    android:letterSpacing="0.5"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin_lr_small"
+                    android:paddingRight="@dimen/margin_lr_small"
+                    android:text="获取验证码"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/settings_text_size" />
+
+                <ImageView
+                    style="@style/horizontal_line_style"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/margin_tb_large"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_bind_phone_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rel_bind_phone_verification"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginTop="@dimen/margin_tb_xlarge">
+
+                <CheckBox
+                    android:id="@+id/check_bind_phone_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:button="@null" />
+
+                <TextView
+                    android:id="@+id/tv_bind_phone_aggrement_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_lr_small"
+                    android:layout_toRightOf="@id/check_bind_phone_agreement"
+                    android:background="@null"
+                    android:hint="同意"
+                    android:textColor="@color/app_text_color_hint"
+                    android:textSize="@dimen/settings_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_bind_phone_aggrement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.5"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/tv_bind_phone_aggrement_ok"
+                    android:background="@null"
+                    android:text="《用户使用协议》"
+                    android:textSize="@dimen/settings_text_size" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_bind_phone_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rel_bind_phone_agreement"
+                android:layout_marginLeft="@dimen/margin_lr_large"
+                android:layout_marginRight="@dimen/margin_lr_large"
+                android:layout_marginTop="@dimen/margin_tb_xlarge"
+                android:gravity="center"
+                android:letterSpacing="0.5"
+                android:text="绑定手机号"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_bind_phone_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_lr_normal"
+        android:layout_marginTop="@dimen/title_height"
+        />
+
+    <ProgressBar
+        android:id="@+id/bind_phone_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

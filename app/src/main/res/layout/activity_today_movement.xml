@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rel_home_main"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        />
+
+    <LinearLayout
+        android:id="@+id/lin_tab_today_movement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rel_ttm_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_ttm_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:text="手动添加"
+                android:textColor="@color/tv_maincolor_draw"
+                android:textSize="@dimen/text_size_large"/>
+
+            <ImageView
+                android:id="@+id/iv_ttm_add"
+                style="@style/horizontal_line_style"
+                android:layout_below="@+id/tv_ttm_add"
+                android:layout_alignLeft="@+id/tv_ttm_add"
+                android:layout_alignRight="@+id/tv_ttm_add"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:background="@drawable/back_maincolor_draw"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_ttm_running"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_ttm_running"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:text="户外跑"
+                android:textColor="@color/tv_maincolor_draw"
+                android:textSize="@dimen/text_size_large"/>
+
+            <ImageView
+                android:id="@+id/iv_ttm_running"
+                style="@style/horizontal_line_style"
+                android:layout_below="@+id/tv_ttm_running"
+                android:layout_alignLeft="@+id/tv_ttm_running"
+                android:layout_alignRight="@+id/tv_ttm_running"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:background="@drawable/back_maincolor_draw"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_ttm_line"
+        style="@style/horizontal_line_style"
+        android:layout_below="@id/lin_tab_today_movement"/>
+
+    <FrameLayout
+        android:id="@+id/fl_today_movement"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/iv_ttm_line"
+        />
+
+    <WebView
+        android:id="@+id/web_home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+
+
+</RelativeLayout>
