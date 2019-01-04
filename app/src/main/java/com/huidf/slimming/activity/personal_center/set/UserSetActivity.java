@@ -1,5 +1,6 @@
 package com.huidf.slimming.activity.personal_center.set;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Environment;
 import android.view.KeyEvent;
@@ -7,10 +8,13 @@ import android.view.View;
 
 import com.huidf.slimming.R;
 import com.huidf.slimming.activity.personal_center.change_phone_number.ChangePhoneNumberActivity;
+import com.huidf.slimming.activity.personal_center.joingroup.InputActivity;
 import com.huidf.slimming.activity.personal_center.select_photo.SelectPhotoActivity;
 import com.huidf.slimming.activity.user.SelLoginActivity;
 import com.huidf.slimming.context.ApplicationData;
+import com.huidf.slimming.context.HtmlUrlConstant;
 import com.huidf.slimming.context.PreferenceEntity;
+import com.huidf.slimming.web.activity.WebViewActivity;
 
 import java.io.File;
 
@@ -74,17 +78,22 @@ public class UserSetActivity extends UserSetBaseActivity {
 //                intent = new Intent(mContext, SetNickFragmentActivity.class);
 //                startActivityForResult(intent, 6);
                 break;
-            case R.id.lin_user_set_question:    //常见问题
-//                intent = new Intent(mContext, SetNickFragmentActivity.class);
-//                startActivityForResult(intent, 6);
+            case R.id.lin_user_set_question:    //常见问题 / 问题反馈
+                intent = new Intent(this, InputActivity.class);
+                intent.putExtra("type",2);
+                startActivity(intent);
                 break;
             case R.id.lin_user_set_about_us:    //关于我们
-//                intent = new Intent(mContext, SetNickFragmentActivity.class);
-//                startActivityForResult(intent, 6);
+                intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("url", HtmlUrlConstant.HTML_ABOUTUS );
+                intent.putExtra("is_refresh", false);
+                startActivity(intent);
                 break;
             case R.id.tv_user_set_logout:    //退出登录
-                intent = new Intent(mContext, SelLoginActivity.class);
+                PreferenceEntity.clearData();
+                ApplicationData.getInstance().exit();
                 PreferenceEntity.isLogin = false;
+                intent = new Intent(this, SelLoginActivity.class);
                 startActivity(intent);
                 break;
         }

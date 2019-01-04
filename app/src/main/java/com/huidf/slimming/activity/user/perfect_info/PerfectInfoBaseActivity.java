@@ -13,6 +13,7 @@ import com.dou361.dialogui.DialogUIUtils;
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
 import com.huidf.slimming.activity.HomeActivity;
+import com.huidf.slimming.activity.home.weight.WeightActivity;
 import com.huidf.slimming.base.BaseFragmentActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
@@ -42,6 +43,9 @@ import huitx.libztframework.utils.ToastUtils;
 
 
 public class PerfectInfoBaseActivity extends BaseFragmentActivity implements View.OnClickListener, GuidanceSexFragment.OnGuidanceSexListener {
+
+    /** 个人中心重设数据，设置完后，需要跳转到weightActivity */
+    protected boolean isReinstall;
 
     public PerfectInfoBaseActivity(int layoutId)
     {
@@ -109,7 +113,7 @@ public class PerfectInfoBaseActivity extends BaseFragmentActivity implements Vie
         String targetCycle = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_LOSE_WEIGHT_PERIOD, 66 + "");
         String sex = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_SEX, "1");
 
-        params.addBodyParameter("birthday", PreferenceEntity.perfectInfoBirthday + "00:00:00");
+        params.addBodyParameter("birthday", PreferenceEntity.perfectInfoBirthday + " 00:00:00");
         params.addBodyParameter("height", height);
         params.addBodyParameter("weight", weight);
         params.addBodyParameter("targetWeight", targetWeight);
@@ -117,6 +121,7 @@ public class PerfectInfoBaseActivity extends BaseFragmentActivity implements Vie
         params.addBodyParameter("targetTime", PreferenceEntity.ValueLostWeightTime + "");
         params.addBodyParameter("sex", sex);
 
+        LOG("PreferenceEntity.perfectInfoBirthday：  " + PreferenceEntity.perfectInfoBirthday + " 00:00:00");
         mgetNetData.GetData(this, UrlConstant.API_SYSISALL, PerfectInfo, params);
         setLoading(true, "");
     }
@@ -141,8 +146,13 @@ public class PerfectInfoBaseActivity extends BaseFragmentActivity implements Vie
         if (mUserEntity.code == ContextConstant.RESPONSECODE_200) {
             if (type == PerfectInfo) {
                 PreferencesUtils.putString(ApplicationData.context, PreferenceEntity.KEY_USER_ISALL, "1");
-                Intent intent_home = new Intent(this, HomeActivity.class);
-                startActivity(intent_home);
+                if(isReinstall){
+                    setResult(200);
+                } else  {
+                    Intent  intent_home = new Intent(this, HomeActivity.class);
+                    startActivity(intent_home);
+                }
+
                 finish();
             }
         } else if (mUserEntity.code == ContextConstant.RESPONSECODE_310) {    //登录信息过时跳转到登录页
@@ -155,6 +165,7 @@ public class PerfectInfoBaseActivity extends BaseFragmentActivity implements Vie
     @Override
     public void error(String msg, int type)
     {
+        super.error(msg,type);
         showLoading(false);
     }
 

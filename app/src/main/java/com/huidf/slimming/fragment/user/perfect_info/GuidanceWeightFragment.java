@@ -70,8 +70,9 @@ public class GuidanceWeightFragment extends BaseFragment{
 		if(sex == 1) iv_guidance_weight.setBackgroundResource(R.drawable.iv_man_bef);
 		else iv_guidance_weight.setBackgroundResource(R.drawable.iv_woman_bef);
 
-		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
-		float height = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_HEIGHT, 100) * 0.01f;
+//		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
+		mWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50);
+		float height = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 100) * 0.01f;
 		int minWeight = (int) (height*height*15.5f);
 
 		view_guidance_weight.initViewParam(mWeight<minWeight?minWeight:mWeight, 200, minWeight, 10);	//设置默认值，最大值，最小值，间隔

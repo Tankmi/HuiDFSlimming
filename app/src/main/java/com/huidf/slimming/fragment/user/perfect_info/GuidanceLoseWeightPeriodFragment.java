@@ -109,8 +109,10 @@ public class GuidanceLoseWeightPeriodFragment extends BaseFragment{
 		if(averageLoseWeight>warnWeight) tv_glwp_warning.setText("减重速度过快");
 		else tv_glwp_warning.setText("");
 		tv_glwp_value.setText(String.valueOf(value) + "周");
-		PreferenceEntity.ValueLostWeightTime = System.currentTimeMillis() + (value * 7 * 24 * 60 * 60 * 1000);
+		PreferenceEntity.ValueLostWeightTime = System.currentTimeMillis() + (value * 7L * 24 * 60 * 60 * 1000);
 		String times = tranTimes.convert("" + PreferenceEntity.ValueLostWeightTime," yyyy年M月d日");
+		LOG("System.currentTimeMillis():" + System.currentTimeMillis());
+		LOG("PreferenceEntity.ValueLostWeightTime:" + PreferenceEntity.ValueLostWeightTime);
 		tv_glwp_hint.setText("预计在" + times + "(" + 7 * periodValue + "天之后)达成\n平均每周减重" + averageLoseWeight + "公斤");
 	}
 

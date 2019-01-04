@@ -48,7 +48,7 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
     }
 
 
-    protected final int GETUSERINFO = 101;
+    protected final int GETUSERINFO = 10003;
 
     /**
      * 获取用户的信息
@@ -57,7 +57,7 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
     {
         RequestParams params = PreferenceEntity.getLoginParams();
         mgetNetData.GetData(this, UrlConstant.GET_PERSONAL_CENTER, GETUSERINFO, params);
-        setLoading(true, "");
+//        setLoading(true, "");
     }
 
     public UserEntity mUserEntity;
@@ -89,9 +89,11 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
     @Override
     public void error(String msg, int type)
     {
-        setLoading(false, "");
+        super.error(msg,type);
+
     }
 
+    @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg)
         {
@@ -127,12 +129,12 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
         NewWidgetSetting.setViewText(tv_sett_dynamic_value, "条 ", userInfo.count, "0", false);
         NewWidgetSetting.setViewText(tv_sett_height_value, " cm", userInfo.height, "暂无信息",false);
         NewWidgetSetting.setViewText(tv_sett_weight_value, " kg", userInfo.latestWeight, "暂无信息",false);
-        NewWidgetSetting.setViewText(tv_sett_bmi_value, userInfo.bmi, "暂无信息");
+        NewWidgetSetting.setViewText(tv_sett_bmi_value," kg/㎡", userInfo.bmi, "暂无信息" ,false);
         NewWidgetSetting.setViewText(tv_sett_target_weight_value," kg", userInfo.targetWeight, "暂无信息" ,false);
-        String time = NewWidgetSetting.getInstance().filtrationStringbuffer(userInfo.targetTime,"");
+        String time = NewWidgetSetting.filtrationStringbuffer(userInfo.targetTime,"");
         tv_sett_target_reach_time_value.setText((time == null || time.equals("")?"未知":tranTimes.convert(time,"yyyy年M月d日")));
 //        NewWidgetSetting.setViewText(tv_sett_target_reach_time_value, tranTimes.convert(time,"yyyy年M月d日"), "暂无信息");
-        NewWidgetSetting.setViewText(tv_sett_step_num_value, "运动步数", "暂无信息");
+        NewWidgetSetting.setViewText(tv_sett_step_num_value," 分", userInfo.sumSportTime, "暂无信息" ,false);
 
         setSexHeader(userInfo.sex, userInfo.head);
 
@@ -200,6 +202,8 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
     protected LinearLayout lin_sett_step_num;
     protected TextView tv_sett_step_num;
     protected TextView tv_sett_step_num_value;
+    protected LinearLayout lin_sett_joingroup;
+    protected TextView tv_sett_joingroup;
 
 
     /**
@@ -243,6 +247,8 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
         lin_sett_step_num = findViewByIds(R.id.lin_sett_step_num);
         tv_sett_step_num = findViewByIds(R.id.tv_sett_step_num);
         tv_sett_step_num_value = findViewByIds(R.id.tv_sett_step_num_value);
+        lin_sett_joingroup = findViewByIds(R.id.lin_sett_joingroup);
+        tv_sett_joingroup = findViewByIds(R.id.tv_sett_joingroup);
 
         rel_sett_info.setOnClickListener(this);
         btn_sett_setting.setOnClickListener(this);
@@ -255,13 +261,19 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
         tv_sett_bmi.setText("BMI");
         tv_sett_target_weight.setText("目标体重");
         tv_sett_target_reach_time.setText("目标达成时间");
-        tv_sett_step_num.setText("今日运动步数");
+//        tv_sett_step_num.setText("今日运动步数");
+        tv_sett_step_num.setText("今日运动时间");
+        tv_sett_joingroup.setText("拉人进群");
+
+        lin_sett_dynamic.setOnClickListener(this);
+        lin_sett_joingroup.setOnClickListener(this);
     }
 
     @Override
     protected void initLocation()
     {
         mLayoutUtil.drawViewRBLayout(iv_sett_back, 0, 362, 0, 0, 0, 0);
+
         mLayoutUtil.drawViewDefaultLayout(rel_settings_title, -1,
                 mLayoutUtil.getWidgetHeight(362) - (int) PreferenceEntity.ScreenTop + mLayoutUtil.getWidgetHeight(215) / 2,
                 -1, -1, (int) PreferenceEntity.ScreenTop, -1);

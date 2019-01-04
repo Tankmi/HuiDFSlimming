@@ -20,6 +20,7 @@ import com.huidf.slimming.context.PreferenceEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.LayoutUtil;
 import huitx.libztframework.utils.MathUtils;
 import huitx.libztframework.utils.PreferencesUtils;
@@ -60,7 +61,7 @@ public class WeightTableView extends View {
     private float YPoint = 0;
     /** 纵坐标轴的纵向间距 以纵坐标区间数为标准制定的 */
     private float marginHorizonal;
-    private List<Float> score;
+    private List<Float> mScores;
 
     public WeightTableView(Context context) {
         super(context);
@@ -91,6 +92,7 @@ public class WeightTableView extends View {
 
     public void init()
     {
+        if(mScores == null) mScores = new ArrayList<>();
         Resources res = getResources();
         tb = res.getDimension(R.dimen.detection_10);
 
@@ -141,23 +143,23 @@ public class WeightTableView extends View {
 
     public void drawDate(Canvas canvas)
     {
-        for (int i = 0; i < score.size(); i++) {
+        for (int i = 0; i < mScores.size(); i++) {
             if (i > 0) {
-                if (MathUtils.compareFloat(score.get(i - 1), score.get(i)))
+                if (MathUtils.compareFloat(mScores.get(i - 1), mScores.get(i)))
                     paint_line_effect.setColor(colorUnsel);
                 else paint_line_effect.setColor(colorSel);
-                drawImaginaryLine(marginLeft + interval_lr * (i - 1), YCoord(score.get(i - 1) + ""),
-                        marginLeft + interval_lr * (i), YCoord(score.get(i) + ""), canvas);
+                drawImaginaryLine(marginLeft + interval_lr * (i - 1), YCoord(mScores.get(i - 1) + ""),
+                        marginLeft + interval_lr * (i), YCoord(mScores.get(i) + ""), canvas);
             }
         }
         // 绘制节点
-        for (int i = 0; i < score.size(); i++) {
+        for (int i = 0; i < mScores.size(); i++) {
             if (i > 0) {
-                if (MathUtils.compareFloat(score.get(i - 1), score.get(i)))
+                if (MathUtils.compareFloat(mScores.get(i - 1), mScores.get(i)))
                     paint_circle.setColor(colorUnsel);
                 else paint_circle.setColor(colorSel);
             }
-            canvas.drawCircle(marginLeft + interval_lr * (i), YCoord(score.get(i) + ""), circleWidth, paint_circle);
+            canvas.drawCircle(marginLeft + interval_lr * (i), YCoord(mScores.get(i) + ""), circleWidth, paint_circle);
         }
     }
 
@@ -179,7 +181,7 @@ public class WeightTableView extends View {
      */
     public void setData(List<Float> score)
     {
-        this.score = score;
+        this.mScores = score;
         postInvalidate();
     }
 
@@ -188,11 +190,9 @@ public class WeightTableView extends View {
      */
     private void initYcoorData()
     {
-        float Weight = Float.parseFloat(PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_INITIAL_WEIGHT, "70"));
-        float TargetWeight = Float.parseFloat(PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_TARGET_WEIGHT, (Weight - 10) + ""));
+        float Weight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 70.0f);
+        float TargetWeight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, (Weight - 10));
 
-//        Weight = 72;
-//        TargetWeight = 66;
         yCoors = new ArrayList<>();
         yCoors.add(TargetWeight);
         yCoors.add(TargetWeight + ((Weight - TargetWeight) / 2));

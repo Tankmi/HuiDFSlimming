@@ -42,10 +42,10 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:gravity="center"
-                        android:lineSpacingExtra="@dimen/margin_tb_normal"
+                        android:lineSpacingExtra="@dimen/line_space"
                         android:text="目标体重"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_normal"
+                        android:textSize="@dimen/text_size_large"
                         />
 
                     <com.huidf.slimming.view.home.CircularView
@@ -62,10 +62,10 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"
-                        android:lineSpacingExtra="@dimen/margin_tb_normal"
+                        android:lineSpacingExtra="@dimen/line_space"
                         android:text="进度"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_normal"
+                        android:textSize="@dimen/text_size_large"
                         />
                 </RelativeLayout>
 
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/margin_lr_large"
-                    android:gravity="top"
+                    android:gravity="center_vertical"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_large"/>
 
@@ -111,9 +111,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_hf_title"
                     android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
-                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:lineSpacingExtra="@dimen/line_space"
                     android:textColor="@color/text_color_hint"
                     android:textSize="@dimen/text_size_normal"
                     />
@@ -134,13 +135,13 @@
                     android:layout_below="@+id/tv_hf_title"
                     android:layout_marginRight="@dimen/margin_lr_normal"
                     android:layout_marginTop="@dimen/margin_tb_xnormal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:layout_toLeftOf="@+id/iv_hf_arrow"/>
 
                 <ImageView
                     style="@style/horizontal_line_style"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_lr_large"
-                    android:layout_marginTop="@dimen/margin_tb_normal"
                     />
             </RelativeLayout>
 
@@ -157,7 +158,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/margin_lr_large"
-                    android:gravity="top"
+                    android:gravity="center_vertical"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_large"/>
 
@@ -167,9 +168,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_hs_title"
                     android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
-                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:lineSpacingExtra="@dimen/line_space"
                     android:textColor="@color/text_color_hint"
                     android:textSize="@dimen/text_size_normal"
                     />
@@ -190,13 +192,13 @@
                     android:layout_below="@+id/tv_hs_title"
                     android:layout_marginRight="@dimen/margin_lr_normal"
                     android:layout_marginTop="@dimen/margin_tb_xnormal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:layout_toLeftOf="@+id/iv_hs_arrow"/>
 
                 <ImageView
                     style="@style/horizontal_line_style"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_lr_large"
-                    android:layout_marginTop="@dimen/margin_tb_normal"
                     />
             </RelativeLayout>
 
@@ -213,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/margin_lr_large"
-                    android:gravity="top"
+                    android:gravity="center_vertical"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_large"/>
 
@@ -223,9 +225,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_hw_title"
                     android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
-                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:lineSpacingExtra="@dimen/line_space"
                     android:textColor="@color/text_color_hint"
                     android:textSize="@dimen/text_size_normal"
                     />
@@ -245,13 +248,13 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:layout_toLeftOf="@+id/iv_hw_arrow"/>
 
                 <ImageView
                     style="@style/horizontal_line_style"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_lr_large"
-                    android:layout_marginTop="@dimen/margin_tb_normal"
                     />
             </RelativeLayout>
 
@@ -268,7 +271,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/margin_lr_large"
-                    android:gravity="top"
+                    android:gravity="center_vertical"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_large"/>
 
@@ -278,9 +281,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_hsl_title"
                     android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
-                    android:lineSpacingExtra="@dimen/margin_tb_normal"
+                    android:lineSpacingExtra="@dimen/line_space"
                     android:textColor="@color/text_color_hint"
                     android:textSize="@dimen/text_size_normal"
                     />
@@ -300,13 +304,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_hsl_title"
                     android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
                     android:layout_toLeftOf="@+id/iv_hsl_arrow"/>
 
                 <ImageView
                     style="@style/horizontal_line_style"
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_lr_large"
-                    android:layout_marginTop="@dimen/margin_tb_normal"
                     />
             </RelativeLayout>
 

@@ -199,6 +199,12 @@ public class LayoutUtil {
     public void drawViewDefaultLinearLayout(View view, int width, int height, int marginleft, int marginright, int marginTop, int marginBottom) {
         view.setLayoutParams(getDefaultLayoutParam((LinearLayout.LayoutParams) view.getLayoutParams(), width, height, marginleft, marginright, marginTop, marginBottom));
     }
+    public void drawViewDefaultLinearLayout(View view, int width) {
+        view.setLayoutParams(getDefaultLayoutParam((LinearLayout.LayoutParams) view.getLayoutParams(), width, -1, -1, -1, -1, -1));
+    }
+    public void drawViewDefaultLinearLayout(View view, int width, int height ) {
+        view.setLayoutParams(getDefaultLayoutParam((LinearLayout.LayoutParams) view.getLayoutParams(), width, height, -1, -1, -1, -1));
+    }
 
     public void drawViewRBLinearLayout(View view, float width, float height, float marginleft, float marginright, float marginTop, float marginBottom) {
         view.setLayoutParams(getLayoutParam((LinearLayout.LayoutParams) view.getLayoutParams(), width, height, marginleft, marginright, marginTop, marginBottom));

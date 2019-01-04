@@ -26,6 +26,7 @@ import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.fragment.home.HomeFragment;
 import com.huidf.slimming.fragment.personal_center.PersonalCenterFragment;
+import com.huidf.slimming.fragment.today_movement.add.TodayMovementAddBaseFragment;
 import com.huidf.slimming.fragment.today_movement.add.TodayMovementAddFragment;
 import com.huidf.slimming.fragment.today_movement.running.TodayMovementRunningFragment;
 import com.huidf.slimming.util.VersionTools;
@@ -38,7 +39,7 @@ import huitx.libztframework.utils.ToastUtils;
 import huitx.libztframework.view.FragmentSwitchTool;
 
 
-public class TodayMovementBaseActivity extends BaseFragmentActivity implements OnClickListener, DialogInterface.OnDismissListener{
+public class TodayMovementBaseActivity extends BaseFragmentActivity implements OnClickListener, DialogInterface.OnDismissListener,TodayMovementAddBaseFragment.OnSubmissionToadySportListener {
     private final int VERSION_UPDATE = 100;
 
 
@@ -57,7 +58,14 @@ public class TodayMovementBaseActivity extends BaseFragmentActivity implements O
         super(layoutId);
     }
 
-    //
+    @Override
+    public void OnButtonClickListener()
+    {
+        mBtnRight.setVisibility(View.VISIBLE);
+        setRightButtonText("完成", R.color.main_color);
+        mBtnRight.setOnClickListener(this);
+    }
+
     @Override
     protected void initContent() {
         lin_tab_today_movement = findViewByIds(R.id.lin_tab_today_movement);
@@ -81,8 +89,8 @@ public class TodayMovementBaseActivity extends BaseFragmentActivity implements O
                 .addSelectedViews(new View[]{tv_ttm_running, iv_ttm_running});
         mFragmentSwitch.setFragments(addFragment.getClass(),mapsFragment.getClass());
 
-//        mFragmentSwitch.changeTag(rel_ttm_add);
-        mFragmentSwitch.changeTag(rel_ttm_running);
+        mFragmentSwitch.changeTag(rel_ttm_add);
+//        mFragmentSwitch.changeTag(rel_ttm_running);
     }
 
     @Override

@@ -2,6 +2,8 @@ package huitx.libztframework.context;
 
 public class ContextConstant {
 	/** 成功 */
+	public static final String HTTPOVERTIME = "aabbcconFinished";
+	/** 成功 */
 	public static final int RESPONSECODE_200 = 200;
 	/** 失败 */
 	public static final int RESPONSECODE_300 = 300;

@@ -1,240 +1,233 @@
 package com.huidf.slimming.activity.ranking_list;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.view.KeyEvent;
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.huidf.slimming.R;
+import com.huidf.slimming.adapter.ranking.RankingAdapter;
+import com.huidf.slimming.base.BaseFragmentActivityForAnnotation;
 import com.huidf.slimming.context.PreferenceEntity;
-import com.huidf.slimming.util.run.RunningUtil;
+import com.huidf.slimming.context.UrlConstant;
+import com.huidf.slimming.entity.ranking.RankingEntity;
+import com.huidf.slimming.view.swiperecyclerview.SpacesItemDecoration;
+import com.huidf.slimming.view.swiperecyclerview.SwipeRecyclerView;
 
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
+import org.xutils.view.annotation.ViewInject;
 
-import huitx.libztframework.utils.MathUtils;
+import java.util.LinkedList;
+import java.util.List;
 
+import huitx.libztframework.context.ContextConstant;
+import huitx.libztframework.utils.NewWidgetSetting;
+import huitx.libztframework.utils.PreferencesUtils;
+import huitx.libztframework.utils.ToastUtils;
 
 /**
- * 排行详情列表
  * @author ZhuTao
- * @date 2018/12/14 
- * @params 
-*/
+ * @date 2018/12/14
+ * @params type, 1,运动，2，体重
+ */
 
-@ContentView(R.layout.activity_run)
-public class RankingListActivity extends RankingListBaseActivity {
+@ContentView(R.layout.activity_ranking)
+public class RankingListActivity extends BaseFragmentActivityForAnnotation implements SwipeRecyclerView.OnSwipeRecyclerViewListener {
+
+    private int mType;  //1,运动，2，体重
+    private int flag;  //1日排行   2周排行   3月排行
+    private int current = 1;
+    private final int rowSize = 20;
+
+    @ViewInject(R.id.swiperec_ranking_list)
+    private SwipeRecyclerView mSwipeRecyclerView;
+
 
     public RankingListActivity()
     {
-        TAG = getClass().getSimpleName();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        mMapView.onCreate(savedInstanceState);
+        super();
     }
 
     @Override
     protected void initHead()
     {
-        setStatusBarColor(false, true, mContext.getResources().getColor(R.color.back_run_color));
+        setStatusBarColor(false, true, mContext.getResources().getColor(R.color.weight_main_color));
         mBtnLeft.setBackgroundResource(R.drawable.btn_back_white);
-        setTitleBackgroudColor(R.color.back_run_color);
-        setTittle("正在跑步", R.color.white);
-        setRightButtonText("完成", R.color.main_color);
+        setTitleBackgroudColor(R.color.weight_main_color);
         setHideTitleLine();
 
-        if (mHandler == null) mHandler = new MyHandler(this);
-
-        mRunningUtil = RunningUtil.getInstance();
-        mRunningUtil.setRunnintTimeObject(this);
-        mRunningUtil.setUserInfo(MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f),
-                MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 170f));
+        mType = getIntent().getIntExtra("type", -1);
+        flag = getIntent().getIntExtra("flag", -1);
+        setTittle((flag == 1 ? "日" : flag == 2 ? "周" : "月") + "排行", R.color.white);
+        LOG("data(1,运动，2，体重) type:  " + mType + " ;flag:  " + flag);
     }
+
+    @Override
+    protected void initContent()
+    {
+
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        onRefresh();
+    }
+
+    private final int GETSPORTRANK = 10001, GETWEIGHTRANK = 10002;
+
+    public void getRankingList()
+    {
+        RequestParams params = PreferenceEntity.getLoginParams();
+        params.addBodyParameter("current", current + "");
+        params.addBodyParameter("rowSize", rowSize + "");
+        params.addBodyParameter("flag", flag + "");
+        if (mType == 1)
+            mgetNetData.GetData(this, UrlConstant.API_SPORTSRANKALL, GETSPORTRANK, params);
+        else mgetNetData.GetData(this, UrlConstant.API_LOSEWEIGHTRANKALL, GETWEIGHTRANK, params);
+//        setLoading(true, "");
+    }
+
+    @Override
+    public void paddingDatas(String mData, int type)
+    {
+        setLoading(false, "");
+        Gson gson = new Gson();
+        RankingEntity mTopicentity;
+        try {
+            mTopicentity = gson.fromJson(mData, RankingEntity.class);
+        } catch (Exception e) {
+            if (isLoadMore) current--;
+            return;
+        }
+        if (mTopicentity.code == ContextConstant.RESPONSECODE_200) {
+            mSwipeRecyclerView.onLoadFinish();
+            if (mTopicentity.data.list != null && mTopicentity.data.list.size() >= 20)
+                mSwipeRecyclerView.isCancelLoadNext(false);
+            else mSwipeRecyclerView.isCancelLoadNext(true);
+
+            if (type == GETSPORTRANK) {
+                setSportOrWeightRank(mTopicentity.data, 1,isLoadMore);
+            } else if (type == GETWEIGHTRANK) {
+                setSportOrWeightRank(mTopicentity.data, 2,isLoadMore);
+            }
+        } else if (mTopicentity.code == ContextConstant.RESPONSECODE_310) {    //登录信息过时跳转到登录页
+            reLoading();
+        } else {
+            ToastUtils.showToast(NewWidgetSetting.filtrationStringbuffer(mTopicentity.msg, "接口信息异常！"));
+        }
+    }
+
+    @Override
+    public void error(String msg, int type)
+    {
+        super.error(msg, type);
+        LOG(msg);
+        if (isLoadMore && !isLoadMoreSuccess) current--;
+    }
+
+    private void setSportOrWeightRank(RankingEntity.Data mEntity, int moduleType,boolean isLoadMore)
+    {
+        LinkedList<RankingEntity.Data.RankingInfo> mLists = new LinkedList<>();
+        mLists = formatData(mLists, mEntity.list, moduleType, 1, mEntity.rank1, mEntity.time1);
+        if(isLoadMore){
+            isLoadMoreSuccess = true;
+            mAdapter.setLoadNextData(mLists);
+        }
+        else  mAdapter.setListData(mLists);
+    }
+
+    private LinkedList<RankingEntity.Data.RankingInfo> formatData(LinkedList<RankingEntity.Data.RankingInfo> mLists, List<RankingEntity.Data.RankingInfo> mList, int moduleType, int type, int rank, int data)
+    {
+        RankingEntity.Data.RankingInfo mData;
+        if (mList != null && mList.size() > 0) {
+            for (RankingEntity.Data.RankingInfo mDataEngity : mList) {
+                mData = getUserRankSportInfo(mDataEngity, 2, type, moduleType == 1 ? mDataEngity.time : mDataEngity.percent);
+                mLists.add(mData);
+            }
+        }
+        return mLists;
+    }
+
+    private RankingEntity.Data.RankingInfo getUserRankSportInfo(RankingEntity.Data.RankingInfo mData, int targets, int type, int time)
+    {
+        mData.tragetType = mType;
+        mData.targets = targets;    //首、普通值、尾 1 2 3
+        mData.type = type;  // 1日排行   2周排行   3月排行
+        mData.rank = mData.singleRank;
+        mData.data = time;
+        return mData;
+    }
+
+    @Override
+    protected void initLocation()
+    {
+
+    }
+
+    private RecyclerView recycManager;
+    private SpacesItemDecoration decor;
+    private RankingAdapter mAdapter;
 
     @Override
     protected void initLogic()
     {
-        initMapLocation();
-    }
+        mSwipeRecyclerView.setOnSwipeRecyclerViewListener(this);
+        mSwipeRecyclerView.isCancelLoadNext(false);
+        mSwipeRecyclerView.isCancelRefresh(false);
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        mMapView.onResume();
+        recycManager = mSwipeRecyclerView.getRecyclerView();
+        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(mContext);
+        recycManager.setLayoutManager(gridLayoutManager);
 
-    }
+//        int width = mLayoutUtil.getWidgetWidth(4.5f, true);
+//        decor = new SpacesItemDecoration(width, width);
+        decor = new SpacesItemDecoration(0, 1, mContext.getResources().getColor(R.color.line_bg));
+        recycManager.addItemDecoration(decor);
 
-
-    @Event(value = {R.id.btn_title_view_left, R.id.btn_title_view_right, R.id.btn_runc_pause, R.id.btn_runc_continue, R.id.btn_runc_finish, R.id.btn_rund_map})
-    private void getEvent(View view)
-    {//必须用private进行修饰,否则无效
-        switch (view.getId()) {
-            case R.id.btn_title_view_left:  //返回键
-                LOG("返回键");
-                if (rel_run_map.getVisibility()==View.VISIBLE) ShowOrHideMapView();
-                else{
-                    canFinish();
-                }
-                break;
-            case R.id.btn_title_view_right:  //完成
-                canFinish();
-                break;
-            case R.id.btn_runc_pause:    //暂停
-                runningAnim(mRunningUtil.RUNNING_PAUSE);
-                continueLocation(false);
-                break;
-            case R.id.btn_runc_continue: //继续
-                runningAnim(mRunningUtil.RUNNING_CONTINUE);
-                continueLocation(true);
-                break;
-            case R.id.btn_runc_finish:   //结束
-                runningFinish();
-                break;
-            case R.id.btn_rund_map:   //地图
-                ShowOrHideMapView();
-                break;
-        }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
-        if (hasFocus && !hasAnimationStarted) {
-            mHandler.sendEmptyMessageAtTime(mHandler.ANIMATION_START, 16);
-        }
-    }
-
-    // 点击完成或者返回键，判断是否能保存数据
-    private void canFinish()
-    {
-        runningAnim(mRunningUtil.RUNNING_PAUSE);
-        continueLocation(false);
-
-        final String RunReminder = mRunningUtil.canFinish();
-        final String hint;
-        hint = RunReminder.equals("")?"当前运动数据有效，确定保存数据并退出吗？":("无法保存记录，因为" + RunReminder + "。确定要放弃吗？");
-        new AlertDialog
-                .Builder(RankingListActivity.this)
-//                    .setTitle("标题")
-                .setMessage(hint)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        if(RunReminder.equals("")){
-                            commitRunningInfo();
-                        }else{
-                            finish();
-                        }
-                    }
-                })
-                .setNegativeButton("继续运动", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i)
-                    {
-                        runningAnim(mRunningUtil.RUNNING_CONTINUE);
-                        continueLocation(true);
-                    }
-                })
-                .setCancelable(false)
-                .create()
-                .show();
-    }
-
-    /** 跑步结束 */
-    private void runningFinish(){
-        setRunningMapEnable(false);
-
-        String RunReminder = mRunningUtil.canFinish();
-        if(RunReminder.equals("")){ //运动有效，保存运动数据
-            commitRunningInfo();
-        }else{
-            new AlertDialog
-                    .Builder(RankingListActivity.this)
-//                    .setTitle("标题")
-                    .setMessage("无法保存记录，因为" + RunReminder + "。确定要放弃吗？")
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            runningAnim(mRunningUtil.RUNNING_CONTINUE); //继续运动
-                        }
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show();
-        }
-    }
-
-    private void ShowOrHideMapView()
-    {
-        if (rel_run_map.getVisibility()==View.VISIBLE) {
-            rel_run_map.setVisibility(View.GONE);
-
-            setStatusBarColor(false, true, mContext.getResources().getColor(R.color.back_run_color));
-            mBtnLeft.setBackgroundResource(R.drawable.btn_back_white);
-            setTitleBackgroudColor(R.color.back_run_color);
-            setTittle("正在跑步", R.color.white);
-            setRightButtonText("完成", R.color.main_color);
-            setHideTitleLine();
-        } else {
-            rel_run_map.setVisibility(View.VISIBLE);
-            drawMapLine();
-
-            setStatusBarColor(false, true, mContext.getResources().getColor(R.color.white));
-            mBtnLeft.setBackgroundResource(R.drawable.btn_back);
-            setTitleBackgroudColor(R.color.title_color_bg);
-            setTittle("运动轨迹", R.color.title_color_title);
-            mBtnRight.setVisibility(View.GONE);
-            mTitleLine.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (rel_run_map.getVisibility()==View.VISIBLE) {
-                ShowOrHideMapView();
-            } else {
-                canFinish();
+        LinkedList<RankingEntity.Data.RankingInfo> mList = new LinkedList<>();
+        mAdapter = new RankingAdapter(mContext, mList);
+        recycManager.setAdapter(mAdapter);
+        mAdapter.setOnMovementClickListener(new RankingAdapter.onViewAllClickListener() {
+            @Override
+            public void onViewAllClick(RankingEntity.Data.RankingInfo mEntity)  //查看全部
+            {
+                LOG("查看全部");
             }
-            return true;
-        }
-        return super.onKeyDown(event.getKeyCode(), event);
+        });
     }
 
+    @Override
+    public void onRefresh()
+    {
+        isLoadMore = false;
+        current = 1;
+        getRankingList();
+    }
+
+    private boolean isLoadMore;
+    private boolean isLoadMoreSuccess = false;
+
+    @Override
+    public void onLoadNext()
+    {
+        isLoadMoreSuccess = false;
+        isLoadMore = true;
+        current++;
+        getRankingList();
+        LOG("onLoadNext");
+    }
 
     @Override
     protected void pauseClose()
     {
-        super.pauseClose();
-        mMapView.onPause();
     }
 
     @Override
     protected void destroyClose()
     {
-        super.destroyClose();
-        if (mHandler != null) mHandler.removeCallbacksAndMessages(null);
-        if (mRunningUtil != null) {
-            mRunningUtil.closeRunning();
-        }
-        if (mlocationClient != null) {
-            mlocationClient.stopLocation();
-            mlocationClient = null;
-        }
-        mMapView.onDestroy();
     }
+
+
 }

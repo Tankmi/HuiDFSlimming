@@ -1,6 +1,8 @@
 package com.huidf.slimming.activity.home.weight.history;
 
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.home.weight.WeightBaseActivity;
+
 import org.xutils.view.annotation.ContentView;
 
 /**
@@ -14,15 +16,16 @@ public class WeightHistoryActivity extends WeightHistoryBaseActivity {
 
     public WeightHistoryActivity() {
         super( );
-        TAG = this.getClass().getName();
+        TAG = this.getClass().getSimpleName();
     }
 
     @Override
     protected void initHead() {
         super.initHead();
         setStatusBarColor(true, mContext.getResources().getColor(R.color.status_bar_color));
-        setTittle("个人资料");
-//        islogin = getIntent().getBooleanExtra("islogin", false);
+        setTittle("体重记录");
+        setHideTitleLine();
+        if (mHandler == null) mHandler = new MyHandler(this);
     }
 
     @Override
@@ -32,10 +35,9 @@ public class WeightHistoryActivity extends WeightHistoryBaseActivity {
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
-//        GetUserInfo();
+        mHandler.sendEmptyMessage(mHandler.GETWEIGHTHISDATA);
     }
 
     @Override

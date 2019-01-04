@@ -8,6 +8,7 @@ import android.media.ExifInterface;
 import android.os.Environment;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -218,5 +219,44 @@ public class BitmapUtils {
 		Bitmap bm = BitmapFactory.decodeStream(is, null, opt);
 		BitmapDrawable bd = new BitmapDrawable(LibApplicationData.context.getResources(), bm);
 		return bd;
+	}
+
+	/*
+	 * 得到图片字节流 数组大小   输入流转化为比特流
+	 * */
+	public static byte[] readStream(int resId) throws Exception{
+		InputStream inStream = LibApplicationData.context.getResources().openRawResource(resId);
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while( (len=inStream.read(buffer)) != -1){
+			outStream.write(buffer, 0, len);
+		}
+		outStream.close();
+		inStream.close();
+		return outStream.toByteArray();
+	}
+
+	/*
+	 * 得到图片字节流 数组大小   输入流转化为比特流  并保存到本地
+	 * */
+	public  byte[] readStreamAndSave(InputStream inStream) throws Exception{
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		String path = Environment .getExternalStorageDirectory().getAbsolutePath()+"/XXXX/";
+		String pathurl = path+System.currentTimeMillis()+".jpg";
+		File file = new File(pathurl);
+		if (file.exists()) {
+			file.delete();
+		}
+		FileOutputStream fos = new FileOutputStream(pathurl);
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while( (len=inStream.read(buffer)) != -1){
+			outStream.write(buffer, 0, len);
+			fos.write(buffer,0,len);
+		}
+		outStream.close();
+		inStream.close();
+		return outStream.toByteArray();
 	}
 }

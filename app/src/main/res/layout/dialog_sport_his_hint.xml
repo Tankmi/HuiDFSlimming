@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparency"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rel_dialog_sporthis_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/back_sporthis_hint"
+        android:gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/btn_dia_sporthis_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_tb_large"
+        android:background="@drawable/icon_close_weight_hint"
+        />
+
+</LinearLayout>

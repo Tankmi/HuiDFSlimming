@@ -1,6 +1,10 @@
 package huitx.libztframework.context;
 
+import android.os.Build;
+
 import huitx.libztframework.utils.PreferencesUtils;
+
+import static huitx.libztframework.utils.LOGUtils.LOG;
 
 public class LibPreferenceEntity {
     /**
@@ -63,6 +67,10 @@ public class LibPreferenceEntity {
         ScreenTop = PreferencesUtils.getFloat(LibApplicationData.context,KEY_SCREEN_TOP);
         ScreenTitle_navigationBarHeight = PreferencesUtils.getFloat(LibApplicationData.context,KEY_SCREEN_NAVIGATIONBAR_H);
         hasNavigationBar = PreferencesUtils.getBoolean(LibApplicationData.context,KEY_SCREEN_HASNAVIGATION);
+
+        LOG("状态栏的高度：" + ScreenTop
+                + ",屏幕的宽度:"  + screenWidth + ",屏幕的高度:"
+                +screenHeight + "虚拟键盘的高度：" + ScreenTitle_navigationBarHeight + "是否有虚拟键盘：" + hasNavigationBar);
     }
 
     public static void saveScreenView(){

@@ -387,7 +387,7 @@ public class RunningUtil implements SensorEventListener {
     }
 
     private void LOG(String str) {
-        Log.i("spoort_list_run", "RunningService  " + str);
+//        Log.i("spoort_list_run", "RunningService  " + str);
     }
 
     private RunningTime mRunningtimes;

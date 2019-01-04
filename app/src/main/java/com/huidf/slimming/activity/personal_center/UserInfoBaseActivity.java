@@ -29,7 +29,10 @@ import com.huidf.slimming.entity.user.UserEntity;
 
 import org.xutils.http.RequestParams;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.interf.ConsultNet;
@@ -84,7 +87,7 @@ public class UserInfoBaseActivity extends BaseFragmentActivity implements OnClic
 		setSexHeader();
 
 		if(NewWidgetSetting.getInstance().notNull(et_user_info_name,"")){
-			et_user_info_name.setSelection(name.length());}
+			et_user_info_name.setSelection(et_user_info_name.getText().toString().length());}
 	}
 	private String user_header;
 	/**
@@ -196,7 +199,8 @@ public class UserInfoBaseActivity extends BaseFragmentActivity implements OnClic
 
 
 	/**  修改头像 */
-	public void uploadingCredentials(String path){
+	public void uploadingCredentials(String path) throws Exception
+	{
 		RequestParams params = PreferenceEntity.getLoginParams();
 		File file = new File(path);
 		if (file.exists() && file.length() > 0) {
@@ -208,7 +212,7 @@ public class UserInfoBaseActivity extends BaseFragmentActivity implements OnClic
 		mgetNetData.GetData(this, UrlConstant.API_USER_CHANGEHEADER, EDITHEADER, params);
 		setLoading(true, "");
 	}
-	
+
 	@Override
 	protected void initLocation() {
 		mLayoutUtil.drawViewRBLinearLayout(iv_user_info_header, 100, 100, 0, -1, -1, -1);// 用户的头像！
@@ -239,6 +243,7 @@ public class UserInfoBaseActivity extends BaseFragmentActivity implements OnClic
 		tv_user_info_commit.setOnClickListener(this);
 
 		tv_user_info_commit.setVisibility(View.GONE);
+		btn_user_info_name_clear.setVisibility(View.GONE);
 		addTextchange();
 	}
 
@@ -272,7 +277,7 @@ public class UserInfoBaseActivity extends BaseFragmentActivity implements OnClic
 	}
 	
 	private LinearLayout lin_user_info_header;
-	private ImageView iv_user_info_header;
+	protected ImageView iv_user_info_header;
 	private LinearLayout lin_user_info_name;
 	protected EditText et_user_info_name;
 	private Button btn_user_info_name_clear;

@@ -1,8 +1,12 @@
 package com.huidf.slimming.activity.personal_center.select_photo;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -11,9 +15,12 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,11 +33,13 @@ import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.personal_center.UserInfoActivity;
 import com.huidf.slimming.adapter.sel_photo.RecycleViewSelectPhotoAdapter;
 import com.huidf.slimming.base.BaseFragmentActivity;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.entity.personal_center.PhotoEntity;
 import com.huidf.slimming.entity.user.UserEntity;
+import com.huidf.slimming.util.ProviderUtil;
 import com.huidf.slimming.view.swiperecyclerview.SpacesItemDecoration;
 import com.huidf.slimming.view.swiperecyclerview.SwipeRecyclerView;
 
@@ -213,9 +222,21 @@ public class SelectPhotoBaseActivity extends BaseFragmentActivity implements OnC
 				}
 				fileName = System.currentTimeMillis() + ".jpg";
 				mCurrentPhotoFile = new File(PHOTO_DIR, fileName);
-
 				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE, null);
-				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCurrentPhotoFile));
+				Uri uri;
+				if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M){
+					uri = Uri.fromFile(mCurrentPhotoFile);
+
+				}else{
+					/**
+					 * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
+					 * 并且这样可以解决MIUI系统上拍照返回size为0的情况
+					 */
+					uri = FileProvider.getUriForFile(SelectPhotoBaseActivity.this,
+							ProviderUtil.getFileProviderName(), mCurrentPhotoFile);
+				}
+//				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCurrentPhotoFile));
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 				startActivityForResult(intent, CAMERA_WITH_DATA);
 			}
 		});
@@ -375,8 +396,6 @@ public class SelectPhotoBaseActivity extends BaseFragmentActivity implements OnC
 	}
 
 	@Override
-	public void onLoadNext()
-	{
-
+	public void onLoadNext() {
 	}
 }

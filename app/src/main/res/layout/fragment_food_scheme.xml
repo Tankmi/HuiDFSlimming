@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_home_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_food_scheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <Button
+                android:id="@+id/btn_food_scheme"
+                android:layout_marginTop="@dimen/margin_tb_large"
+                android:paddingLeft="@dimen/margin_lr_28"
+                android:paddingRight="@dimen/margin_lr_28"
+                android:paddingTop="@dimen/margin_tb_normal"
+                android:paddingBottom="@dimen/margin_tb_normal"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/main_color"
+                android:text="食物能量浏览表"
+                android:textSize="@dimen/text_size_large"
+                android:background="@drawable/back_all_bg_90_draw"
+                />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

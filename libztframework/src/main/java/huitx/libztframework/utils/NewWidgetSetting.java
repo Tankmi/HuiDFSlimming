@@ -46,6 +46,16 @@ public class NewWidgetSetting {
 		return text == null?"" + normal:text.equals("")?"" + normal:text.equals("null")?"" + normal:text;
 	}
 
+	public static int filtrationStringbuffer(String text, int normal){
+		text = text == null?"" + normal:text.equals("")?"" + normal:text.equals("null")?"" + normal:text;
+		return Integer.parseInt(text);
+	}
+
+	public static float filtrationStringbuffer(String text, float normal){
+		text = text == null?"" + normal:text.equals("")?"" + normal:text.equals("null")?"" + normal:text;
+		return Float.parseFloat(text);
+	}
+
 	/**
 	 * 为文本框设置内容，过滤null字段
 	 * @param view 视图对象

@@ -60,7 +60,6 @@ public class RecycleViewSelectPhotoAdapter extends RecyclerView.Adapter<RecycleV
                 mList.addFirst(mData);
             }
         }
-        LOGUtils.LOG("mList.size():" + mList.size());
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         selectPhoto.clear();
     }
@@ -98,8 +97,8 @@ public class RecycleViewSelectPhotoAdapter extends RecyclerView.Adapter<RecycleV
 
         holder.setIsRecyclable(false);
         ViewGroup.LayoutParams params = holder.itemView.getLayoutParams();
-        params.height = (int) (LayoutUtil.getInstance().getWidgetWidth(244));
-        params.width = (int) (LayoutUtil.getInstance().getWidgetWidth(244));
+        params.height = (LayoutUtil.getInstance().getWidgetWidth(244));
+        params.width = (LayoutUtil.getInstance().getWidgetWidth(244));
 //        params.height = (int) (LayoutUtil.getInstance().getScreenWidth() / 3);
 //        params.width = (int) (LayoutUtil.getInstance().getScreenWidth() / 3);
         holder.itemView.setLayoutParams(params);//重设item大小
@@ -118,7 +117,7 @@ public class RecycleViewSelectPhotoAdapter extends RecyclerView.Adapter<RecycleV
             return;
         }
 
-        final int nPosition = position - 1;
+        final int nPosition = position;
         final MyViewHolder myViewHolder = holder;
         final PhotoEntity photoInfo = mList.get(nPosition);
 

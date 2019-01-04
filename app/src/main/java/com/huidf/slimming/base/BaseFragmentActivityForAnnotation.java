@@ -31,10 +31,12 @@ import org.xutils.x;
 
 import java.util.List;
 
+import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.interf.ConsultNet;
 import huitx.libztframework.net.GetNetData;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.LayoutUtil;
+import huitx.libztframework.utils.NetUtils;
 import huitx.libztframework.utils.StatusBarCompat;
 import huitx.libztframework.utils.ToastUtils;
 import huitx.libztframework.utils.TransitionTime;
@@ -54,7 +56,6 @@ public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity
 	@ViewInject(R.id.tv_title_view_title)public TextView mTvTitle; // 标题
 	@ViewInject(R.id.btn_title_view_right)public Button mBtnRight; // 右边按钮
 	@ViewInject(R.id.iv_title_line) public ImageView mTitleLine; // 底部分割线
-
 
 	/** 时间展示格式转换工具 */
 	public TransitionTime tranTimes;
@@ -140,10 +141,18 @@ public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity
 
 	/** 重新登录 */
 	protected void reLoading(){
+		PreferenceEntity.clearData();
+		ApplicationData.getInstance().exit();
+		PreferenceEntity.isLogin = false;
 		Intent intent = new Intent(mContext,SelLoginActivity.class);
 		ToastUtils.showToast("登录信息异常，请重新登录");
 		startActivity(intent);
 		finish();
+	}
+
+
+	public <T> T findViewByIds(View view,int viewId) {
+		return (T) view.findViewById(viewId);
 	}
 
 	/**
@@ -304,14 +313,24 @@ public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity
 		this.isShowLoading = isShowLoading;
 		if (isShowLoading) {
 			if (mBuildDialog == null)
-				mBuildDialog = DialogUIUtils.showLoading(mContext, data, true, true, false, true).show();
+				mBuildDialog = DialogUIUtils.showLoading(BaseFragmentActivityForAnnotation.this, data, true, true, false, true).show();
 			else mBuildDialog.show();
-		} else if (mBuildDialog != null) mBuildDialog.dismiss();
+		} else if (mBuildDialog != null && mBuildDialog.isShowing()) mBuildDialog.dismiss();
+	}
+
+	@Override
+	public void error(String msg, int type)
+	{   NetUtils.isAPNType(mContext);
+	    setLoading(false);
+		if(msg.equals(ContextConstant.HTTPOVERTIME)){
+			LOG("请求超时");
+		}
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		setLoading(false);
 		pauseClose();
 	}
 

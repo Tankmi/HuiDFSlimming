@@ -10,22 +10,24 @@ import com.huidf.slimming.R;
  * 完善信息
  * @author ZhuTao
  * @date 2018/11/16 
- * @params 
+ * @params isReinstall true 个人中心重设数据，设置完后，需要跳转到weightActivity
 */
 
 
 public class PerfectInfoActivity extends PerfectInfoBaseActivity {
 
+
     public PerfectInfoActivity()
     {
         super(R.layout.activity_perfect_info);
-        TAG = getClass().getName();
+        TAG = getClass().getSimpleName();
     }
 
     @Override
     protected void initHead()
     {
         setStatusBarColor(true, true, mContext.getResources().getColor(R.color.transparency));
+        isReinstall = getIntent().getBooleanExtra("isReinstall",false);
     }
 
     @Override

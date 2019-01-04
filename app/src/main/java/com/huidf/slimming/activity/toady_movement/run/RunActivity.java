@@ -1,19 +1,35 @@
 package com.huidf.slimming.activity.toady_movement.run;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.View;
 
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.personal_center.UserInfoActivity;
+import com.huidf.slimming.activity.personal_center.select_photo.SelectPhotoActivity;
 import com.huidf.slimming.context.PreferenceEntity;
+import com.huidf.slimming.service.LocationService;
+import com.huidf.slimming.service.RunService;
 import com.huidf.slimming.util.run.RunningUtil;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 
 import huitx.libztframework.utils.MathUtils;
+import huitx.libztframework.utils.ToastUtils;
 
 
 /**
@@ -26,6 +42,8 @@ import huitx.libztframework.utils.MathUtils;
 @ContentView(R.layout.activity_run)
 public class RunActivity extends RunBaseActivity {
 
+    private Intent serviceLocationIntent = null,serviceIntent = null;
+
     public RunActivity()
     {
         TAG = getClass().getSimpleName();
@@ -36,6 +54,11 @@ public class RunActivity extends RunBaseActivity {
     {
         super.onCreate(savedInstanceState);
         mMapView.onCreate(savedInstanceState);
+
+        serviceLocationIntent = new Intent();
+        serviceLocationIntent.setClass(this,LocationService.class);
+        serviceIntent = new Intent();
+        serviceIntent.setClass(this,RunService.class);
     }
 
     @Override
@@ -67,6 +90,18 @@ public class RunActivity extends RunBaseActivity {
     {
         super.onResume();
         mMapView.onResume();
+        if (null != serviceLocationIntent) {
+            stopService(serviceLocationIntent);
+        }
+        if (null != serviceIntent) {
+            stopService(serviceIntent);
+
+            mRunningUtil = RunningUtil.getInstance();
+            mRunningUtil.setRunnintTimeObject(this);
+            mRunningUtil.setUserInfo(MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f),
+                    MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 170f));
+            if(mRunningUtil.getRunningState() == 0)  continueLocation(true);
+        }
 
     }
 
@@ -221,6 +256,17 @@ public class RunActivity extends RunBaseActivity {
     {
         super.pauseClose();
         mMapView.onPause();
+        if (!isRunfinish && null != serviceLocationIntent) {
+            startService(serviceLocationIntent);
+        }
+        if (!isRunfinish && null != serviceIntent) {
+            startService(serviceIntent);
+            continueLocation(false);
+        }
+//        //启动后台定位，第一个参数为通知栏ID，建议整个APP使用一个
+//        if (mlocationClient != null) {
+//            mlocationClient.enableBackgroundLocation(2001, buildNotification());
+//        }
     }
 
     @Override
@@ -231,10 +277,20 @@ public class RunActivity extends RunBaseActivity {
         if (mRunningUtil != null) {
             mRunningUtil.closeRunning();
         }
+        if (null != serviceLocationIntent) {
+            stopService(serviceLocationIntent);
+        }
+        if (null != serviceIntent) {
+            stopService(serviceIntent);
+        }
         if (mlocationClient != null) {
             mlocationClient.stopLocation();
+//            //关闭后台定位，参数为true时会移除通知栏，为false时不会移除通知栏，但是可以手动移除
+//            mlocationClient.disableBackgroundLocation(true);
+            mlocationClient.onDestroy();//销毁定位客户端，同时销毁本地定位服务。
             mlocationClient = null;
         }
         mMapView.onDestroy();
     }
+
 }

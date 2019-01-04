@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_home_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/lin_food_scheme_breakfast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_food_scheme_breakfast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/back_breakfast"
+            android:gravity="center"
+            android:text="早餐"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xlarge"/>
+
+        <RelativeLayout
+            android:id="@+id/rel_food_scheme_breakfast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/iv_food_scheme_breakfast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:id="@+id/tv_food_scheme_breakfast_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/margin_tb_small"
+                android:gravity="center"
+                android:text="正常饮食，建议不超过60千卡"
+                android:textColor="@color/foodscheme_text_greencolor"
+                android:textSize="@dimen/text_size_small"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

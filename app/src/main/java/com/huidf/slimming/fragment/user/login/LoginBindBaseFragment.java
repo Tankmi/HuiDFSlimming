@@ -1,5 +1,6 @@
 package com.huidf.slimming.fragment.user.login;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -44,6 +45,7 @@ import huitx.libztframework.utils.ToastUtils;
  * @Description: TODO(登录父类)
  * @date 2015年12月9日 下午3:57:39
  */
+@SuppressLint("ValidFragment")
 public class LoginBindBaseFragment extends BaseFragment implements OnClickListener, ConsultNet,VerificationCodeView.VerifyCodeInterface {
 
     protected UserEntity mUserEntity;
@@ -119,15 +121,16 @@ public class LoginBindBaseFragment extends BaseFragment implements OnClickListen
 
     @Override
     public void error(String msg, int type) {
+        super.error(msg,type);
         setLoading(false,"");
         setOnloginState(true);
-        if (type == 1) {
-            ToastUtils.showToast("登录失败，请稍候重试！");
-        }else if (type == 2) {
-            ToastUtils.showToast("验证码发送失败，请稍候重试！");
-        }else if (type == 3) {
-            ToastUtils.showToast("手机号绑定失败，请稍候重试！");
-        }
+//        if (type == 1) {
+//            ToastUtils.showToast("登录失败，请稍候重试！");
+//        }else if (type == 2) {
+//            ToastUtils.showToast("验证码发送失败，请稍候重试！");
+//        }else if (type == 3) {
+//            ToastUtils.showToast("手机号绑定失败，请稍候重试！");
+//        }
 
     }
 
@@ -272,9 +275,8 @@ public class LoginBindBaseFragment extends BaseFragment implements OnClickListen
             isShowVerifyCode(false);
             return false;
         }else{
-
+            et_login_account.setText("");
             view_verifycode_login = null;
-
             getFragmentManager().popBackStack();
             return true;
         }

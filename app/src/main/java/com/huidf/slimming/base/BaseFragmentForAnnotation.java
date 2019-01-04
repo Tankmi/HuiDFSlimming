@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,12 @@ import com.huidf.slimming.context.PreferenceEntity;
 
 import org.xutils.x;
 
+import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.interf.ConsultNet;
 import huitx.libztframework.net.GetNetData;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.LayoutUtil;
+import huitx.libztframework.utils.NetUtils;
 import huitx.libztframework.utils.ToastUtils;
 import huitx.libztframework.utils.TransitionTime;
 
@@ -46,7 +49,6 @@ public abstract class BaseFragmentForAnnotation extends Fragment implements Cons
 	public GetNetData mgetNetData;
 
 	//**************登录弹窗
-	public AlertDialog.Builder login_dialog;
 	protected LayoutUtil mLayoutUtil;
 
 	public BaseFragmentForAnnotation( ) {
@@ -60,15 +62,15 @@ public abstract class BaseFragmentForAnnotation extends Fragment implements Cons
 	}
 
 	@Override
-	public void onStart()
-	{
-		super.onStart();
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		init(); // 初始化头中的各个控件,以及公共控件ImageLoader
 		initHead(); // 初始化设置当前界面要显示的头状态
 		initContent(); // 初始化当前界面的主要内容
 		initLocation(); // 初始化空间位置
 		initLogic(); // 初始化逻辑
 	}
+
 
 	/**
 	 * 初始化头中的各个控件,以及公共控件ImageLoader
@@ -77,35 +79,12 @@ public abstract class BaseFragmentForAnnotation extends Fragment implements Cons
 	protected void init() {
 
 		mLayoutUtil = LayoutUtil.getInstance();
-		mgetNetData = GetNetData.getInstance();
+//		mgetNetData = GetNetData.getInstance();
+		mgetNetData = new GetNetData();
 		tranTimes = TransitionTime.getInstance();
 		imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);//初始化软键盘处理的方法
 	}
 	
-	/**
-	 * 初始化登录弹窗
-	 */
-	protected void initDialog(final Context mContext){
-		login_dialog = new AlertDialog.Builder(mContext);
-		login_dialog.setIcon(R.mipmap.ic_launcher);
-		login_dialog.setTitle(R.string.login_hint_title);
-		login_dialog.setMessage(R.string.login_hint_body);
-		login_dialog.setPositiveButton("登录", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog,int which) {
-				ToastUtils.showToast("执行登录操作！需要完善");
-			}
-		});
-		login_dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				
-			}
-		});
-	}
-
 	protected Dialog mBuildDialog;
 
 	protected  void setLoading(boolean isShowLoading) {
@@ -116,7 +95,7 @@ public abstract class BaseFragmentForAnnotation extends Fragment implements Cons
 	protected  void setLoading(boolean isShowLoading,String data) {
 		if (isShowLoading) {
 			if (mBuildDialog == null)
-				mBuildDialog = DialogUIUtils.showLoading(mContext, data, true, true, false, true).show();
+				mBuildDialog = DialogUIUtils.showLoading(getActivity(), data, true, true, false, true).show();
 			else mBuildDialog.show();
 		} else if (mBuildDialog != null) mBuildDialog.dismiss();
 	}
@@ -124,6 +103,9 @@ public abstract class BaseFragmentForAnnotation extends Fragment implements Cons
 
 	/** 重新登录 */
 	protected void reLoading(){
+		PreferenceEntity.clearData();
+		ApplicationData.getInstance().exit();
+		PreferenceEntity.isLogin = false;
 		Intent intent = new Intent(mContext,SelLoginActivity.class);
 		ToastUtils.showToast("登录信息异常，请重新登录");
 		startActivity(intent);
@@ -139,6 +121,15 @@ public abstract class BaseFragmentForAnnotation extends Fragment implements Cons
 	}
 	
 	protected abstract void initHead();
+
+	@Override
+	public void error(String msg, int type)
+	{   NetUtils.isAPNType(mContext);
+		setLoading(false);
+		if(msg.equals(ContextConstant.HTTPOVERTIME)){
+			LOG("请求超时");
+		}
+	}
 
 	/**
 	 * 初始化当前界面的主要内容,即除了头部以外的其它部分

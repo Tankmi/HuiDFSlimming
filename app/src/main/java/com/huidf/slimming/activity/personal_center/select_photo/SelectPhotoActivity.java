@@ -3,11 +3,14 @@ package com.huidf.slimming.activity.personal_center.select_photo;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
 import com.huidf.slimming.R;
+import com.huidf.slimming.util.ProviderUtil;
 
 import java.io.File;
 
@@ -70,7 +73,7 @@ public class SelectPhotoActivity extends SelectPhotoBaseActivity {
     }
 
     /** 标记是否需要裁剪 */
-    public boolean IsTailor = true;
+    public boolean IsTailor = false;
     /** 用来标识截取照片的activity */
     private static final int PHOTO_CUT_OUT_DATA = 1003;
     @Override
@@ -143,9 +146,21 @@ public class SelectPhotoActivity extends SelectPhotoBaseActivity {
 
     private void IntentCutOutPhoto(String uri_cutout){
         Intent intent = new Intent();
-
         intent.setAction("com.android.camera.action.CROP");
-        Uri uri = Uri.parse("file://" + uri_cutout);
+
+        Uri uri;
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M){
+            uri= Uri.parse("file://" + uri_cutout);
+        }else{
+            /**
+             * 7.0 调用系统相机拍照不再允许使用Uri方式，应该替换为FileProvider
+             * 并且这样可以解决MIUI系统上拍照返回size为0的情况
+             */
+            File mCurrentPhotoFile = new File("file:///" + uri_cutout);
+//            File mCurrentPhotoFile = new File(uri_cutout);
+            uri = FileProvider.getUriForFile(SelectPhotoActivity.this,
+                    ProviderUtil.getFileProviderName(), mCurrentPhotoFile);
+        }
 //         Uri uri = Uri.parse("file:///storage/emulated/0/ljd_doc/1444880835469.jpg");
         intent.setDataAndType(uri, "image/*");
 //         intent.setDataAndType("assets://iv_examination.png", "image/*");// mUri是已经选择的图片Uri
@@ -155,6 +170,8 @@ public class SelectPhotoActivity extends SelectPhotoBaseActivity {
         intent.putExtra("outputX", 150);// 输出图片大小
         intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
+
+
 
         SelectPhotoActivity.this.startActivityForResult(intent, PHOTO_CUT_OUT_DATA);
     }

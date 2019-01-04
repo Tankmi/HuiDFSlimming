@@ -83,6 +83,16 @@ public class TransitionTime {
         return convert(time+"", timeFormat);
     }
 
+    public String convert(String time){
+
+        return convert(time, "yyyy-MM-dd");
+    }
+
+    public String convert(long time){
+
+        return convert(time+"", "yyyy-MM-dd");
+    }
+
     /**
      * 时间转换
      *
@@ -92,6 +102,9 @@ public class TransitionTime {
      */
     public String convert(String time, String timeFormat)
     {
+        if(time == null || time.equals("")){
+            time = System.currentTimeMillis() + "";
+        }
         timeMills = Long.parseLong(time);
         Date date = new Date(timeMills);
         String strs = "";

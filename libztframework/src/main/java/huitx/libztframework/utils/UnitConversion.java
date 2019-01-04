@@ -107,4 +107,11 @@ public class UnitConversion {
 
 		return data;
 	}
+
+	/** 精简小数点，小数点后为0时，不显示小数点后的位数 */
+	public static String reducedPoint(float data){
+		DecimalFormat df = new DecimalFormat("###.####");
+
+		return df.format(data);
+	}
 }

@@ -77,15 +77,17 @@ public class GuidanceTargetWeightFragment extends BaseFragment{
 		if(sex == 1) iv_guidance_target_weight.setBackgroundResource(R.drawable.iv_man_bef);
 		else iv_guidance_target_weight.setBackgroundResource(R.drawable.iv_woman_bef);
 
-		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
-		mTargetWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, mWeight);
+		mWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50);
+		mTargetWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT,mWeight-1);
+//		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
+//		mTargetWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, mWeight);
 
-		float height = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_HEIGHT, 100) * 0.01f;
+		float height = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 100) * 0.01f;
 		int minWeight = (int) (height*height*15.0f);
 		warnWeight = (int) (height*height*18.0f);
 
 
-		view_guidance_target_weight.initViewParam(mTargetWeight, mWeight, minWeight, 10);	//设置默认值，最大值，最小值，间隔
+		view_guidance_target_weight.initViewParam(mTargetWeight, mWeight-1, minWeight, 10);	//设置默认值，最大值，最小值，间隔
 		//设置监听
 		view_guidance_target_weight.setValueChangeListener(new RadioHorizonalRuler.OnValueChangeListener(){
 

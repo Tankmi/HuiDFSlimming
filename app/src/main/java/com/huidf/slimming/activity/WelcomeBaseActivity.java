@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.Window;
 
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.home.foodsport_scheme.FoodCalorieActivity;
+import com.huidf.slimming.activity.home.foodsport_scheme.FoodSportSchemeActivity;
+import com.huidf.slimming.activity.home.weight.WeightActivity;
 import com.huidf.slimming.activity.home.weight.history.WeightHistoryActivity;
-import com.huidf.slimming.activity.ranking_list.RankingListActivity;
+import com.huidf.slimming.activity.personal_center.UserInfoActivity;
+import com.huidf.slimming.activity.toady_movement.TodayMovementActivity;
 import com.huidf.slimming.activity.toady_movement.run.RunActivity;
 import com.huidf.slimming.activity.user.SelLoginActivity;
 import com.huidf.slimming.activity.user.perfect_info.PerfectInfoActivity;
@@ -85,9 +89,10 @@ public class WelcomeBaseActivity extends Activity implements ConsultNet {
 //			intent_home = new Intent(mContext, HomeActivity.class);
 //			intent_home = new Intent(mContext, SelectPhotoActivity.class);
 //            intent_home = new Intent(mContext, TodayMovementActivity.class);
-            intent_home = new Intent(mContext, RankingListActivity.class);
-            intent_home = new Intent(mContext, WeightHistoryActivity.class);
+//            intent_home = new Intent(mContext, RankingListActivity.class);
 //            intent_home = new Intent(mContext, RunActivity.class);
+//            intent_home = new Intent(mContext, FoodCalorieActivity.class);
+//            intent_home = new Intent(mContext, UserInfoActivity.class);
 
             startActivity(intent_home);
             toFinish();
@@ -114,6 +119,7 @@ public class WelcomeBaseActivity extends Activity implements ConsultNet {
         if (hasFocus) {
             boolean isSave = PreferencesUtils.getBoolean(this, PreferenceEntity.KEY_SCREEN_ISSAVE, false);
             if (!isSave) {
+//            if (isSave) {
                 LOGUtils.LOG("初始化屏幕信息");
                 //获取屏幕尺寸，不包括虚拟功能高度<br><br>
                 int widowHeight = getWindowManager().getDefaultDisplay().getHeight();

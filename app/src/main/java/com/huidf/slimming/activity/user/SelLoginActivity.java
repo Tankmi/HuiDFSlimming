@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
@@ -332,8 +334,7 @@ public class SelLoginActivity extends BaseFragmentActivity implements View.OnCli
         }
         if (mUserEntity.code == ContextConstant.RESPONSECODE_200) {
             if (type == 2 || type == 3) {   //微信登录, QQ登录
-                if (type == 2)
-                    PreferencesUtils.putString(ApplicationData.context, PreferenceEntity.KEY_APP_WX_QQ_UNIONID, mUserEntity.data.unionId + "");
+                if (type == 2)  PreferencesUtils.putString(ApplicationData.context, PreferenceEntity.KEY_APP_WX_QQ_UNIONID, mUserEntity.data.unionId + "");
                 PreferenceEntity.setUserEntity(mUserEntity.data);
                 if (mUserEntity.data.type.equals("1")) {
                     ShowOrHideBindPhoneView(true, type);
@@ -359,9 +360,8 @@ public class SelLoginActivity extends BaseFragmentActivity implements View.OnCli
     public void error(String msg, int type)
     {
         setLoading(false);
-        if(NetUtils.isAPNType(this))
-            if (type == 2 || type == 3)    //微信登录, QQ登录
-                ToastUtils.showToast("账号绑定失败，请稍候尝试");
+//            if (type == 2 || type == 3)    //微信登录, QQ登录
+//                ToastUtils.showToast("账号绑定失败，请稍候尝试");
     }
 
     /**
@@ -492,6 +492,22 @@ public class SelLoginActivity extends BaseFragmentActivity implements View.OnCli
         }else{
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
     }
+
+//    //获取弹窗权限
+//    private void getDialogPermission(){
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//            if (Settings.canDrawOverlays(SelLoginActivity.this)) {
+////                Intent intent = new Intent(MainActivity.this, MainService.class);
+////                startService(intent);
+////                finish();
+//            } else {
+//                //若没有权限，提示获取.
+//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+//                Toast.makeText(SelLoginActivity.this,"需要取得权限以使用悬浮窗",Toast.LENGTH_SHORT).show();
+//                startActivity(intent);
+//            }
+//
+//        }
+//    }
 }

@@ -90,6 +90,9 @@ public class StringUtils {
        dest = m2.replaceAll("\n");
        System.out.println("第3遍转换：" + dest);
    }
+   if("{".equals(dest.substring(0,1)) && "}".equals(dest.substring( dest.length()-1, dest.length()))){
+       return dest;
+   }
    return dest.substring(1, dest.length()-1);}
 
    /**

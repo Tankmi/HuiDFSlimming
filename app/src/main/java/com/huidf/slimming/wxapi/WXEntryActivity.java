@@ -56,6 +56,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			case BaseResp.ErrCode.ERR_OK:	//操作成功
 				LOG("用户操作成功");
 				if (ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX == resp.getType()) {	//分享成功
+					LOG("用户分享成功");
 					break;
 				}
 				SendAuth.Resp senA = (SendAuth.Resp) resp;
@@ -68,10 +69,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 				LOG("微信登录，code:" + code);
 				break;
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:	//用户拒绝
-
+				LOG("用户拒绝");
 				break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:	//用户取消
-
+				LOG("用户取消");
 				break;
 		}
 		finish();

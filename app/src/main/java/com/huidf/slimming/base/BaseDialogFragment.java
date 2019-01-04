@@ -12,19 +12,22 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import com.dou361.dialogui.DialogUIUtils;
+import com.huidf.slimming.R;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
 
+import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.context.LibApplicationData;
 import huitx.libztframework.context.LibPreferenceEntity;
 import huitx.libztframework.interf.ConsultNet;
 import huitx.libztframework.net.GetNetData;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.LayoutUtil;
+import huitx.libztframework.utils.NetUtils;
 import huitx.libztframework.utils.TransitionTime;
 
 /**
- * 新增音乐播放器控件
+ * dialogFragment
  * @author ZhuTao
  * @date 2017/7/12
  * @params
@@ -64,6 +67,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements Consu
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        //设置样式
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomDatePickerDialog);
         super.onCreate(savedInstanceState);
 
     }
@@ -218,7 +223,12 @@ public abstract class BaseDialogFragment extends DialogFragment implements Consu
     }
 
     @Override
-    public void error(String msg, int type) {
-
+    public void error(String msg, int type)
+    {   NetUtils.isAPNType(mContext);
+        setLoading(false);
+        if(msg.equals(ContextConstant.HTTPOVERTIME)){
+            LOG("请求超时");
+        }
     }
+
 }

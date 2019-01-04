@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_home_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    >
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        />
+
+    <EditText
+        android:id="@+id/et_input"
+        android:textColor="@color/text_color_normal"
+        android:textSize="@dimen/text_size_15"
+        android:gravity="left|top"
+        android:padding="@dimen/et_padding_10"
+        android:textColorHint="@color/text_color_hint"
+        android:background="@drawable/back_all_bg_5_draw"
+        android:layout_marginLeft="@dimen/margin_lr_16"
+        android:layout_marginRight="@dimen/margin_lr_16"
+        android:layout_marginTop="@dimen/margin_tb_15"
+        android:minHeight="@dimen/et_minheight_164"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <Button
+        android:id="@+id/btn_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_tb_xlarge"
+        android:background="@drawable/back_all_bg_90_draw"
+        android:paddingLeft="@dimen/margin_lr_large"
+        android:paddingTop="@dimen/margin_tb_small"
+        android:paddingRight="@dimen/margin_lr_large"
+        android:paddingBottom="@dimen/margin_tb_small"
+        android:minHeight="@dimen/btn_minheight_39"
+        android:minWidth="@dimen/btn_minwidth_169"
+        android:text="提交"
+        android:textColor="@color/weight_main_color"
+        android:textSize="@dimen/text_size_large"/>
+
+</LinearLayout>

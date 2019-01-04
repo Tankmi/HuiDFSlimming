@@ -15,12 +15,12 @@ public interface ConsultNet {
 	 * @param mData 返回请求结果串
 	 * @param type 用于标记请求类型
 	 * */
-	public void paddingDatas(String mData, int type);
+	void paddingDatas(String mData, int type);
 	
 	
 	/** 出错 
 	 * @param msg 返回错误信息
 	 * @param type 用于标记请求类型
 	 * */
-	public void error(String msg, int type);
+	void error(String msg, int type);
 }

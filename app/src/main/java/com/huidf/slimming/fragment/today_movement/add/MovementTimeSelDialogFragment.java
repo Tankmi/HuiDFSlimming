@@ -17,6 +17,7 @@ import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.entity.today_movement.MovementEntity;
 import com.huidf.slimming.view.loading.RadioHorizonalRuler;
 
+import huitx.libztframework.utils.MathUtils;
 import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.PreferencesUtils;
 import huitx.libztframework.utils.UnitConversion;
@@ -50,7 +51,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setAttributes(params);
 
-        mUserWeight = Float.parseFloat(PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_CURRENT_WEIGHT, "" + 66.0f));
+        mUserWeight =  MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f);
         ;
 
     }
@@ -69,7 +70,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
     @Override
     protected void initLogic()
     {
-        view_guidance_weight.initViewParam(20, 300, 1, 10);    //设置默认值，最大值，最小值，间隔
+        view_guidance_weight.initViewParam(20, 300, 10, 10);    //设置默认值，最大值，最小值，间隔
 
         updateValue(20);
         //设置监听
@@ -99,7 +100,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
         tv_movement_time_value.setText((int)equalCalorie + " 千卡");
 
 //        if (mMovementListener != null) {
-//            mMovementListener.onSelMovementTime(value,equalCalorie);
+//            mMovementListener.onSelData(value,equalCalorie);
 //        }
     }
 
@@ -122,7 +123,6 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
     public void onResume()
     {
         super.onResume();
-        LOG("onResume isCanNotUpdateData: " + isCanNotUpdateData);
         isShowView = true;
         if (mMovement != null && isCanNotUpdateData) {
             initData();
@@ -172,6 +172,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
     {
         mLayoutUtil.drawViewRBLayout(iv_mtm, 88, 88, -1, -1, -1, -1);
         mLayoutUtil.drawViewRBLayout(view_guidance_weight, 0, 110, -1, -1, -1, -1);
+        lin_movement_time_control.setMinimumHeight(mLayoutUtil.getWidgetHeight(110));
     }
 
     @Override

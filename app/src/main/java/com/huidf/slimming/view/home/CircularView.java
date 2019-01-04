@@ -188,11 +188,11 @@ public class CircularView extends View {
 
 
     /** 最大值 */
-    private float maxValue;
-    /** 当前值 */
-    private float currentValue;
-    /** 目标值 */
-    private float targetValue;
+//    private float maxValue;
+//    /** 当前值 */
+//    private float currentValue;
+//    /** 目标值 */
+//    private float targetValue;
     /** 差值 */
     private float differenceValue = 0.0f;
     private float maxArc_y;
@@ -200,20 +200,23 @@ public class CircularView extends View {
 
     /**
      * 根据当前值和目标值，计算出 进度百分比（0-100）
-     * @param maxValue      初始体重
-     * @param currentValue  当前体重
-     * @param targetValue   目标体重
+//     * @param maxValue      初始体重
+//     * @param currentValue  当前体重
+//     * @param targetValue   目标体重
      */
-    public void setData(final float maxValue, final float currentValue, float targetValue)
-    {
+//    public void setData(final float maxValue, final float currentValue, float targetValue)  {
+    public void setData(final float progress, float differenceValue)  {
 
-        if (currentValue <= 0 || maxValue <= 0) return;
-        this.maxValue = maxValue;
-        this.currentValue = currentValue;
-        this.targetValue = targetValue;
+//        if (currentValue <= 0 || maxValue <= 0) return;
+//        this.maxValue = maxValue;
+//        this.currentValue = currentValue;
+//        this.targetValue = targetValue;
 
-        this.differenceValue = (maxValue>currentValue?maxValue - currentValue:0.0f);
-        maxArc_y = differenceValue/(maxValue - targetValue) * maxNum;
+//        this.differenceValue = (maxValue>currentValue?maxValue - currentValue:0.0f);
+//        maxArc_y = differenceValue/(maxValue - targetValue) * maxNum;
+        this.differenceValue = differenceValue;
+        maxArc_y = progress * 0.01f *maxNum;
+        arc_y = 0;
 
         this.getViewTreeObserver().addOnPreDrawListener(
                 new ViewTreeObserver.OnPreDrawListener() {

@@ -147,6 +147,9 @@ public class PreferenceEntity extends LibPreferenceEntity{
 	public  static RequestParams getLoginParams(){
 		RequestParams params = new RequestParams();
 		HashMap map = PreferenceEntity.getLoginData();
+//		LOGUtils.LOG("id:" + map.get("id"));
+//		LOGUtils.LOG("user:" + map.get("user"));
+//		LOGUtils.LOG("imei:" + map.get("imei"));
 		params.addHeader("id", map.get("id") + "");// 用户id
 		params.addHeader("user", map.get("user") + "");// 用户名
 		params.addHeader("imei", map.get("imei") + "");// 手机唯一码
@@ -167,7 +170,7 @@ public class PreferenceEntity extends LibPreferenceEntity{
 	public static final String KEY_USER_QATEXTID = "qatextid";
 	public static final String KEY_USER_LOGINISCHAT = "longinischat";
 	public static final String KEY_USER_NICK = "user_nick";
-	public static final String KEY_USER_NAME = "user_name";
+//	public static final String KEY_USER_NAME = "user_name";
 	public static final String KEY_USER_HEADER = "user_header";
 	public static final String KEY_USER_HEADER_CACHE = "user_header_cache";
 	public static final String KEY_APP_UPDATE_VERSION= "app_version";
@@ -209,6 +212,9 @@ public class PreferenceEntity extends LibPreferenceEntity{
 
 	/** 是否登录 */
 	public static boolean isLogin=false;
+	public static boolean isRefreshDynamic = true;	//是否刷新动态列表数据
+	public static boolean isGoDynamicView = false;	//是否主动跳转到动态列表页
+	public static boolean isRefreshHomeData = true;	//是否刷新首页数据
 	/** 标记是不是第一次打开APP */
 	public static String KEY_IS_FIRST_OPEN = "";
 

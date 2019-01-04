@@ -61,6 +61,8 @@ public class UserEntity {
        /** 目标达成时间 */
        public String targetTime;
        public String bmi;
+       /** 今日运动时间 */
+       public String sumSportTime;
 
 
 

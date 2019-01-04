@@ -38,7 +38,7 @@
             android:letterSpacing="0.1"
             android:lineSpacingExtra="@dimen/line_space"
             android:lines="2"
-            android:textColor="@color/app_text_color"
+            android:textColor="@color/text_color_normal"
             android:textSize="@dimen/text_size_normal"
             />
 

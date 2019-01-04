@@ -43,6 +43,7 @@
                 android:layout_below="@+id/tv_ttm_add"
                 android:layout_alignLeft="@+id/tv_ttm_add"
                 android:layout_alignRight="@+id/tv_ttm_add"
+                android:layout_height="@dimen/tab_line_height"
                 android:layout_marginTop="@dimen/margin_tb_normal"
                 android:background="@drawable/back_maincolor_draw"
                 />
@@ -70,6 +71,7 @@
             <ImageView
                 android:id="@+id/iv_ttm_running"
                 style="@style/horizontal_line_style"
+                android:layout_height="@dimen/tab_line_height"
                 android:layout_below="@+id/tv_ttm_running"
                 android:layout_alignLeft="@+id/tv_ttm_running"
                 android:layout_alignRight="@+id/tv_ttm_running"

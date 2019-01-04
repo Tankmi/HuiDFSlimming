@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.dou361.dialogui.DialogUIUtils;
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.personal_center.set.UserSetActivity;
 import com.huidf.slimming.activity.user.SelLoginActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
@@ -31,10 +32,12 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 
+import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.interf.ConsultNet;
 import huitx.libztframework.net.GetNetData;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.LayoutUtil;
+import huitx.libztframework.utils.NetUtils;
 import huitx.libztframework.utils.StatusBarCompat;
 import huitx.libztframework.utils.ToastUtils;
 import huitx.libztframework.utils.TransitionTime;
@@ -198,6 +201,9 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements C
 
 	/** 重新登录 */
 	protected void reLoading(){
+		PreferenceEntity.clearData();
+		ApplicationData.getInstance().exit();
+		PreferenceEntity.isLogin = false;
 		Intent intent = new Intent(mContext,SelLoginActivity.class);
 		ToastUtils.showToast("登录信息异常，请重新登录");
 		startActivity(intent);
@@ -404,9 +410,18 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements C
 		this.isShowLoading = isShowLoading;
 		if (isShowLoading) {
 			if (mBuildDialog == null)
-				mBuildDialog = DialogUIUtils.showLoading(mContext, data, true, true, false, true).show();
+				mBuildDialog = DialogUIUtils.showLoading(BaseFragmentActivity.this, data, true, true, false, true).show();
 			else mBuildDialog.show();
 		} else if (mBuildDialog != null) mBuildDialog.dismiss();
+	}
+
+	@Override
+	public void error(String msg, int type)
+	{   NetUtils.isAPNType(mContext);
+		setLoading(false);
+		if(msg.equals(ContextConstant.HTTPOVERTIME)){
+			LOG("请求超时");
+		}
 	}
 
 	@Override

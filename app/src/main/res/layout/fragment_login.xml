@@ -51,8 +51,8 @@
                     android:inputType="phone"
                     android:letterSpacing="0.1"
                     android:maxLength="20"
-                    android:textColorHint="@color/app_text_color_hint"
-                    android:textColor="@color/app_text_color"
+                    android:textColorHint="@color/text_color_hint"
+                    android:textColor="@color/text_color_normal"
                     android:textSize="@dimen/text_size_xlarge"/>
 
                 <Button
@@ -95,7 +95,7 @@
                     android:inputType="phone"
                     android:lines="1"
                     android:maxLength="20"
-                    android:textColor="@color/app_text_color_hint"
+                    android:textColor="@color/text_color_hint"
                     android:textSize="@dimen/text_size_small"/>
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:paddingLeft="@dimen/margin_lr_small"
                     android:paddingRight="@dimen/margin_lr_small"
                     android:text="获取验证码"
-                    android:textColor="@color/app_text_color_hint"
+                    android:textColor="@color/text_color_hint"
                     android:textSize="@dimen/text_size_small"/>
             </RelativeLayout>
 

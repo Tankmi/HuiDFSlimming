@@ -72,6 +72,8 @@ public class FragmentSwitchTool implements OnClickListener {
 	}
 
 	public void changeTag(View v) {
+		if(mItemClickListener!=null)mItemClickListener.onFSTItemClick(v);
+
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment fragment = fragmentManager.findFragmentByTag(String.valueOf(v.getId()));
 		for (int i = 0; i < clickableViews.length; i++) {
@@ -132,4 +134,14 @@ public class FragmentSwitchTool implements OnClickListener {
     {
        changeTag(v);
     }
+
+    private onFSTItemClickListener mItemClickListener;
+
+    public void setOnFSTItemClickListener(onFSTItemClickListener mItemClickListener){
+		this.mItemClickListener = mItemClickListener;
+	}
+
+    public interface onFSTItemClickListener{
+		void onFSTItemClick(View v);
+	}
 }

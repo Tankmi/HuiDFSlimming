@@ -2,6 +2,7 @@ package com.huidf.slimming.view.home.weight;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -41,6 +42,9 @@ public class WeightHistoryView extends View{
         super.onDraw(canvas);
 //        canvas.drawColor(0xffbbcc00);
         drawCoordinateLine(canvas);
+        if(score == null){
+            return;   //列表为空，不用继续绘制下去
+        }
         drawDate(canvas);
         drawShader(canvas);
         drawRectf(canvas);
@@ -147,14 +151,7 @@ public class WeightHistoryView extends View{
              path.moveTo(0, getHeight() - (marginBottom + marginHorizonal * i));
              path.lineTo(getWidth(),getHeight() - (marginBottom + marginHorizonal * i));
             canvas.drawPath(path, paint_coordinate_line);
-
-//            canvas.drawLine(0, getHeight() - (marginBottom + marginHorizonal * i), getWidth(),getHeight() - (marginBottom + marginHorizonal * i), paint_trend_line);
         }
-//        paint_circle.setColor(ApplicationData.context.getResources().getColor((R.color.text_color_normal)));
-//        paint_circle.setStyle(Style.FILL);
-//        for(int i=0; i<xCoors.size(); i++){
-//            canvas.drawText(xCoors.get(i),marginLeft + interval_left_right * (i),getHeight() -  LayoutUtil.getInstance().getWidgetHeight(25),paint_circle);
-//        }
 
     }
 
@@ -186,33 +183,16 @@ public class WeightHistoryView extends View{
 
     }
 
-    public void setData(List<WeightHistoryTableEntity> score){
+    public int setData(List<WeightHistoryTableEntity> score){
         this.score = score;
-        XLength = (int) (marginLeft + interval_left_right * score.size());
+        if(score != null) XLength = (int) (marginLeft + interval_left_right * score.size());
         invalidate();
-    }
-
-    /**
-     * 初始化Y坐标的范围
-     */
-    public void initYcoorData(){
-        String ycoordinate,xcoordinate;
-        ycoordinate = "30,60,100";
-//        xcoordinate = "周一,周二,周三,周四,周五,周六,周日";
-        String[] yCorrdinateArray = new String[7];
-//        String[] xCorrdinateArray = new String[7];
-        yCoors = new ArrayList<Float>();
-//        xCoors = new ArrayList<String>();
-        yCorrdinateArray = ycoordinate.split(",");
-//        xCorrdinateArray = xcoordinate.split(",");
-        for (int i = 0; i < yCorrdinateArray.length; i++) {
-            yCoors.add(Float.parseFloat(yCorrdinateArray[i]));
+        if (XLength > screenWidth) {
+            return XLength;
+        } else {
+            return (int)screenWidth;
         }
-//        for (int i = 0; i < xCorrdinateArray.length; i++) {
-//            xCoors.add(xCorrdinateArray[i]);
-//        }
 
-        invalidate();
     }
 
     //定义一个接口对象listerner
@@ -257,7 +237,6 @@ public class WeightHistoryView extends View{
             }
 
         }
-//        newValue = YPoint - 5;	//保证能绘制出来
         newValue = getHeight() - (marginBottom);	//保证能绘制出来
         return newValue;
     }
@@ -266,8 +245,8 @@ public class WeightHistoryView extends View{
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         float width;
-//        int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);//获得控件的高度
-        int height = LayoutUtil.getInstance().getWidgetHeight(397);
+        int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);//获得控件的高度
+//        int height = LayoutUtil.getInstance().getWidgetHeight(397);
         if (XLength > screenWidth) {
             width = XLength;
         } else {
@@ -278,9 +257,15 @@ public class WeightHistoryView extends View{
         setMeasuredDimension((int)width, height);
     }
 
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom)
+    {
+        super.onLayout(changed, left, top, right, bottom);
+        initView();
+    }
+
     public void initView() {
         if(score == null) score = new ArrayList<WeightHistoryTableEntity>();
-        initYcoorData();
 
         mRectf = new RectF();
         screenWidth = PreferenceEntity.screenWidth;
@@ -292,9 +277,11 @@ public class WeightHistoryView extends View{
         lineWidth = LayoutUtil.getInstance().getWidgetHeight(2);
         circleRadius = LayoutUtil.getInstance().getWidgetHeight(8);
 
-        marginBottom = LayoutUtil.getInstance().getWidgetHeight(103);
-//        marginHorizonal = (LayoutUtil.getInstance().getWidgetHeight(310) - marginBottom)/(yCoors.size() - 1);
-        marginHorizonal = LayoutUtil.getInstance().getWidgetHeight(197)/(yCoors.size() - 1);
+//        marginBottom = LayoutUtil.getInstance().getWidgetHeight(103);
+//        marginHorizonal = LayoutUtil.getInstance().getWidgetHeight(197)/(yCoors.size() - 1);
+        marginBottom = LayoutUtil.getInstance().getWidgetHeight(70);
+        marginHorizonal = LayoutUtil.getInstance().getWidgetHeight(208)/(yCoors.size() - 1);
+
         textMarginPoint = LayoutUtil.getInstance().getWidgetHeight(25);
         marginLeft = LayoutUtil.getInstance().getWidgetWidth(70);
         interval_left_right = LayoutUtil.getInstance().getWidgetWidth(82);
@@ -303,6 +290,8 @@ public class WeightHistoryView extends View{
         paint_trend_line = initPaint(paint_trend_line);
         paint_coordinate_line = initPaint(paint_coordinate_line);
         paint_circle = initPaint(paint_circle);
+        paint_text = initPaint(paint_text);
+        paint_text.setColor(ApplicationData.context.getResources().getColor((R.color.text_color_normal)));
         paint_des = initPaint(paint_des);
 
         paint_coordinate_line.setStrokeWidth(lineWidth * 1.5f);    //设置画笔宽度，宽于正常宽度1.5倍
@@ -318,17 +307,50 @@ public class WeightHistoryView extends View{
 
     public WeightHistoryView(Context context) {
         super(context);
-        initView();
+//        initView();
     }
     public WeightHistoryView(Context context, AttributeSet attrs) {
         super(context, attrs);
-//        setDetectionData(context,attrs);
-        initView();
+        setDetectionData(context,attrs);
+//        initView();
     }
     public WeightHistoryView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-//        setDetectionData(context,attrs);
-        initView();
+        setDetectionData(context,attrs);
+//        initView();
+    }
+
+    /** 绘制高度 */
+    private float drawHight;
+
+    /**
+     * 初始化数据
+     * @param context
+     * @param attrs
+     */
+    public void setDetectionData(Context context, AttributeSet attrs) {
+
+        TypedArray attribute = context.obtainStyledAttributes(attrs, R.styleable.chart_ycoords);
+        String ycoordinate = attribute.getString(R.styleable.chart_ycoords_ycoordinate);
+//        cutIndex = attribute.getInteger(R.styleable.chart_ycoords_ycoordcut,2);
+        marginBottom = attribute.getFloat(R.styleable.chart_ycoords_ycoormargin_bottom,100);
+        drawHight = attribute.getFloat(R.styleable.chart_ycoords_ycoordraw_height,1000);
+
+        initYcoorData((ycoordinate==null||ycoordinate.equals(""))?"30,60,100":ycoordinate);
+    }
+
+    /**
+     * 初始化Y坐标的范围
+     */
+    public void initYcoorData(String ycoordinate){
+        String[] yCorrdinateArray;
+        yCoors = new ArrayList<>();
+        yCorrdinateArray = ycoordinate.split(",");
+        for (int i = 0; i < yCorrdinateArray.length; i++) {
+            yCoors.add(Float.parseFloat(yCorrdinateArray[i]));
+        }
+
+        invalidate();
     }
 
     /** 屏幕的宽 */
@@ -339,6 +361,7 @@ public class WeightHistoryView extends View{
     List<WeightHistoryTableEntity> score;
 
     /** 圆点 */
+    private Paint paint_text;
     private Paint paint_circle;
     /** 坐标值描述 */
     private Paint paint_des;
@@ -348,8 +371,8 @@ public class WeightHistoryView extends View{
     private Paint paint_coordinate_line;
     private TextPaint textPaint;
 
-    private int colorLine = 0xff208be4;
-    private int colorTrendLine = 0xffd3e8fb;
+    private int colorLine = 0xff49dec7;
+    private int colorTrendLine = 0xffbcf3ea;
     private int colorCoordinateLine = 0xffd5d5d5;
 
 

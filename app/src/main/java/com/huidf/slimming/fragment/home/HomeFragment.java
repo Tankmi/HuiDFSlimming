@@ -1,20 +1,23 @@
 package com.huidf.slimming.fragment.home;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.home.foodsport_scheme.FoodSportSchemeActivity;
+import com.huidf.slimming.activity.home.sleep.SleepHisActivity;
+import com.huidf.slimming.activity.home.sleep.SleepHisBaseActivity;
+import com.huidf.slimming.activity.home.sport.SportHisActivity;
+import com.huidf.slimming.activity.home.weight.WeightActivity;
+import com.huidf.slimming.activity.home.weight.history.WeightHistoryActivity;
 import com.huidf.slimming.activity.toady_movement.TodayMovementActivity;
 import com.huidf.slimming.context.PreferenceEntity;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import huitx.libztframework.utils.MathUtils;
-import huitx.libztframework.utils.PreferencesUtils;
 
 
 /**
@@ -30,22 +33,19 @@ public class HomeFragment extends HomeBaseFragment {
     public HomeFragment()
     {
         super(R.layout.fragment_home);
-        TAG = getClass().getName();
+        TAG = getClass().getSimpleName();
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
-
+    public void onActivityCreated(Bundle savedInstanceState) {
         setUserVisibleHint(true);
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
     protected void initHead()
     {
-
+        if (mHandler == null) mHandler = new MyHandler(getActivity());
     }
 
     @Override
@@ -55,35 +55,12 @@ public class HomeFragment extends HomeBaseFragment {
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
-//        getChoiceness();
-
-        float weight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 70);
-        float current_weight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, weight);
-        float target_weight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, current_weight);
-        if (weight == 0.0f) {
-            weight = 72;
-            current_weight = 70;
-            target_weight = 66;
+        LOG("PreferenceEntity.isRefreshHomeData:  " + PreferenceEntity.isRefreshHomeData);
+        if(!isInit || PreferenceEntity.isRefreshHomeData){
+            getChoiceness();
         }
-        circular_ht_weight.setData(weight, current_weight, target_weight);
-        DecimalFormat df = new DecimalFormat("#");
-        DecimalFormat df1 = new DecimalFormat("#.00");
-        tv_htd_target_weight.setText("目标体重\n" + df.format(target_weight) + "KG");
-        tv_htd_progress.setText("进度\n" + df.format((Float.parseFloat(df1.format((weight - current_weight) / (weight - target_weight))) * 100)) + "%");
-
-
-        horschedule_hf_schedule.setData(50);
-        horschedule_hs_schedule.setData(80);
-        List<Float> mLists = new ArrayList<>();
-        mLists.add(70f);
-        mLists.add(66f);
-        mLists.add(66f);
-        mLists.add(66f);
-        mLists.add(75f);
-        weighttable_hw_schedule.setData(mLists);
     }
 
     @Override
@@ -105,17 +82,20 @@ public class HomeFragment extends HomeBaseFragment {
             case R.id.tv_ht_today_movement:    //今日运动
                 intent = new Intent(getActivity(), TodayMovementActivity.class);
                 break;
+            case R.id.rel_home_title:    //录入体重
+                intent = new Intent(getActivity(), WeightActivity.class);
+                break;
             case R.id.rel_home_food:    //饮食运动方案
-                LOG("饮食运动方案");
+                intent = new Intent(getActivity(), FoodSportSchemeActivity.class);
                 break;
             case R.id.rel_home_sport:    //运动记录
-                LOG("运动记录");
+                intent = new Intent(getActivity(), SportHisActivity.class);
                 break;
             case R.id.rel_home_weight:    //体重记录
-                LOG("体重记录");
+                intent = new Intent(getActivity(), WeightHistoryActivity.class);
                 break;
             case R.id.rel_home_sleep:    //睡眠记录
-                LOG("睡眠记录");
+                intent = new Intent(getActivity(), SleepHisActivity.class);
                 break;
 
         }
@@ -128,4 +108,10 @@ public class HomeFragment extends HomeBaseFragment {
         super.pauseClose();
     }
 
+    @Override
+    protected void destroyClose()
+    {
+        super.destroyClose();
+        if (mHandler != null) mHandler.removeCallbacksAndMessages(null);
+    }
 }

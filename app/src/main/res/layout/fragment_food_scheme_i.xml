@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_home_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/lin_food_scheme_breakfast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_food_scheme_breakfast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/back_breakfast"
+            android:gravity="center"
+            android:text="早餐"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_xlarge"/>
+
+        <ImageView
+            android:id="@+id/iv_food_scheme_breakfast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -18,16 +18,19 @@ import android.widget.TextView;
 
 import com.dou361.dialogui.DialogUIUtils;
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.personal_center.set.UserSetActivity;
 import com.huidf.slimming.activity.user.SelLoginActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.interf.ConsultNet;
 import huitx.libztframework.net.GetNetData;
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.LayoutUtil;
+import huitx.libztframework.utils.NetUtils;
 import huitx.libztframework.utils.ToastUtils;
 import huitx.libztframework.utils.TransitionTime;
 import huitx.libztframework.utils.image_loader.AnimateFirstDisplayListener;
@@ -104,10 +107,11 @@ public abstract class BaseFragment extends Fragment implements ConsultNet {
 		screenHeight = PreferenceEntity.screenHeight;
 
 		mLayoutUtil = LayoutUtil.getInstance();
-		mgetNetData = GetNetData.getInstance();
+//		mgetNetData = GetNetData.getInstance();
+		mgetNetData = new GetNetData();
 		tranTimes = TransitionTime.getInstance();
 		imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);//初始化软键盘处理的方法
-		
+
 //		mBtnLeft = findViewByIds(R.id.btn_title_view_left);
 //		mTvTitle = findViewByIds(R.id.tv_title_view_title);
 //		mBtnRight = findViewByIds(R.id.btn_title_view_right);
@@ -159,7 +163,7 @@ public abstract class BaseFragment extends Fragment implements ConsultNet {
 	protected  void setLoading(boolean isShowLoading,String data) {
 		if (isShowLoading) {
 			if (mBuildDialog == null)
-				mBuildDialog = DialogUIUtils.showLoading(mContext, data, true, true, false, true).show();
+				mBuildDialog = DialogUIUtils.showLoading(getActivity(), data, true, true, false, true).show();
 			else mBuildDialog.show();
 		} else if (mBuildDialog != null) mBuildDialog.dismiss();
 	}
@@ -167,6 +171,9 @@ public abstract class BaseFragment extends Fragment implements ConsultNet {
 
 	/** 重新登录 */
 	protected void reLoading(){
+		PreferenceEntity.clearData();
+		ApplicationData.getInstance().exit();
+		PreferenceEntity.isLogin = false;
 		Intent intent = new Intent(mContext,SelLoginActivity.class);
 		ToastUtils.showToast("登录信息异常，请重新登录");
 		startActivity(intent);
@@ -180,7 +187,16 @@ public abstract class BaseFragment extends Fragment implements ConsultNet {
 	public boolean isLogin(){
 		return PreferenceEntity.isLogin;
 	}
-	
+
+	@Override
+	public void error(String msg, int type)
+	{   NetUtils.isAPNType(mContext);
+		setLoading(false);
+		if(msg.equals(ContextConstant.HTTPOVERTIME)){
+			LOG(TAG + "请求超时");
+		}
+	}
+
 	protected abstract void initHead();
 
 	/**
@@ -209,6 +225,11 @@ public abstract class BaseFragment extends Fragment implements ConsultNet {
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		if(mBuildDialog != null){
+			mBuildDialog.dismiss();
+			mBuildDialog.cancel();
+			mBuildDialog = null;
+		}
 		destroyClose();
 	}
 	

@@ -1,7 +1,7 @@
 <resources>
 
     <!--全局字体-->
-    <dimen name="text_size_xlarge">24sp</dimen>
+    <dimen name="text_size_xlarge">21sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_big">15sp</dimen>   //新增可改 181115
     <dimen name="text_size_normal">13sp</dimen>

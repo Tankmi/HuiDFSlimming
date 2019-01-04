@@ -14,11 +14,11 @@ public class HomeEntity {
 		/** 轻了多少斤 */
 		public float lostWeight;
 		/** 进度百分比 */
-		public int lostPercent;
+		public float lostPercent;
 		/** 运动营养方案  每周减重 */
 		public float targetAvg;
 		/** 运动记录 今日运动百分比 */
-		public int sportPercent;
+		public float sportPercent;
 		/** 体重记录  最近体重 */
 		public float latestWeight;
 		public List<Weight> weightList;

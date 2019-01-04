@@ -59,12 +59,19 @@ public class RankingListFragment extends BaseFragmentForAnnotation implements On
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        initFragment();
+    protected void initLogic() {
+        if(!inInitFragment)initFragment();
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private boolean inInitFragment;
     private void initFragment() {
+        inInitFragment = true;
         sportFrag = new RankingListItemFragment();
         weightFrag = new RankingListItemFragment();
 //        sportFrag = new RankingListItemFragment();
@@ -103,9 +110,6 @@ public class RankingListFragment extends BaseFragmentForAnnotation implements On
         mLayoutUtil.drawViewDefaultLinearLayout(rel_trl_sport, -1,-1,-1,-1, (int) PreferenceEntity.ScreenTop,-1);
         mLayoutUtil.drawViewDefaultLinearLayout(rel_trl_weight, -1,-1,-1,-1, (int) PreferenceEntity.ScreenTop,-1);
     }
-
-    @Override
-    protected void initLogic() { }
 
     @Override
     protected void pauseClose() { }

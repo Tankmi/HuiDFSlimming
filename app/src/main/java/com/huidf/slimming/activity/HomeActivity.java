@@ -11,7 +11,9 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import com.huidf.slimming.R;
+import com.huidf.slimming.context.HtmlUrlConstant;
 import com.huidf.slimming.context.PreferenceEntity;
+import com.huidf.slimming.web.activity.WebViewActivity;
 
 
 /**
@@ -35,6 +37,7 @@ public class HomeActivity extends HomeBaseActivity {
    protected void initHead() {
        setStatusBarColor(true, true, mContext.getResources().getColor(R.color.transparency));
        iv_title_status_bar_fill.setBackgroundResource(0x00000000);
+       if (mHandler == null) mHandler = new MyHandler(this);
    }
 
     @Override
@@ -44,8 +47,12 @@ public class HomeActivity extends HomeBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//		mHandler.post(getVersionRunnable);
+		mHandler.post(getVersionRunnable);
         if(!PreferenceEntity.isSyncUserDatas) inputData();
+        if(PreferenceEntity.isGoDynamicView){
+            PreferenceEntity.isGoDynamicView = false;
+            mFragmentSwitch.changeTag(lin_tab_home_dynamic);
+        }
     }
 
     @Override
@@ -63,6 +70,12 @@ public class HomeActivity extends HomeBaseActivity {
     @Override
    public void onClick(View view) {
        switch(view.getId()){
+           case R.id.lin_tab_home_market:
+               Intent intent = new Intent(HomeActivity.this, WebViewActivity.class);
+               intent.putExtra("url", HtmlUrlConstant.HTML_RELEASEDYNAMIC);
+               intent.putExtra("is_refresh", false);
+               startActivity(intent);
+               break;
        }
    }
 

@@ -13,7 +13,7 @@
     <dimen name="user_info_number_text_size">12sp</dimen>
     <dimen name="user_info_number_text_size10">10sp</dimen>
 
-    <!-- 行间距 -->
-    <dimen name="line_space">5dp</dimen>
+    <dimen name="settings_text_size">12sp</dimen>
+    <dimen name="selectsex_register">28sp</dimen>
 
 </resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/lin_sport_scheme_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/back_sport_scheme_item"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sport_scheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_lr_large"
+            android:layout_weight="1"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/text_color_hint"
+            android:textSize="@dimen/text_size_15"/>
+
+
+        <TextView
+            android:id="@+id/tv_sport_scheme_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/margin_lr_normal"
+            android:lineSpacingExtra="@dimen/line_space"
+            android:textColor="@color/text_color_hint"
+            android:textSize="@dimen/text_size_small"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sport_scheme_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="@dimen/margin_tb_23"
+        android:paddingBottom="@dimen/margin_tb_23"
+        android:textColor="@color/text_color_hint"
+        android:textSize="@dimen/text_size_small"/>
+</LinearLayout>

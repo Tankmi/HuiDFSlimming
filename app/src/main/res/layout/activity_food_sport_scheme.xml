@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_food_sport_scheme_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/all_bg"
+    android:fitsSystemWindows="true"
+    >
+
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/lin_food_sport_scheme_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/btn_fss_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/margin_lr_normal"
+            android:background="@drawable/btn_back"
+            android:textSize="@dimen/title_right_text_size" />
+
+
+        <RelativeLayout
+            android:id="@+id/rel_fss_food"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_fssf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:text="饮食方案"
+                android:textColor="@color/tv_maincolor_hint_draw"
+                android:textSize="@dimen/text_size_large"/>
+
+            <ImageView
+                android:id="@+id/iv_fssf"
+                style="@style/horizontal_line_style"
+                android:layout_height="4px"
+                android:layout_below="@+id/tv_fssf"
+                android:layout_alignLeft="@+id/tv_fssf"
+                android:layout_alignRight="@+id/tv_fssf"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:background="@drawable/back_maincolor_transparency_draw"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_fss_sport"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tv_fsss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:text="运动方案"
+                android:textColor="@color/tv_maincolor_hint_draw"
+                android:textSize="@dimen/text_size_large"/>
+
+            <ImageView
+                android:id="@+id/iv_fsss"
+                style="@style/horizontal_line_style"
+                android:layout_height="4px"
+                android:layout_below="@+id/tv_fsss"
+                android:layout_alignLeft="@+id/tv_fsss"
+                android:layout_alignRight="@+id/tv_fsss"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:background="@drawable/back_maincolor_transparency_draw"
+                />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_fss_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/margin_lr_normal"
+            android:background="@drawable/back_hint_enable_draw"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_fss_line"
+        style="@style/horizontal_line_style"
+        android:layout_below="@id/lin_food_sport_scheme_title"/>
+
+    <FrameLayout
+        android:id="@+id/fl_fss"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/iv_fss_line"
+        />
+
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.huidf.slimming.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Handler;
@@ -21,11 +22,17 @@ import com.dou361.dialogui.DialogUIUtils;
 import com.huidf.slimming.R;
 import com.huidf.slimming.base.BaseFragmentActivity;
 import com.huidf.slimming.context.ApplicationData;
+import com.huidf.slimming.context.HtmlUrlConstant;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.fragment.home.HomeFragment;
 import com.huidf.slimming.fragment.personal_center.PersonalCenterFragment;
 import com.huidf.slimming.fragment.ranking.RankingListFragment;
 import com.huidf.slimming.util.VersionTools;
+import com.huidf.slimming.web.MyWebView;
+import com.huidf.slimming.web.fragment.WebViewBaseFragment;
+import com.huidf.slimming.web.fragment.dynamic.DynamicWebViewFragment;
+
+import java.lang.ref.WeakReference;
 
 import huitx.libztframework.net.GetNetData;
 import huitx.libztframework.utils.PreferencesUtils;
@@ -39,12 +46,12 @@ import huitx.libztframework.view.FragmentSwitchTool;
  * @Description: 首页
  * @params：
  */
-public class HomeBaseActivity extends BaseFragmentActivity implements OnClickListener, DialogInterface.OnDismissListener{
+public class HomeBaseActivity extends BaseFragmentActivity implements OnClickListener, DialogInterface.OnDismissListener, WebViewBaseFragment.BackHandledInterface{
 
     protected HomeFragment homeFragment;
     protected RankingListFragment rankingFragment;
-//    protected DynamicWebViewFragment dynamicFoodFragment;
-//    protected MarketWebViewFragment marketFragment;
+    protected DynamicWebViewFragment dynamicFoodFragment;
+//    protected ReleaseDynamicWebViewFragment releaseDynamicFragment;
     protected PersonalCenterFragment settingsFragment;
     protected FragmentSwitchTool mFragmentSwitch;
 
@@ -59,10 +66,10 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
     private LinearLayout lin_tab_home_choiceness;
     private ImageView iv_tab_home_choiceness;
     private TextView tv_tab_home_choiceness;
-    private LinearLayout lin_tab_home_dynamic;
+    protected LinearLayout lin_tab_home_dynamic;
     private ImageView iv_tab_home_dynamic;
     private TextView tv_tab_home_dynamic;
-    private LinearLayout lin_tab_home_market;
+    private LinearLayout lin_releaseDynamic;
     private ImageView iv_tab_home_market;
     private TextView tv_tab_home_market;
     private LinearLayout lin_tab_home4;
@@ -87,7 +94,7 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
         lin_tab_home_dynamic = findViewByIds(R.id.lin_tab_home_dynamic);
         iv_tab_home_dynamic = findViewByIds(R.id.iv_tab_home_dynamic);
         tv_tab_home_dynamic = findViewByIds(R.id.tv_tab_home_dynamic);
-        lin_tab_home_market = findViewByIds(R.id.lin_tab_home_market);
+        lin_releaseDynamic = findViewByIds(R.id.lin_tab_home_market);
         iv_tab_home_market = findViewByIds(R.id.iv_tab_home_market);
         tv_tab_home_market = findViewByIds(R.id.tv_tab_home_market);
         lin_tab_home4 = findViewByIds(R.id.lin_tab_home4);
@@ -97,28 +104,31 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
         iv_tab_home_settings = findViewByIds(R.id.iv_tab_home_settings);
         tv_tab_home_settings = findViewByIds(R.id.tv_tab_home_settings);
 
+        lin_releaseDynamic.setOnClickListener(this);
         initFragment();
     }
 
     private void initFragment() {
         homeFragment = new HomeFragment();
-//        dynamicFoodFragment = new DynamicWebViewFragment();
-//        marketFragment = new MarketWebViewFragment();
+        dynamicFoodFragment = new DynamicWebViewFragment();
+//        releaseDynamicFragment = new ReleaseDynamicWebViewFragment();
         rankingFragment = new RankingListFragment();
         settingsFragment = new PersonalCenterFragment();
 
         mFragmentSwitch = new FragmentSwitchTool(getSupportFragmentManager(), R.id.fl_home);
-        mFragmentSwitch.setClickableViews(lin_tab_home_choiceness, lin_tab_home_dynamic, lin_tab_home_market, lin_tab_home4, lin_tab_home_settings);
+//        mFragmentSwitch.setClickableViews(lin_tab_home_choiceness, lin_tab_home_dynamic, lin_releaseDynamic, lin_tab_home4, lin_tab_home_settings);
+        mFragmentSwitch.setClickableViews(lin_tab_home_choiceness, lin_tab_home_dynamic, lin_tab_home4, lin_tab_home_settings);
         mFragmentSwitch.addSelectedViews(new View[]{iv_tab_home_choiceness})
                 .addSelectedViews(new View[]{iv_tab_home_dynamic})
-                .addSelectedViews(new View[]{iv_tab_home_market})
+//                .addSelectedViews(new View[]{iv_tab_home_market})
                 .addSelectedViews(new View[]{iv_tab_home4})
                 .addSelectedViews(new View[]{iv_tab_home_settings});
-        mFragmentSwitch.setFragments(homeFragment.getClass(), homeFragment.getClass(),
-                homeFragment.getClass(), rankingFragment.getClass(), settingsFragment.getClass());
+        mFragmentSwitch.setFragments(homeFragment.getClass(), dynamicFoodFragment.getClass(),
+//                releaseDynamicFragment.getClass(), rankingFragment.getClass(), settingsFragment.getClass());
+                  rankingFragment.getClass(), settingsFragment.getClass());
 
-//        mFragmentSwitch.changeTag(lin_tab_home_choiceness);
-        mFragmentSwitch.changeTag(lin_tab_home4);
+        mFragmentSwitch.changeTag(lin_tab_home_choiceness);
+//        mFragmentSwitch.changeTag(lin_tab_home_dynamic);
     }
 
     @Override
@@ -133,9 +143,9 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
     protected void getVersion() {
         int version = VersionTools.getVersion(mContext);
         int newVersion = PreferencesUtils.getInt(mContext, PreferenceEntity.KEY_APP_UPDATE_VERSION);
-        LOG("当前系统版本：" + version + "; 系统版本：" + newVersion);
-        if (version < newVersion) {
-            String url = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_APP_UPDATE_URL);
+        String url = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_APP_UPDATE_URL);
+        LOG("当前系统版本：" + version + "; 系统版本：" + newVersion+ "; url：" + url);
+        if (version < newVersion && url != null && !url.equals("")) {
             if (!url.equals("")) initDialogView(1, url);
         }
 
@@ -165,8 +175,26 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
         }
     }
 
-    Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    protected MyHandler mHandler;
+
+    @Override
+    public void setSelectedFragment(WebViewBaseFragment selectedFragment)
+    {
+
+    }
+
+    protected class MyHandler extends Handler {
+
+        // SoftReference<Activity> 也可以使用软应用 只有在内存不足的时候才会被回收
+        private final WeakReference<Activity> mActivity;
+
+        protected MyHandler(Activity activity)
+        {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        public void handleMessage(Message msg)
+        {
             switch (msg.what) {
                 case 0: // 获取版本号
 
@@ -187,8 +215,8 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
                     break;
             }
         }
-    };
 
+    }
     @Override
     protected void initLocation() {
         mLayoutUtil.setIsFullScreen(true);
@@ -332,18 +360,18 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
     WebView mWebView;
 
     public void inputData() {   //缓存id数据
-//        mWebView = findViewByIds(R.id.web_home);
-//        MyWebView.getInstance().getWebView(mWebView);
-//
-//        //当用户点击一个连接的时候不跳转到手机的浏览器上！
-//        mWebView.setWebViewClient(mWebViewClient);
-//        String userId = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_ID, "");
-//        String phone = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_ACCOUNT, "");
-//        String imei = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_IMEI, "");
-//        if (userId != null && !userId.equals("")) {
-//            mWebView.loadUrl(HtmlUrlConstant.HTML_POSTUSERDATA + userId + "&phone=" + phone + "&imei=" + imei);
-//            PreferenceEntity.isSyncUserDatas = true;
-//        }
+        mWebView = findViewByIds(R.id.web_home);
+        MyWebView.getInstance().getWebView(mWebView);
+
+        //当用户点击一个连接的时候不跳转到手机的浏览器上！
+        mWebView.setWebViewClient(mWebViewClient);
+        String userId = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_ID, "");
+        String phone = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_ACCOUNT, "");
+        String imei = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_IMEI, "");
+        if (userId != null && !userId.equals("")) {
+            mWebView.loadUrl(HtmlUrlConstant.HTML_POSTUSERDATA + userId);
+            PreferenceEntity.isSyncUserDatas = true;
+        }
     }
 
     WebViewClient mWebViewClient = new WebViewClient() {

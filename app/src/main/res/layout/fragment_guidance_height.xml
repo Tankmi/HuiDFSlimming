@@ -54,7 +54,6 @@
         android:id="@+id/rel_guidance_height_view_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparency"
         android:layout_below="@+id/iv_guidance_height">
             />
 

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/rel_home_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/all_bg"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_tab_ranking_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/all_bg"
     >
 
 
@@ -42,7 +43,7 @@
             <ImageView
                 android:id="@+id/iv_trl_sport"
                 style="@style/horizontal_line_style"
-                android:layout_height="2px"
+                android:layout_height="@dimen/tab_line_height"
                 android:layout_below="@+id/tv_trl_sport"
                 android:layout_alignLeft="@+id/tv_trl_sport"
                 android:layout_alignRight="@+id/tv_trl_sport"
@@ -73,7 +74,7 @@
             <ImageView
                 android:id="@+id/iv_trl_weight"
                 style="@style/horizontal_line_style"
-                android:layout_height="2px"
+                android:layout_height="@dimen/tab_line_height"
                 android:layout_below="@+id/tv_trl_weight"
                 android:layout_alignLeft="@+id/tv_trl_weight"
                 android:layout_alignRight="@+id/tv_trl_weight"

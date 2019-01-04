@@ -11,6 +11,7 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.home.sport.SportHisActivity;
 import com.huidf.slimming.context.PreferenceEntity;
 
 
@@ -32,7 +33,6 @@ public class TodayMovementActivity extends TodayMovementBaseActivity {
    protected void initHead() {
        setStatusBarColor(false, true, mContext.getResources().getColor(R.color.white));
        setTittle("添加运动");
-
        if(mHandler == null) mHandler = new MyHandler(TodayMovementActivity.this);
    }
 
@@ -48,6 +48,9 @@ public class TodayMovementActivity extends TodayMovementBaseActivity {
     @Override
    public void onClick(View view) {
        switch(view.getId()){
+           case R.id.btn_title_view_right:
+               startActivity(new Intent(this, SportHisActivity.class));
+               break;
        }
    }
 

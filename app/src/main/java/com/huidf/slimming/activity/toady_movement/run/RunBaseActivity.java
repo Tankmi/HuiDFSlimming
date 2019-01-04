@@ -77,13 +77,6 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
     protected boolean hasAnimationStarted;
     //渲染动画起始坐标
     final int[] location = new int[2];
-    //声明mlocationClient对象
-    public AMapLocationClient mlocationClient;
-    //声明mLocationOption对象
-    public AMapLocationClientOption mLocationOption = null;
-    //以前的定位点
-    private LatLng oldLatLng;
-    private AMap aMap;
 
     public RunBaseActivity() {
         super();
@@ -130,8 +123,7 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
     /**
      * 提交运动数据
      */
-    protected void commitRunningInfo()
-    {
+    protected void commitRunningInfo() {
         RequestParams params = PreferenceEntity.getLoginParams();
         params.addBodyParameter("sportType", "23");
         params.addBodyParameter("sportKcal", "" + calorie);
@@ -142,6 +134,8 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
         setLoading(true, "");
     }
 
+    /** 标记运动完成，不需要继续开启后台服务 */
+    public boolean isRunfinish = false;
     @Override
     public void paddingDatas(String mData, int type) {
         setLoading(false, "");
@@ -154,6 +148,7 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
         }
         if (mUserEntity.code == ContextConstant.RESPONSECODE_200) {
             if (type == mHandler.API_INSERTSPORT) {    //录入运动信息
+                isRunfinish = true;
                 finish();
             }
         } else if (mUserEntity.code == ContextConstant.RESPONSECODE_310) {    //登录信息过时跳转到登录页
@@ -165,6 +160,7 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
 
     @Override
     public void error(String msg, int type) {
+        super.error(msg,type);
         LOG(msg);
     }
 
@@ -195,7 +191,6 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
                         setStartRunState(true);
 
 //                        hasAnimationStarted = true;
-//
 //                        lin_run_distance.setVisibility(View.VISIBLE);
 //                        lin_run_info.setVisibility(View.VISIBLE);
 //                        rel_run_control.setVisibility(View.VISIBLE);
@@ -399,18 +394,30 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
         });
     }
 
-
+    //声明mlocationClient对象
+    public AMapLocationClient mlocationClient;
+    //用来设置发起定位的模式和相关参数。
+    public AMapLocationClientOption mLocationOption = null;
+    //以前的定位点
+    private LatLng oldLatLng;
+    private AMap aMap;
     private OnLocationChangedListener mListener;
     @Override
-    public void activate(OnLocationChangedListener onLocationChangedListener)
-    {   this.mListener = onLocationChangedListener;
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        this.mListener = onLocationChangedListener;
         if (mlocationClient == null) {
-            mlocationClient = new AMapLocationClient(this);
+            mlocationClient = new AMapLocationClient(mContext);
             mLocationOption = new AMapLocationClientOption();
+
+            mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.SignIn);
             //设置定位监听
             mlocationClient.setLocationListener(this);
-            //Hight_Accuracy，高精度定位模式； Battery_Saving，低功耗模式；Device_Sensors，设备模式，不需要网络
-            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Device_Sensors);
+            /*
+             Hight_Accuracy，高精度定位模式（会同时使用网络定位和GPS定位，优先返回最高精度的定位结果，以及对应的地址描述信息）；
+             Battery_Saving，低功耗模式(不会使用GPS和其他传感器，只会使用网络定位（Wi-Fi和基站定位））；
+             Device_Sensors， 设备模式，不需要网络(只使用GPS进行定位，这种模式下不支持室内环境的定位，需要在室外环境下才可以成功定位。)
+             */
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);
             //设置是否单次定位
             mLocationOption.setOnceLocation(false);
             /**
@@ -426,6 +433,8 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
             mLocationOption.setWifiActiveScan(false);
             //设置是否允许模拟位置,默认为false，不允许模拟位置
             mLocationOption.setMockEnable(false);
+            //设置定位请求超时时间 单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+//            mLocationOption.setHttpTimeOut(20000);
 
             //设置定位参数
             mlocationClient.setLocationOption(mLocationOption);
@@ -453,35 +462,19 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
 
     /** true开始定位，false停止定位 */
     protected void continueLocation(boolean state) {
-//        if (mlocationClient == null) {
-//            mlocationClient = new AMapLocationClient(ApplicationData.context);
-//            //初始化定位参数
-//            mLocationOption = new AMapLocationClientOption();
-//            //设置定位监听
-//            mlocationClient.setLocationListener(this);
-//            //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
-//            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-//            //设置定位间隔,单位毫秒,默认为2000ms
-//            mLocationOption.setInterval(2000);
-//            //设置定位参数
-//            mlocationClient.setLocationOption(mLocationOption);
-//        }
-//
-//        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
-//        // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
-//        // 在定位结束后，在合适的生命周期调用onDestroy()方法
-//        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
-//        //启动定位
+        if(mlocationClient == null) return;
+        //        //启动定位
         if(state) {
+            LOG("启动定位");
             mlocationClient.startLocation();
         }else{
+            LOG("停止定位");
             mlocationClient.stopLocation();
         }
     }
 
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
-
         if (mListener != null && amapLocation != null) {
             if (amapLocation.getErrorCode() == 0) {
                 mListener.onLocationChanged(amapLocation);// 显示系统小蓝点
@@ -494,7 +487,7 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
 //                Date date = new Date(amapLocation.getTime());
 //                df.format(date);//定位时间
 
-//                LOG("定位回调：" + amapLocation.getLatitude() + "   " + amapLocation.getLongitude());
+                LOG("定位回调：" + amapLocation.getLatitude() + "   " + amapLocation.getLongitude());
                 //定位成功
                 LatLng newLatLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
                 if(oldLatLng == null || !oldLatLng.equals(newLatLng)){
@@ -534,7 +527,7 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
     protected void drawMapLine()
     {
         List<LatLng> latLngs = mRunningUtil.getLatLngs();
-        LOG("drawMapLine 画线" + latLngs.size());
+        if (latLngs != null) LOG("drawMapLine 画线" + latLngs.size());
         Polyline polyline = aMap.addPolyline(new PolylineOptions().
                 addAll(latLngs).width(10).color(Color.argb(255, 19, 208, 202)));
     }
@@ -562,20 +555,12 @@ public class RunBaseActivity extends BaseFragmentActivityForAnnotation implement
 
     @Override
     protected void initHead() { }
-
     @Override
     protected void initLogic() { }
-
     @Override
-    protected void pauseClose()  {
-
-    }
-
+    protected void pauseClose()  {  }
     @Override
-    protected void destroyClose() {
-
-    }
-
+    protected void destroyClose() {  }
     @Override
     public void onDismiss(DialogInterface dialog) {
         LOG("onDismiss");

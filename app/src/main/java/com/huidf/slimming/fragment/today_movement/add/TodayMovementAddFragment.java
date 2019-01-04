@@ -20,6 +20,7 @@ public class TodayMovementAddFragment extends TodayMovementAddBaseFragment {
 
     public TodayMovementAddFragment() {
         super(R.layout.fragment_todaym_add);
+        TAG = getClass().getSimpleName();
     }
 
     @Override
@@ -32,8 +33,7 @@ public class TodayMovementAddFragment extends TodayMovementAddBaseFragment {
 
     @Override
     protected void initHead() {
-        TAG = getClass().getName();
-        initDialog(getActivity());
+
     }
 
     @Override
@@ -46,23 +46,6 @@ public class TodayMovementAddFragment extends TodayMovementAddBaseFragment {
         super.onResume();
         setData();
 //        GetUserInfo();
-    }
-
-    @Override
-    public void onClick(View view) {
-        super.onClick(view);
-        Intent intent = null;
-        switch (view.getId()) {
-            case R.id.btn_sett_setting: // 设置
-//                intent = new Intent(mContext, UserSetActivity.class);
-                break;
-            case R.id.rel_sett_info: // 个人设置
-//                intent = new Intent(mContext, WeightHistoryActivity.class);
-                break;
-        }
-        if (intent != null) {
-            startActivity(intent);
-        }
     }
 
     @Override

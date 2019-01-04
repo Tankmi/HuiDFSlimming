@@ -35,7 +35,7 @@
 
     <!--字体颜色-->
     <color name="text_color_title">#ffffffff</color>
-    <color name="text_color_normal">#ff272729</color>   <!-- 最黑 -->
+    <color name="text_color_normal">#ff333333</color>   <!-- 最黑 272729 -->
     <color name="text_color_hint">#ff666666</color>     <!-- 次之 -->
     <color name="text_color_undertint">#ff999999</color>    <!-- 最浅 -->
 
@@ -49,5 +49,10 @@
     <!-- 自定义验证码输入框 -->
     <color name="verifycode_border_focused">#22d7bb</color>
     <color name="verifycode_border_normal">#f3f3f3</color>
+
+    <!-- 线条默认颜色  可改 -->
+    <color name="line_bg">#ffd0d0d0</color>
+    <!-- 虚线默认颜色  可改 -->
+    <color name="line_bg_e1e1e1">#e1e1e1</color>
 
 </resources>

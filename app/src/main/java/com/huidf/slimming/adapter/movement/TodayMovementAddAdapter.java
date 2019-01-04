@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import huitx.libztframework.utils.LayoutUtil;
+import huitx.libztframework.utils.MathUtils;
 import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.PreferencesUtils;
 import huitx.libztframework.utils.UnitConversion;
@@ -41,7 +42,7 @@ public class TodayMovementAddAdapter extends RecyclerView.Adapter<TodayMovementA
         this.mContext = context;
         this.mList = data;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mUserWeight = Float.parseFloat(PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_CURRENT_WEIGHT, "" + 66.0f));
+        mUserWeight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f);
         selectPhoto.clear();
     }
 
@@ -59,9 +60,9 @@ public class TodayMovementAddAdapter extends RecyclerView.Adapter<TodayMovementA
         final MovementEntity mData = mList.get(position);
         Glide.with(mContext).load(mData.icon).into(holder.icon);
         holder.name.setText(mData.name);
-        float equalCalorie = mUserWeight * mData.equValue;
-        equalCalorie = UnitConversion.preciseNumber(equalCalorie, 2);
-        NewWidgetSetting.getInstance().setIdenticalLineTvColor(
+        int equalCalorie = (int) (mUserWeight * mData.equValue);
+//        equalCalorie = UnitConversion.preciseNumber(equalCalorie, 0);
+        NewWidgetSetting.setIdenticalLineTvColor(
                 holder.name,mContext.getResources().getColor(R.color.text_color_hint), 0.8f, equalCalorie + " (千卡)/60分钟", true);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

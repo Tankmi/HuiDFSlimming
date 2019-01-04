@@ -77,9 +77,9 @@ public class WelcomeActivity extends WelcomeBaseActivity {
     protected void selIntent(){
         //		if (PreferencesUtils.getBoolean(mContext, PreferenceEntity.KEY_IS_FIRST_OPEN,false)) {	//打开过页面
         if (PreferenceEntity.isLogin()) {
-            mHandler.sendEmptyMessageDelayed(1, 200);
+            mHandler.sendEmptyMessageDelayed(1, 1000);
         } else {
-            mHandler.sendEmptyMessageDelayed(0, 200);
+            mHandler.sendEmptyMessageDelayed(0, 1000);
         }
 //		}else{	//第一次进来，跳转到引导页
 //			mHandler.sendEmptyMessageDelayed(2, 200);

@@ -26,8 +26,7 @@ import static org.xutils.x.http;
  */
 public class GetNetData {
 
-    protected ConsultNet mConsultNet;
-
+    protected ConsultNet mConsultNet;   //回调
     private static GetNetData mGetNetDataInstance;
 
     public GetNetData() { }
@@ -92,6 +91,7 @@ public class GetNetData {
     private void postConsultListData(final String url, final int connecttype, RequestParams params)
     {
         Log.i("spoort_list", "GetNetData 数据请求地址" + url);
+        params.setMultipart(true);
         params.setUri(url);
         params.setConnectTimeout(1000 * 10);
         x.http().post(params, new Callback.CommonCallback<String>(){
@@ -102,15 +102,19 @@ public class GetNetData {
                 String data = StringUtils.replaceJson(result.toString());
                 Log.i("spoort_list", "GetNetData 数据请求结果" + data);
                 mConsultNet.paddingDatas(data, connecttype);
+
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback)
             {
-                Log.i("spoort_list", "GetNetData 数据请求失败：" + ex.getMessage().toString());
-                ex.printStackTrace();
-                if(NetUtils.isAPNType()) mConsultNet.error("数据请求失败", connecttype);
-//                mConsultNet.error(ex.getMessage().toString(), connecttype);
+                try {
+                    Log.i("spoort_list", "GetNetData 数据请求失败：" + ex.getMessage().toString());
+                    ex.printStackTrace();
+                    if(NetUtils.isAPNType()) mConsultNet.error("数据请求失败", connecttype);
+                }catch (Exception e){
+
+                }
             }
 
             @Override
@@ -124,6 +128,7 @@ public class GetNetData {
             public void onFinished()
             {
                 LOGUtils.LOG("请求完成 onFinished");
+                mConsultNet.error("aabbcconFinished", connecttype);
             }
         });
     }
@@ -137,6 +142,7 @@ public class GetNetData {
     {
 
         final RequestParams params = new RequestParams(url);
+        params.setMultipart(true);
         params.setConnectTimeout(1000 * 10);
         http().get(params, new Callback.CommonCallback<String>() {
 
@@ -152,9 +158,14 @@ public class GetNetData {
             @Override
             public void onError(Throwable ex, boolean isOnCallback)
             {
-                Log.i("spoort_list", "GetNetData 数据请求失败：" + ex.getMessage().toString());
-                ex.printStackTrace();
-                if(NetUtils.isAPNType()) mConsultNet.error("数据请求失败", connecttype);
+                try {
+                    Log.i("spoort_list", "GetNetData 数据请求失败：" + ex.getMessage().toString());
+                    ex.printStackTrace();
+                    if(NetUtils.isAPNType()) mConsultNet.error("数据请求失败", connecttype);
+
+                }catch (Exception e){
+
+                }
 
             }
 

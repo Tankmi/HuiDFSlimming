@@ -1,6 +1,7 @@
 package com.huidf.slimming.fragment.today_movement.add;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.database.Cursor;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,8 @@ import android.view.View.OnClickListener;
 
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
+import com.huidf.slimming.activity.toady_movement.TodayMovementActivity;
+import com.huidf.slimming.activity.toady_movement.TodayMovementBaseActivity;
 import com.huidf.slimming.adapter.movement.TodayMovementAddAdapter;
 import com.huidf.slimming.base.BaseFragment;
 import com.huidf.slimming.context.PreferenceEntity;
@@ -59,7 +62,11 @@ public class TodayMovementAddBaseFragment extends BaseFragment implements
 		}
 		if(mUserEntity.code == ContextConstant.RESPONSECODE_200){
 			if(type == API_INSERTSPORT){	//提交运动数据
-
+				ToastUtils.showToast(mUserEntity.msg);
+				PreferenceEntity.isRefreshHomeData = true;
+				if(mListener!=null){
+					mListener.OnButtonClickListener();
+				}
 			}
 		} else if (mUserEntity.code == ContextConstant.RESPONSECODE_310) {    //登录信息过时跳转到登录页
 			reLoading();
@@ -70,7 +77,7 @@ public class TodayMovementAddBaseFragment extends BaseFragment implements
 
 	@Override
 	public void error(String msg, int type) {
-		setLoading(false,"");
+		super.error(msg,type);
 	}
 
 
@@ -118,6 +125,7 @@ public class TodayMovementAddBaseFragment extends BaseFragment implements
         movementInfoList.add(new MovementEntity(R.drawable.icon_huaxue, "滑雪" , 8.04f,20));
         initRecycler();
     }
+
     private void initRecycler() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
 
@@ -146,7 +154,6 @@ public class TodayMovementAddBaseFragment extends BaseFragment implements
 			}
 		});
     }
-
 
 	MovementTimeSelDialogFragment playQueueFragment;
 	private FragmentManager fragmentManager;
@@ -187,6 +194,27 @@ public class TodayMovementAddBaseFragment extends BaseFragment implements
         mgetNetData.GetData(this, UrlConstant.API_INSERTSPORT, API_INSERTSPORT, params);
         setLoading(true, "");
     }
+
+    public void setOnSubmissionToadySportListener(OnSubmissionToadySportListener mListener){
+    	this.mListener = mListener;
+	}
+
+	OnSubmissionToadySportListener mListener;
+	public interface OnSubmissionToadySportListener {
+		void OnButtonClickListener ();
+	}
+
+	//并且重写onAttach
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mListener = (OnSubmissionToadySportListener ) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ "must implement OnGridViewSelectedListener");
+		}
+
+	}
 
 	@Override
 	protected void initLocation() {

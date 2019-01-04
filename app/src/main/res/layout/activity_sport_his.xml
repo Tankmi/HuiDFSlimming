@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:detmain="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/all_bg"
+    android:fitsSystemWindows="true">
+
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"/>
+
+    <ScrollView
+        android:id="@+id/scro_der_normal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="0dp"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rel_sport_history_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <RelativeLayout
+                    android:id="@+id/rel_sht_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_sht_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/line_space"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        />
+
+                    <com.huidf.slimming.view.home.sport.SportCircularView
+                        android:id="@+id/circular_sht_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_sht_calorie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:lineSpacingExtra="@dimen/line_space"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_sport_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"/>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_height="@dimen/interval_height_normal"
+                android:visibility="gone"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_lr_normal"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_weight="1"
+                    android:text="近7天"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <ImageView
+                    android:id="@+id/iv_sport_his_level_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_tb_large"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:background="@drawable/icon_sport_level_hint"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <com.huidf.slimming.view.home.weight.YCoordForWeight
+                    android:id="@+id/view_ycoord_sport_his_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_lr_small"
+                    detmain:ycoordcut="20"
+                    detmain:ycoordinate="10,100,300"
+                    detmain:ycoordraw_height="210"
+                    detmain:ycoormargin_bottom="80"/>
+
+                <HorizontalScrollView
+                    android:id="@+id/hs_sport_his_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fillViewport="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.huidf.slimming.view.home.sport.SportHistogramTable
+                            android:id="@+id/view_sport_his_days"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            />
+                    </RelativeLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin_sport_his_day_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:layout_marginRight="@dimen/margin_lr_normal"
+                android:layout_marginBottom="@dimen/margin_tb_normal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_sport_his_day_01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="@dimen/line_space"
+                    android:textColor="@color/back_sport_his_a"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <ImageView
+                    style="@style/vertical_line_style"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_sport_his_day_02"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="@dimen/line_space"
+                    android:textColor="@color/back_sport_his_a"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <ImageView
+                    style="@style/vertical_line_style"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_sport_his_day_03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="@dimen/line_space"
+                    android:textColor="@color/back_sport_his_a"
+                    android:textSize="@dimen/text_size_large"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:paddingLeft="@dimen/margin_lr_normal"
+                android:paddingTop="@dimen/margin_tb_2normal"
+                android:text="近30天"
+                android:textColor="@color/text_color_normal"
+                android:textSize="@dimen/text_size_large"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <com.huidf.slimming.view.home.weight.YCoordForWeight
+                    android:id="@+id/view_ycoord_sport_his_30days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_lr_small"
+                    detmain:ycoordcut="20"
+                    detmain:ycoordinate="10,100,300"
+                    detmain:ycoordraw_height="210"
+                    detmain:ycoormargin_bottom="80"/>
+
+                <HorizontalScrollView
+                    android:id="@+id/hs_sport_his_30days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fillViewport="true"
+                    android:overScrollMode="never"
+                    android:scrollbars="none">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.huidf.slimming.view.home.sport.SportHistogramTable
+                            android:id="@+id/view_sport_his_30days"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                    </RelativeLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lin_sport_his_30day_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:layout_marginRight="@dimen/margin_lr_normal"
+                android:layout_marginBottom="@dimen/margin_tb_normal"
+                >
+
+                <TextView
+                    android:id="@+id/tv_sport_his_30day_01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="@dimen/line_space"
+                    android:textColor="@color/back_sport_his_a"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <ImageView
+                    style="@style/vertical_line_style"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_sport_his_30day_02"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="@dimen/line_space"
+                    android:textColor="@color/back_sport_his_a"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <ImageView
+                    style="@style/vertical_line_style"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_sport_his_30day_03"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="@dimen/line_space"
+                    android:textColor="@color/back_sport_his_a"
+                    android:textSize="@dimen/text_size_large"/>
+
+            </LinearLayout>
+
+            <ImageView
+                style="@style/horizontal_line_style"
+                android:layout_height="@dimen/margin_tb_large"
+                android:background="@color/white"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_tb_normal"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/app_text_color"
+            android:textColor="@color/text_color_normal"
             android:textSize="@dimen/settings_text_size" />
 
         <ProgressBar
@@ -47,7 +47,7 @@
             android:layout_marginTop="@dimen/margin_tb_normal"
             android:layout_marginLeft="@dimen/margin_lr_large"
             android:layout_marginRight="@dimen/margin_lr_large"
-            android:textColor="@color/app_text_color_hint"
+            android:textColor="@color/text_color_hint"
             android:textSize="@dimen/text_size_small" />
 
         <LinearLayout
@@ -92,7 +92,7 @@
                     android:background="@null"
                     android:text="更新"
                     android:gravity="center"
-                    android:textColor="@color/app_text_color"
+                    android:textColor="@color/text_color_normal"
                     android:textSize="@dimen/settings_text_size" />
             </LinearLayout>
         </LinearLayout>

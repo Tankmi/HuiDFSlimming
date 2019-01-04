@@ -17,9 +17,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
+        <!-- 高德-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="82a76a54f6008bb4e08896a8980c96fd"/>
+        <service android:name="com.amap.api.location.APSService"></service>
+        <!-- 高德-->
         <activity
             android:name=".activity.WelcomeActivity"
             android:configChanges="orientation|screenSize"
@@ -36,6 +39,19 @@
                 <data android:scheme="znn" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.HomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <service android:name=".service.LocationService"></service>
+        <service android:name=".service.RunService"></service>
+        <activity
+            android:name=".activity.toady_movement.run.RunActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
         <!-- 登录 -->
         <activity
             android:name=".activity.user.SelLoginActivity"
@@ -45,14 +61,49 @@
             android:name=".activity.personal_center.change_phone_number.ChangePhoneNumberActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
+
         <activity
-            android:name=".activity.HomeActivity"
-            android:launchMode="singleTask"
+            android:name=".activity.personal_center.UserInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <activity
-            android:name=".activity.personal_center.UserInfoActivity"
+            android:name=".web.activity.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.home.foodsport_scheme.FoodCalorieActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.ranking_list.RankingListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.home.foodsport_scheme.FoodSportSchemeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.home.sleep.SleepHisActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.home.sport.SportHisActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.home.weight.WeightActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".activity.personal_center.joingroup.InputActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
@@ -63,11 +114,6 @@
 
         <activity
             android:name=".activity.toady_movement.TodayMovementActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-
-        <activity
-            android:name=".activity.toady_movement.run.RunActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
@@ -200,6 +246,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <!--用于申请调用A-GPS模块-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
-    <!-- share SD -->
+    <!-- 弹窗权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW"/>
 </manifest>

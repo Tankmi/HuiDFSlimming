@@ -13,6 +13,7 @@ import com.huidf.slimming.base.BaseFragment;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.view.loading.VerticalRuler;
 
+import huitx.libztframework.utils.MathUtils;
 import huitx.libztframework.utils.PreferencesUtils;
 
 import static android.R.attr.value;
@@ -58,25 +59,29 @@ public class GuidanceHeightFragment extends BaseFragment {
 	protected void initLocation() {
 		mLayoutUtil.setIsFullScreen(true);
 		mLayoutUtil.drawViewRBLayout(iv_guidance_height, 132, 132, -1, -1, 140, -1);
-		mLayoutUtil.drawViewRBLayout(rel_guidance_height_view, -1, 624, -1, -1, -1, -1);
+
+		mLayoutUtil.drawViewRBLayout(rel_guidance_height_view, -1, 643, -1, -1, -1, -1);
 		mLayoutUtil.drawViewDefaultLayout(rel_guidance_height_view, mLayoutUtil.getWidgetHeight(622), -1,
-				(int) (mLayoutUtil.getScreenWidth() - mLayoutUtil.getWidgetHeight(622))
+				(int) (mLayoutUtil.getScreenWidth() - mLayoutUtil.getWidgetHeight(622) + mLayoutUtil.getWidgetHeight(175))
 				, -1, -1, -1);
-		mLayoutUtil.drawViewDefaultLayout(view_guidance_height, mLayoutUtil.getWidgetHeight(622), mLayoutUtil.getWidgetHeight(175), 0, -1, mLayoutUtil.getWidgetHeight(311-87.5f), -1);
-		mLayoutUtil.drawViewRBLayout(rel_guidance_height_view_value, 0, 624, -1, 454.5f, -1, -1);
+//		mLayoutUtil.drawViewRBLayout(rel_guidance_height_view, -1, 624, -1, -1, -1, -1);
+//		mLayoutUtil.drawViewDefaultLayout(rel_guidance_height_view, mLayoutUtil.getWidgetHeight(622), -1,
+//				(int) (mLayoutUtil.getScreenWidth() - mLayoutUtil.getWidgetHeight(622) + mLayoutUtil.getWidgetHeight(175))
+//				, -1, -1, -1);
+		mLayoutUtil.drawViewDefaultLayout(view_guidance_height, mLayoutUtil.getWidgetHeight(622),  mLayoutUtil.getWidgetHeight(175), 0, -1, mLayoutUtil.getWidgetHeight(311-87.5f), -1);
+//		mLayoutUtil.drawViewRBLayout(rel_guidance_height_view_value, 0, 624, -1, 454.5f, -1, -1);
+		mLayoutUtil.drawViewRBLayout(rel_guidance_height_view_value, 0, 624, -1, 380, -1, -1);
 	}
 
 	@Override
 	public void onResume()
 	{
 		super.onResume();
-
 		int sex  = Integer.parseInt(PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_SEX, "1"));
 		if(sex == 1) iv_guidance_height.setBackgroundResource(R.drawable.iv_man_bef);
 		else iv_guidance_height.setBackgroundResource(R.drawable.iv_woman_bef);
 
-		String height = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_HEIGHT, 160 + "");
-		mHeight = Integer.parseInt(height);
+		mHeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT,160);
 		view_guidance_height.initViewParam(mHeight, 240, 100, 10);	//设置默认值，最大值，间隔
 		//设置监听
 		view_guidance_height.setValueChangeListener(new VerticalRuler.OnValueChangeListener(){

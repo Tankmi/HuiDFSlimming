@@ -11,17 +11,9 @@
     <color name="title_color_orange_name">#f37811</color>
     <!-- 标题 -->
 
-    <!-- 全局字体颜色 -->
-    <color name="app_text_color">#ff1a1a1a</color>
-    <!-- 提示字体颜色 -->
-    <color name="app_text_color_hint">#ff999999</color>
     <color name="app_text_color_warn">#ffffce6b</color>
     <!-- 状态栏默认背景色 -->
     <color name="status_bar_default_bg">#ffffffff</color>
-    <!-- 线条默认颜色  可改 -->
-    <color name="line_bg">#ffd0d0d0</color>
-    <!-- 虚线默认颜色  可改 -->
-    <color name="line_bg_e1e1e1">#e1e1e1</color>
 
     <color name="sel_login_btn">#22d7bb</color>
     <color name="main_color">#22d7bb</color>
@@ -29,6 +21,22 @@
     <color name="back_run_color">#584f60</color>
 
     <color name="navpage">#FFE1E8EB</color>
+
+    <!-- 体重 -->
+    <color name="weight_main_color">#64e3cf</color>
+
+    <!-- 运动历史记录 -->
+    <color name="back_sport_his_a">#22d7bb</color>
+    <color name="back_sport_his_b">#ffc25a</color>
+    <color name="back_sport_his_c">#ec776d</color>
+
+    <!-- 饮食运动方案 -->
+    <color name="foodscheme_text_greencolor">#349200</color>
+    <color name="foodscheme_text_redcolor">#ed6942</color>
+    <color name="back_breakfast">#fd9c11</color>
+    <color name="back_lunch">#ed6942</color>
+    <color name="back_dinner">#349200</color>
+    <color name="back_sport_scheme_item">#f6fee9</color>
 
     <!-- 更新 -->
     <color name="back_update_progress">#e7e7e7</color>

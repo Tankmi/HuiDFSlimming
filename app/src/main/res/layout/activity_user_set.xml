@@ -257,7 +257,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:text="常见问题"
+                    android:text="问题反馈"
                     android:textColor="@color/text_color_normal"
                     android:textSize="@dimen/text_size_normal"/>
 

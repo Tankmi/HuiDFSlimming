@@ -1,5 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:detmain="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,26 +24,50 @@
             android:orientation="vertical">
 
             <LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:detmain="http://schemas.android.com/apk/res-auto"
+                android:layout_marginTop="@dimen/margin_tb_small"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                android:layout_marginRight="@dimen/margin_lr_normal"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="单位: KG"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="近7天"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <com.huidf.slimming.view.home.weight.YCoordForWeight
                     android:id="@+id/view_ycoord_weight_his"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_lr_small"
                     detmain:ycoordcut="20"
-                    detmain:ycoordinate="30kg,60kg,100kg"
-                    detmain:ycoordraw_height="198"
-                    detmain:ycoormargin_bottom="103"/>
+                    detmain:ycoordinate="30,60,100"
+                    detmain:ycoordraw_height="208"
+                    detmain:ycoormargin_bottom="70"/>
 
                 <HorizontalScrollView
                     android:id="@+id/horview_weight_his"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
                     android:cacheColorHint="#00000000"
                     android:divider="@null"
                     android:fadingEdge="none"
@@ -56,7 +81,155 @@
                         <com.huidf.slimming.view.home.weight.WeightHistoryView
                             android:id="@+id/view_weight_hsi"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            detmain:ycoordinate="30,60,100"
+                            detmain:ycoordraw_height="208"
+                            detmain:ycoormargin_bottom="70"
+                            />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <ImageView
+                android:background="@color/all_bg"
+                android:layout_height="@dimen/margin_tb_normal"
+               style="@style/horizontal_line_style"/>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                android:layout_marginRight="@dimen/margin_lr_normal"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="单位: KG"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="近30天"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.huidf.slimming.view.home.weight.YCoordForWeight
+                    android:id="@+id/view_ycoord_weight_his_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_lr_small"
+                    detmain:ycoordcut="20"
+                    detmain:ycoordinate="30,60,100"
+                    detmain:ycoordraw_height="208"
+                    detmain:ycoormargin_bottom="70"/>
+
+                <HorizontalScrollView
+                    android:id="@+id/horview_weight_his_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:cacheColorHint="#00000000"
+                    android:divider="@null"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.huidf.slimming.view.home.weight.WeightHistoryView
+                            android:id="@+id/view_weight_hsi_month"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            detmain:ycoordinate="30,60,100"
+                            detmain:ycoordraw_height="208"
+                            detmain:ycoormargin_bottom="70"
+                            />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <ImageView
+                android:background="@color/all_bg"
+                android:layout_height="@dimen/margin_tb_normal"
+               style="@style/horizontal_line_style"/>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/margin_tb_normal"
+                android:layout_marginLeft="@dimen/margin_lr_normal"
+                android:layout_marginRight="@dimen/margin_lr_normal"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="单位: KG"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:text="近3个月"
+                    android:textColor="@color/text_color_normal"
+                    android:textSize="@dimen/text_size_small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.huidf.slimming.view.home.weight.YCoordForWeight
+                    android:id="@+id/view_ycoord_weight_his_3month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_lr_small"
+                    detmain:ycoordcut="20"
+                    detmain:ycoordinate="30,60,100"
+                    detmain:ycoordraw_height="208"
+                    detmain:ycoormargin_bottom="70"/>
+
+                <HorizontalScrollView
+                    android:id="@+id/horview_weight_his_3month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_lr_normal"
+                    android:cacheColorHint="#00000000"
+                    android:divider="@null"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.huidf.slimming.view.home.weight.WeightHistoryView
+                            android:id="@+id/view_weight_hsi_3month"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            detmain:ycoordinate="30,60,100"
+                            detmain:ycoordraw_height="208"
+                            detmain:ycoormargin_bottom="70"
+                            />
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -67,7 +240,8 @@
 
     <FrameLayout
         android:id="@+id/fram_user_setting"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

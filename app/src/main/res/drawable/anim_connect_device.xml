@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
+    
+    <item android:drawable="@drawable/anim_device_connect_01" android:duration="330"></item>
+    <item android:drawable="@drawable/anim_device_connect_02" android:duration="330"></item>
+    <item android:drawable="@drawable/anim_device_connect_03" android:duration="330"></item>
+    <item android:drawable="@drawable/anim_device_connect_04" android:duration="330"></item>
+    <item android:drawable="@drawable/anim_device_connect_05" android:duration="330"></item>
+
+</animation-list>
