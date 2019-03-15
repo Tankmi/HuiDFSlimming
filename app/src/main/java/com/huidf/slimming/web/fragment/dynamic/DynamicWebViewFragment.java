@@ -13,6 +13,11 @@ import com.huidf.slimming.web.MyWebViewUtil;
 import com.huidf.slimming.web.activity.WebViewActivity;
 import com.huidf.slimming.web.fragment.WebViewBaseFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.PreferencesUtils;
 
@@ -54,13 +59,19 @@ public class DynamicWebViewFragment extends WebViewBaseFragment implements View.
 		super.initLogic();
 		mWebView.getSettings().setSupportZoom(false);// 支持缩放
 		mWebView.getSettings().setBuiltInZoomControls(false);// 显示放大缩小[/mw_shl_code]
+
+		EventBus.getDefault().register(this);
+	}
+
+	@Subscribe(threadMode = ThreadMode.BACKGROUND)
+	public void onEventBusRefresh(Boolean state){
+		PreferenceEntity.isRefreshDynamic = state;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		if(PreferenceEntity.isRefreshDynamic){
-			LOG("刷新动态列表");
 			mWebView.reload();
 		}
 //		if(isReload)mWebView.reload();
@@ -149,4 +160,12 @@ public class DynamicWebViewFragment extends WebViewBaseFragment implements View.
 		playQueueFragment.show(fragmentManager,MOVEMENT_TIME_TAG);
 	}
 
+	@Override
+	protected void destroyClose() {
+		super.destroyClose();
+		if(EventBus.getDefault().isRegistered(this)){
+		    LOGUtils.LOG("解除EventBus 注册");
+			EventBus.getDefault().unregister(this);
+		}
+	}
 }

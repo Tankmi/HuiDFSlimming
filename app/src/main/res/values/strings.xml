@@ -3,6 +3,13 @@
     <string name="login_hint_title">登录信息过时</string>
     <string name="login_hint_body">请先登录</string>
 
+    <!-- 动态 -->
+    <string name="dynamic_input_dismiss_hint">仅自己可见</string>
+    <string name="dynamic_input_hint">请输入此刻的想法</string>
+    <string name="picture_camera">拍照</string>
+    <string name="picture_photo">相册</string>
+    <string name="picture_picture_num">已添加 %d/%d 张图片</string>
+
     <!-- 微信 start -->
     <string name="errcode_success">发送成功</string>
     <string name="errcode_cancel">发送取消</string>

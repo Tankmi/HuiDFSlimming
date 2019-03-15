@@ -7,26 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.huidf.slimming.R;
 import com.huidf.slimming.adapter.sel_photo.SimpleItemTouchHelperCallback;
-import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.entity.home.sport.SportHisEntity;
 import com.huidf.slimming.entity.today_movement.MovementEntity;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 
 import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.LayoutUtil;
 import huitx.libztframework.utils.NewWidgetSetting;
-import huitx.libztframework.utils.PreferencesUtils;
-import huitx.libztframework.utils.UnitConversion;
 
 public class SportHistoryAdapter extends RecyclerView.Adapter<SportHistoryAdapter.MyViewHolder> implements SimpleItemTouchHelperCallback.ItemTouchHelperAdapter {
 

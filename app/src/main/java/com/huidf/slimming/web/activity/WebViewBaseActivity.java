@@ -301,7 +301,7 @@ public class WebViewBaseActivity extends BaseFragmentActivity {
     private boolean filtrationUrl(String mUrl) {
         Intent intent = null;
         if (mUrl.contains(HtmlUrlConstant.HTML_CUT_GOBACK) || mUrl.contains(HtmlUrlConstant.HTML_CUT_RELEASEDYNAMICSUCCESS)) {  //返回上一级
-            if (mUrl.contains(HtmlUrlConstant.HTML_CUT_RELEASEDYNAMICSUCCESS)) {
+            if (mUrl.contains(HtmlUrlConstant.HTML_CUT_RELEASEDYNAMICSUCCESS)) {    //动态发布成功时，刷新首页的动态列表
                 PreferenceEntity.isRefreshDynamic = true;
                 PreferenceEntity.isGoDynamicView = true;
             }

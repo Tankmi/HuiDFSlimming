@@ -24,7 +24,7 @@ public class TransitionTime {
 
     public static TransitionTime getInstance()
     {
-        synchronized (UnitConversion.class) {
+        synchronized (NumberConversion.class) {
             if (mTransitionTime == null) {
                 mTransitionTime = new TransitionTime();
                 endDate = new Date(System.currentTimeMillis());

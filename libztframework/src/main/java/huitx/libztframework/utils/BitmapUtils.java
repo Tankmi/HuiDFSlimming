@@ -107,7 +107,7 @@ public class BitmapUtils {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(path,options);
-		options.inSampleSize = calculateInSampleSize(options,480,800);
+		options.inSampleSize = calculateInSampleSize(options,480,850);
 		options.inJustDecodeBounds = false;
 		Bitmap bitmap = BitmapFactory.decodeFile(path,options);	//压缩对应的倍数
 		if(bitmap == null){

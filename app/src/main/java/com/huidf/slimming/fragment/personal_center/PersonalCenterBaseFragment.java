@@ -123,18 +123,18 @@ public class PersonalCenterBaseFragment extends BaseFragment implements
     {
         if (userInfo == null) userInfo = UserEntity.getUserInfo();
         NewWidgetSetting.setViewText(tv_setti_name,userInfo.name,"暂无账户信息");
-        NewWidgetSetting.setViewText(tv_setti_phone, "手机号：", userInfo.account, "暂未绑定手机号", true);
+        NewWidgetSetting.setViewText(tv_setti_phone, "手机号：", userInfo.account, "暂未绑定手机号", true,false);
         NewWidgetSetting.setViewText(tv_sett_name_value, userInfo.name,"点击设置用户名");
-        NewWidgetSetting.setViewText(tv_sett_age_value, "岁 ", userInfo.age, "暂无信息", false);
-        NewWidgetSetting.setViewText(tv_sett_dynamic_value, "条 ", userInfo.count, "0", false);
-        NewWidgetSetting.setViewText(tv_sett_height_value, " cm", userInfo.height, "暂无信息",false);
-        NewWidgetSetting.setViewText(tv_sett_weight_value, " kg", userInfo.latestWeight, "暂无信息",false);
-        NewWidgetSetting.setViewText(tv_sett_bmi_value," kg/㎡", userInfo.bmi, "暂无信息" ,false);
-        NewWidgetSetting.setViewText(tv_sett_target_weight_value," kg", userInfo.targetWeight, "暂无信息" ,false);
+        NewWidgetSetting.setViewText(tv_sett_age_value, "岁 ", userInfo.age, "暂无信息", false,true);
+        NewWidgetSetting.setViewText(tv_sett_dynamic_value, "条 ", userInfo.count, "0", false,false);
+        NewWidgetSetting.setViewText(tv_sett_height_value, " cm", userInfo.height, "暂无信息",false,true);
+        NewWidgetSetting.setViewText(tv_sett_weight_value, " kg", userInfo.latestWeight, "暂无信息",false,true);
+        NewWidgetSetting.setViewText(tv_sett_bmi_value," kg/㎡", userInfo.bmi, "暂无信息" ,false,false);
+        NewWidgetSetting.setViewText(tv_sett_target_weight_value," kg", userInfo.targetWeight, "暂无信息" ,false,true);
         String time = NewWidgetSetting.filtrationStringbuffer(userInfo.targetTime,"");
         tv_sett_target_reach_time_value.setText((time == null || time.equals("")?"未知":tranTimes.convert(time,"yyyy年M月d日")));
 //        NewWidgetSetting.setViewText(tv_sett_target_reach_time_value, tranTimes.convert(time,"yyyy年M月d日"), "暂无信息");
-        NewWidgetSetting.setViewText(tv_sett_step_num_value," 分", userInfo.sumSportTime, "暂无信息" ,false);
+        NewWidgetSetting.setViewText(tv_sett_step_num_value," 分", userInfo.sumSportTime, "暂无信息" ,false,true);
 
         setSexHeader(userInfo.sex, userInfo.head);
 

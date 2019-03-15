@@ -148,8 +148,10 @@ public class SportHisBaseActivity extends BaseFragmentActivityForAnnotation impl
 
         setLevel(level);
         circular_sht_level.setData(level, schedules);
-        tv_sht_duration.setText("时长\n" + time + "分钟");
-        tv_sht_calorie.setText("卡路里\n" + calorie + "千卡");
+        tv_sht_duration.setText("时长");
+        NewWidgetSetting.setIdenticalLineTvColor(tv_sht_duration, -999, 1.11f,time + "分钟",true);
+        tv_sht_calorie.setText("卡路里");
+        NewWidgetSetting.setIdenticalLineTvColor(tv_sht_calorie, -999, 1.11f,calorie + "千卡",true);
         if(dataEntity != null && dataEntity.list2 != null){
             LinkedList<SportHisEntity.Data.SportGenre> mLsits = new LinkedList<>();
             for(SportHisEntity.Data.SportGenre data: dataEntity.list2){
@@ -270,7 +272,8 @@ public class SportHisBaseActivity extends BaseFragmentActivityForAnnotation impl
         mLayoutUtil.drawViewRBLayout(tv_sht_duration, 0, 0, 0, 0, 61, 0);
         tv_sht_duration.setMinWidth(mLayoutUtil.getWidgetWidth(170));
         mLayoutUtil.drawViewRBLayout(tv_sht_calorie, 239, 0, 0, 0, 0, 0);
-        mLayoutUtil.drawViewRBLayout(circular_sht_level, 272, 272, 0, 0, 0, 0);
+//        mLayoutUtil.drawViewRBLayout(circular_sht_level, 272, 272, 0, 0, 0, 0);
+        mLayoutUtil.drawViewRBLayout(circular_sht_level, 337, 337, 0, 0, 0, 0);
 
         mLayoutUtil.drawViewRBLinearLayout(iv_sport_his_level_days, 239, 20, -1, -1, -1, 0);
 

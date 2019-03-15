@@ -13,6 +13,7 @@ import android.view.View;
 import com.huidf.slimming.R;
 import com.huidf.slimming.context.HtmlUrlConstant;
 import com.huidf.slimming.context.PreferenceEntity;
+import com.huidf.slimming.dynamic.view.CreateDynamicActivity;
 import com.huidf.slimming.web.activity.WebViewActivity;
 
 
@@ -71,9 +72,10 @@ public class HomeActivity extends HomeBaseActivity {
    public void onClick(View view) {
        switch(view.getId()){
            case R.id.lin_tab_home_market:
-               Intent intent = new Intent(HomeActivity.this, WebViewActivity.class);
-               intent.putExtra("url", HtmlUrlConstant.HTML_RELEASEDYNAMIC);
-               intent.putExtra("is_refresh", false);
+               Intent intent = new Intent(HomeActivity.this, CreateDynamicActivity.class);
+//               Intent intent = new Intent(HomeActivity.this, WebViewActivity.class);
+//               intent.putExtra("url", HtmlUrlConstant.HTML_RELEASEDYNAMIC);
+//               intent.putExtra("is_refresh", false);
                startActivity(intent);
                break;
        }

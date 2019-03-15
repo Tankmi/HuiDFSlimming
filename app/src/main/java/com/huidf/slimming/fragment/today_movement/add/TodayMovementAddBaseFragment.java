@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +13,6 @@ import android.view.View.OnClickListener;
 
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
-import com.huidf.slimming.activity.toady_movement.TodayMovementActivity;
-import com.huidf.slimming.activity.toady_movement.TodayMovementBaseActivity;
 import com.huidf.slimming.adapter.movement.TodayMovementAddAdapter;
 import com.huidf.slimming.base.BaseFragment;
 import com.huidf.slimming.context.PreferenceEntity;
@@ -31,7 +28,6 @@ import java.util.LinkedList;
 import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.ToastUtils;
-import huitx.libztframework.utils.UnitConversion;
 
 @SuppressLint("ValidFragment")
 public class TodayMovementAddBaseFragment extends BaseFragment implements

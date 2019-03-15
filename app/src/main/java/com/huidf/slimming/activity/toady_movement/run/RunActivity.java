@@ -5,15 +5,21 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -42,7 +48,9 @@ import huitx.libztframework.utils.ToastUtils;
 @ContentView(R.layout.activity_run)
 public class RunActivity extends RunBaseActivity {
 
-    private Intent serviceLocationIntent = null,serviceIntent = null;
+    /** 后台保活service */
+//    private Intent serviceLocationIntent = null;
+
 
     public RunActivity()
     {
@@ -55,28 +63,21 @@ public class RunActivity extends RunBaseActivity {
         super.onCreate(savedInstanceState);
         mMapView.onCreate(savedInstanceState);
 
-        serviceLocationIntent = new Intent();
-        serviceLocationIntent.setClass(this,LocationService.class);
-        serviceIntent = new Intent();
-        serviceIntent.setClass(this,RunService.class);
+//        serviceLocationIntent = new Intent();
+//        serviceLocationIntent.setClass(this,LocationService.class);
     }
 
     @Override
-    protected void initHead()
-    {
+    protected void initHead() {
         setStatusBarColor(false, true, mContext.getResources().getColor(R.color.back_run_color));
         mBtnLeft.setBackgroundResource(R.drawable.btn_back_white);
         setTitleBackgroudColor(R.color.back_run_color);
         setTittle("正在跑步", R.color.white);
         setRightButtonText("完成", R.color.main_color);
         setHideTitleLine();
-
         if (mHandler == null) mHandler = new MyHandler(this);
 
         mRunningUtil = RunningUtil.getInstance();
-        mRunningUtil.setRunnintTimeObject(this);
-        mRunningUtil.setUserInfo(MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f),
-                MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 170f));
     }
 
     @Override
@@ -90,19 +91,10 @@ public class RunActivity extends RunBaseActivity {
     {
         super.onResume();
         mMapView.onResume();
-        if (null != serviceLocationIntent) {
-            stopService(serviceLocationIntent);
-        }
-        if (null != serviceIntent) {
-            stopService(serviceIntent);
-
-            mRunningUtil = RunningUtil.getInstance();
-            mRunningUtil.setRunnintTimeObject(this);
-            mRunningUtil.setUserInfo(MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f),
-                    MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 170f));
-            if(mRunningUtil.getRunningState() == 0)  continueLocation(true);
-        }
-
+//        if (null != serviceLocationIntent) {
+//            stopService(serviceLocationIntent);
+//        }
+        isVisible = true;
     }
 
 
@@ -122,11 +114,11 @@ public class RunActivity extends RunBaseActivity {
                 break;
             case R.id.btn_runc_pause:    //暂停
                 runningAnim(mRunningUtil.RUNNING_PAUSE);
-                continueLocation(false);
+//                continueLocation(false);
                 break;
             case R.id.btn_runc_continue: //继续
                 runningAnim(mRunningUtil.RUNNING_CONTINUE);
-                continueLocation(true);
+//                continueLocation(true);
                 break;
             case R.id.btn_runc_finish:   //结束
                 runningFinish();
@@ -149,9 +141,17 @@ public class RunActivity extends RunBaseActivity {
     private void canFinish()
     {
         runningAnim(mRunningUtil.RUNNING_PAUSE);
-        continueLocation(false);
+//        continueLocation(false);
 
-        final String RunReminder = mRunningUtil.canFinish();
+//        final String RunReminder = mRunningUtil.canFinish();
+        final String RunReminder;
+        if(mRunService != null) {
+            RunReminder = mRunService.canFinish();
+        }else {
+            RunReminder = "运动服务出错";
+//            return;
+        }
+        LOG(RunReminder);
         final String hint;
         hint = RunReminder.equals("")?"当前运动数据有效，确定保存数据并退出吗？":("无法保存记录，因为" + RunReminder + "。确定要放弃吗？");
         new AlertDialog
@@ -174,7 +174,7 @@ public class RunActivity extends RunBaseActivity {
                     public void onClick(DialogInterface dialogInterface, int i)
                     {
                         runningAnim(mRunningUtil.RUNNING_CONTINUE);
-                        continueLocation(true);
+//                        continueLocation(true);
                     }
                 })
                 .setCancelable(false)
@@ -186,7 +186,15 @@ public class RunActivity extends RunBaseActivity {
     private void runningFinish(){
         setRunningMapEnable(false);
 
-        String RunReminder = mRunningUtil.canFinish();
+        String RunReminder;
+        if(mRunService != null) {
+            RunReminder = mRunService.canFinish();
+        }else {
+            RunReminder = "运动服务出错";
+//            return;
+        }
+        LOG(RunReminder);
+
         if(RunReminder.equals("")){ //运动有效，保存运动数据
             commitRunningInfo();
         }else{
@@ -214,7 +222,7 @@ public class RunActivity extends RunBaseActivity {
 
     private void ShowOrHideMapView()
     {
-        if (rel_run_map.getVisibility()==View.VISIBLE) {
+        if (rel_run_map.getVisibility()==View.VISIBLE) {    //隐藏地图view
             rel_run_map.setVisibility(View.GONE);
 
             setStatusBarColor(false, true, mContext.getResources().getColor(R.color.back_run_color));
@@ -223,7 +231,7 @@ public class RunActivity extends RunBaseActivity {
             setTittle("正在跑步", R.color.white);
             setRightButtonText("完成", R.color.main_color);
             setHideTitleLine();
-        } else {
+        } else {    //显示地图view
             rel_run_map.setVisibility(View.VISIBLE);
             drawMapLine();
 
@@ -255,14 +263,15 @@ public class RunActivity extends RunBaseActivity {
     protected void pauseClose()
     {
         super.pauseClose();
+        isVisible = false;
         mMapView.onPause();
-        if (!isRunfinish && null != serviceLocationIntent) {
-            startService(serviceLocationIntent);
-        }
-        if (!isRunfinish && null != serviceIntent) {
-            startService(serviceIntent);
-            continueLocation(false);
-        }
+//        if (!isRunfinish && null != serviceLocationIntent) {
+//            startService(serviceLocationIntent);
+//        }
+//        if (!isRunfinish && null != serviceIntent) {
+//            startService(serviceIntent);
+//            continueLocation(false);
+//        }
 //        //启动后台定位，第一个参数为通知栏ID，建议整个APP使用一个
 //        if (mlocationClient != null) {
 //            mlocationClient.enableBackgroundLocation(2001, buildNotification());
@@ -277,12 +286,12 @@ public class RunActivity extends RunBaseActivity {
         if (mRunningUtil != null) {
             mRunningUtil.closeRunning();
         }
-        if (null != serviceLocationIntent) {
-            stopService(serviceLocationIntent);
-        }
-        if (null != serviceIntent) {
-            stopService(serviceIntent);
-        }
+//        if (null != serviceLocationIntent) {
+//            stopService(serviceLocationIntent);
+//        }
+//        if (null != serviceIntent) {
+//            stopService(serviceIntent);
+//        }
         if (mlocationClient != null) {
             mlocationClient.stopLocation();
 //            //关闭后台定位，参数为true时会移除通知栏，为false时不会移除通知栏，但是可以手动移除
@@ -291,6 +300,17 @@ public class RunActivity extends RunBaseActivity {
             mlocationClient = null;
         }
         mMapView.onDestroy();
+
+        if(mRunService!=null){
+            try{
+                unbindService(mServiceConnection);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
+
+
+
 
 }

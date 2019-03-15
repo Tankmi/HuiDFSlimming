@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/lin_select_picture_main"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/lin_selpic_camera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_lr_23"
+            android:layout_marginTop="@dimen/margin_tb_12"
+            android:layout_marginRight="@dimen/margin_lr_23"
+            android:layout_marginBottom="@dimen/margin_tb_12"
+            android:layout_weight="1"
+            android:background="@drawable/back_main_color_90_draw"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_selpic_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_tb_normal"
+                android:paddingBottom="@dimen/margin_tb_normal"
+                android:text="@string/picture_camera"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_15"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lin_selpic_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_lr_23"
+            android:layout_marginRight="@dimen/margin_lr_23"
+            android:layout_marginTop="@dimen/margin_tb_12"
+            android:layout_marginBottom="@dimen/margin_tb_12"
+            android:layout_weight="1"
+            android:background="@drawable/back_main_color_90_draw"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_selpic_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_tb_normal"
+                android:paddingBottom="@dimen/margin_tb_normal"
+                android:text="@string/picture_photo"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_15"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_selpic_list"
+        android:layout_marginLeft="@dimen/margin_lr_23"
+        android:layout_marginRight="@dimen/margin_lr_23"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_selpic_nums"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_tb_xlarge"
+        android:layout_marginBottom="@dimen/margin_tb_2normal"
+        android:gravity="center"
+        android:text="@string/picture_picture_num"
+        android:textColor="@color/text_color_hint"
+        android:textSize="@dimen/text_size_14"
+        />
+
+</LinearLayout>

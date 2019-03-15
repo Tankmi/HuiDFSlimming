@@ -10,6 +10,7 @@ import com.huidf.slimming.R;
 import com.huidf.slimming.base.BaseFragment;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.view.loading.RadioHorizonalRuler;
+import com.huidf.slimming.view.loading.RadioHorizonalRulerDecimals;
 
 import huitx.libztframework.utils.MathUtils;
 import huitx.libztframework.utils.PreferencesUtils;
@@ -25,7 +26,7 @@ public class GuidanceWeightFragment extends BaseFragment{
 
 	private ImageView iv_guidance_weight;
 	private TextView tv_guidance_weight;
-	private RadioHorizonalRuler view_guidance_weight;
+	private RadioHorizonalRulerDecimals view_guidance_weight;
 	private TextView tv_guidance_weight_value;
 
 	private int sex = -1;
@@ -70,17 +71,18 @@ public class GuidanceWeightFragment extends BaseFragment{
 		if(sex == 1) iv_guidance_weight.setBackgroundResource(R.drawable.iv_man_bef);
 		else iv_guidance_weight.setBackgroundResource(R.drawable.iv_woman_bef);
 
-//		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
-		mWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50);
+//		mWeight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50);
+		mWeight = PreferencesUtils.getFloat(mContext, PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50.0f);
 		float height = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 100) * 0.01f;
 		int minWeight = (int) (height*height*15.5f);
 
 		view_guidance_weight.initViewParam(mWeight<minWeight?minWeight:mWeight, 200, minWeight, 10);	//设置默认值，最大值，最小值，间隔
+//		view_guidance_weight.initViewParam(50.1f, 70.7f, 20.1f, 10);	//设置默认值，最大值，最小值，间隔
 		//设置监听
-		view_guidance_weight.setValueChangeListener(new RadioHorizonalRuler.OnValueChangeListener(){
+		view_guidance_weight.setValueChangeListener(new RadioHorizonalRulerDecimals.OnValueChangeListener(){
 
 			@Override
-			public void onValueChange(int value) {
+			public void onValueChange(float value) {
 				mWeight = value;
 				tv_guidance_weight_value.setText(String.valueOf(value) + "KG");
 			}
@@ -89,10 +91,10 @@ public class GuidanceWeightFragment extends BaseFragment{
 		tv_guidance_weight_value.setText(view_guidance_weight.getValue() + "KG");
 	}
 
-	private int mWeight;
+	private float mWeight;
 	/** 保存数据并确定是否可以正常进行下一步 */
 	public boolean isNext(){
-		PreferencesUtils.putString(mContext, PreferenceEntity.KEY_USER_INITIAL_WEIGHT, mWeight + "");
+		PreferencesUtils.putFloat(mContext, PreferenceEntity.KEY_USER_INITIAL_WEIGHT, mWeight);
 		return true;
 
 	}

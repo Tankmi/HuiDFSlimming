@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.huidf.slimming.dynamic.InputView xmlns:android="http://schemas.android.com/apk/res/android"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="match_parent"
+                                      android:background="@color/white"
+                                      android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/et_cd_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="top|left"
+            android:hint="@string/dynamic_input_hint"
+            android:padding="@dimen/et_padding_10"
+            android:textColor="@color/text_color_normal"
+            android:textColorHint="@color/text_color_undertint"
+            android:textSize="@dimen/text_size_15"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:id="@+id/lin_cd_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_lr_small"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/margin_lr_11"
+                android:paddingRight="@dimen/margin_lr_11">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dynamic_input_dismiss_hint"
+                    android:visibility="gone"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/text_size_15"/>
+
+                <TextView
+                    android:id="@+id/tv_cdh_words"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="0/2000"
+                    android:textColor="@color/text_color_hint"
+                    android:textSize="@dimen/content_text_size13"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_line_cd"
+                style="@style/horizontal_line_style"
+                android:layout_below="@id/lin_cd_hint"
+                />
+
+            <RadioGroup
+                android:id="@+id/rg_cdv_title_sel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_line_cd"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_picture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableTop="@drawable/btn_dynamic_picture_draw"
+                    android:drawablePadding="-20dp"/>
+
+                <RadioButton
+                    android:id="@+id/rb_face"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableTop="@drawable/btn_dynamic_emoji_draw"
+                    android:drawablePadding="-20dp"/>
+
+            </RadioGroup>
+
+            <ImageView
+                android:id="@+id/iv_line_cd1"
+                style="@style/horizontal_line_style"
+                android:layout_below="@id/rg_cdv_title_sel"
+                />
+
+            <RelativeLayout
+                android:id="@+id/ll_facechoose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_line_cd1"
+                android:visibility="gone">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_contains"
+                    android:layout_width="match_parent"
+                    android:layout_height="102dip"
+                    android:layout_marginTop="@dimen/margin_tb_normal">
+                </android.support.v4.view.ViewPager>
+
+                <LinearLayout
+                    android:id="@+id/iv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/vp_contains"
+                    android:layout_marginTop="@dimen/margin_tb_normal"
+                    android:layout_marginBottom="@dimen/margin_tb_normal"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                </LinearLayout>
+            </RelativeLayout>
+
+            <include
+                layout="@layout/view_select_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_line_cd1"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+</com.huidf.slimming.dynamic.InputView>

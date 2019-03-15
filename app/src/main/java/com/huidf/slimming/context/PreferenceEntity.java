@@ -13,6 +13,9 @@ import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.PreferencesUtils;
 
 public class PreferenceEntity extends LibPreferenceEntity{
+	/** 标记是否初始化过icon */
+	public static boolean isInitIcons;
+
 //	/** 本地缓存地址 mnt/sdcard/huidf_doc */
 //	public static final String KEY_CACHE_PATH = "/huidf_slimming";
 	// 清除文件夹里面的文件！
@@ -51,9 +54,9 @@ public class PreferenceEntity extends LibPreferenceEntity{
 		PreferencesUtils.putInt(ApplicationData.context, KEY_APP_UPDATE_VERSION, data.version );
 //		PreferencesUtils.putString(ApplicationData.context, KEY_APP_WX_QQ_UNIONID, NewWidgetSetting.getInstance().filtrationStringbuffer(data.unionId,"0"));
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_SIGNATURE, "" + NewWidgetSetting.getInstance().filtrationStringbuffer(data.sign, ""));
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, "" + NewWidgetSetting.getInstance().filtrationStringbuffer(data.weight, ""));
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, "" + NewWidgetSetting.getInstance().filtrationStringbuffer(data.latestWeight, ""));
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_TARGET_WEIGHT, "" + NewWidgetSetting.getInstance().filtrationStringbuffer(data.targetWeight, ""));
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.weight, 50.0f));
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.latestWeight, 50.0f));
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_TARGET_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.targetWeight, 50.0f));
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_SIGNATURE, "" + NewWidgetSetting.getInstance().filtrationStringbuffer(data.sign, ""));
 	}
 
@@ -72,9 +75,9 @@ public class PreferenceEntity extends LibPreferenceEntity{
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_MONEY, "");
 //		PreferencesUtils.putString(ApplicationData.context, KEY_APP_WX_QQ_UNIONID, "");
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_SIGNATURE, "");
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, "");
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, "");
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_TARGET_WEIGHT, "");
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, 50.0f);
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, 50.0f);
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_TARGET_WEIGHT, 50.0f);
 	}
 
 	/** 用户个人信息 */
@@ -88,9 +91,9 @@ public class PreferenceEntity extends LibPreferenceEntity{
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_SEX, NewWidgetSetting.getInstance().filtrationStringbuffer(data.sex, ""));
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_AGE, NewWidgetSetting.getInstance().filtrationStringbuffer(data.age, ""));
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_BIR, NewWidgetSetting.getInstance().filtrationStringbuffer(data.birthday, ""));
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.weight, ""));
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.latestWeight, ""));
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_TARGET_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.targetWeight, ""));
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.weight, 50.0f));
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.latestWeight, 50.0f));
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_TARGET_WEIGHT, NewWidgetSetting.getInstance().filtrationStringbuffer(data.targetWeight, 50.0f));
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_LOSE_WEIGHT_PERIOD, NewWidgetSetting.getInstance().filtrationStringbuffer(data.targetCycle, ""));
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_DYNAMIC, NewWidgetSetting.getInstance().filtrationStringbuffer(data.count, ""));
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_TARGET_WEIGHT_TIME, NewWidgetSetting.getInstance().filtrationStringbuffer(data.targetTime, ""));
@@ -111,9 +114,9 @@ public class PreferenceEntity extends LibPreferenceEntity{
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_SEX, "");
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_AGE, "");
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_BIR, "");
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, "");
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, "");
-		PreferencesUtils.putString(ApplicationData.context, KEY_USER_TARGET_WEIGHT, "");
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_INITIAL_WEIGHT, 0.0f);
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_CURRENT_WEIGHT, 0.0f);
+		PreferencesUtils.putFloat(ApplicationData.context, KEY_USER_TARGET_WEIGHT, 0.0f);
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_LOSE_WEIGHT_PERIOD, "");
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_DYNAMIC, "");
 		PreferencesUtils.putString(ApplicationData.context, KEY_USER_TARGET_WEIGHT_TIME, "");
@@ -161,41 +164,30 @@ public class PreferenceEntity extends LibPreferenceEntity{
 	public static final String KEY_USER_ID = "user_id";
 	/** 签名 */
 	public static final String KEY_USER_SIGNATURE = "user_signature";
-	public static final String KEY_PRAISE_NUM = "user_praise_num";
-	public static final String KEY_FANS_NUM = "user_fans_num";
-	public static final String KEY_ATT_NUM = "user_att_num";
 	public static final String KEY_USER_IMEI = "user_imei";
 	public static final String KEY_USER_MONEY = "user_money";
 	public static final String KEY_USER_DOCID = "user_docid";
-	public static final String KEY_USER_QATEXTID = "qatextid";
-	public static final String KEY_USER_LOGINISCHAT = "longinischat";
 	public static final String KEY_USER_NICK = "user_nick";
-//	public static final String KEY_USER_NAME = "user_name";
 	public static final String KEY_USER_HEADER = "user_header";
-	public static final String KEY_USER_HEADER_CACHE = "user_header_cache";
 	public static final String KEY_APP_UPDATE_VERSION= "app_version";
 	public static final String KEY_APP_WX_QQ_UNIONID = "wx_qq_unionId";
 	public static final String KEY_APP_UPDATE_URL = "app_url";
-	public static final String KEY_USER_CARE_DATA = "user_care_data";
 	/** 是否补全用户信息 */
 	public static final String KEY_USER_ISALL = "isall";
-
 	public static final String KEY_USER_SEX = "user_sex";
 	public static final String KEY_USER_BIR = "user_bir";
 	public static final String KEY_USER_AGE = "user_age";
-	public static final String KEY_USER_LBS = "user_lbs";
 	/** 帐号 */
 	public static final String KEY_USER_ACCOUNT = "user_account";
 	/** 密码 */
 	public static final String KEY_USER_PSW = "user_psw";
-
 	public static final String KEY_USER_HEIGHT = "user_height"; // 身高 float
+	/** 初始体重 注册时填充的值，固定不变,float */
+	public static final String KEY_USER_INITIAL_WEIGHT = "user_current_weights";
+	/** 目标体重 float */
+	public static final String KEY_USER_TARGET_WEIGHT = "user_target_weights";
 	/** 最新体重 float */
-	public static final String KEY_USER_CURRENT_WEIGHT = "user_weight";
-	/** 初始体重 注册时填充的值，固定不变 */
-	public static final String KEY_USER_INITIAL_WEIGHT = "user_current_weight";
-	/** 目标体重 */
-	public static final String KEY_USER_TARGET_WEIGHT = "user_target_weight";
+	public static final String KEY_USER_CURRENT_WEIGHT = "user_weights";
 	public static final String KEY_USER_LOSE_WEIGHT_PERIOD = "user_lose_period"; // 目标减肥周期
 	public static final String KEY_USER_TARGET_WEIGHT_TIME = "user_target_time"; // 目标减肥时间
 	public static final String KEY_USER_BMI = "user_bmi"; // bmi
@@ -210,13 +202,16 @@ public class PreferenceEntity extends LibPreferenceEntity{
 	public static final String perfectInfoBirthday_day = "perfectInfoBirthday_day";
 	// 第三方
 
-	/** 是否登录 */
-	public static boolean isLogin=false;
+	public static final String HOMEDATAFORSP = "home_data_for_sp";	//首页缓存数据
+
+	public static boolean isLogin=false;	//是否登录
+	public static boolean isInitHomeData=false;	//欢迎页面是否已经加载了首页数据
+
 	public static boolean isRefreshDynamic = true;	//是否刷新动态列表数据
 	public static boolean isGoDynamicView = false;	//是否主动跳转到动态列表页
 	public static boolean isRefreshHomeData = true;	//是否刷新首页数据
-	/** 标记是不是第一次打开APP */
-	public static String KEY_IS_FIRST_OPEN = "";
+	/** 清空SP缓存 */
+	public static String KEY_IS_CLEAR_SP = "key_is_clear_sp";
 
 	// ***********************************用户信息
 }

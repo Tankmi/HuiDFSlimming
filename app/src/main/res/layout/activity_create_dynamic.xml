@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:fitsSystemWindows="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/title_view"
+        />
+
+   <include
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent"
+       layout="@layout/view_dynamic_input"
+       android:layout_below="@id/title"
+       />
+
+</RelativeLayout>

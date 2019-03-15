@@ -9,18 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.huidf.slimming.R;
 import com.huidf.slimming.base.BaseDialogFragment;
-import com.huidf.slimming.context.HtmlUrlConstant;
-import com.huidf.slimming.context.PreferenceEntity;
-import com.huidf.slimming.entity.today_movement.MovementEntity;
 import com.huidf.slimming.util.wechat.WechatShareUtil;
-import com.huidf.slimming.view.loading.RadioHorizonalRuler;
-
-import huitx.libztframework.utils.NewWidgetSetting;
-import huitx.libztframework.utils.PreferencesUtils;
-import huitx.libztframework.utils.UnitConversion;
 
 public class WechatShareDialogFragment extends BaseDialogFragment implements View.OnClickListener {
 
@@ -140,7 +131,7 @@ public class WechatShareDialogFragment extends BaseDialogFragment implements Vie
 //            case R.id.tv_share_dismiss:
 //                int value = view_guidance_weight.getValue();
 //                float equalCalorie = mUnit * (value / 60.0f);
-//                equalCalorie = UnitConversion.preciseNumber(equalCalorie, 0);
+//                equalCalorie = NumberConversion.preciseNumber(equalCalorie, 0);
 //                if (mMovementListener != null)  mMovementListener.onSelMovementTime(value,(int)equalCalorie);
 //                else LOG("回调事件为空！");
 //                dismiss();

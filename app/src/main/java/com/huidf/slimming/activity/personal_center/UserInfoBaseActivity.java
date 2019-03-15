@@ -82,8 +82,8 @@ public class UserInfoBaseActivity extends BaseFragmentActivity implements OnClic
 		NewWidgetSetting.setViewText(tv_user_info_phone_value, userInfo.account, "点击绑定手机号");
 		NewWidgetSetting.setViewText(tv_user_info_bir_value, userInfo.birthday, "");
 		NewWidgetSetting.setViewText(tv_user_info_bir_value, userInfo.birthday == null?"未设置":tranTimes.convert(userInfo.birthday, "yyyy年M月"), "");
-		NewWidgetSetting.setViewText(tv_user_info_height_value," cm", userInfo.height, "00" ,false);
-		NewWidgetSetting.setViewText(tv_user_info_start_weight_value, " kg", userInfo.weight, "00", false);
+		NewWidgetSetting.setViewText(tv_user_info_height_value," cm", userInfo.height, "00" ,false,false);
+		NewWidgetSetting.setViewText(tv_user_info_start_weight_value, " kg", userInfo.weight, "00", false,false);
 		setSexHeader();
 
 		if(NewWidgetSetting.getInstance().notNull(et_user_info_name,"")){

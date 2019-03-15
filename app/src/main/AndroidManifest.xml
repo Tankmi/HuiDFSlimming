@@ -21,10 +21,12 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="82a76a54f6008bb4e08896a8980c96fd"/>
-        <service android:name="com.amap.api.location.APSService"></service>
+        <service android:name="com.amap.api.track.AMapTrackService" />
+        <service android:name="com.amap.api.location.APSService"/>
         <!-- 高德-->
         <activity
             android:name=".activity.WelcomeActivity"
+            android:theme="@style/ThemeSplash"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -41,14 +43,21 @@
         </activity>
         <activity
             android:name=".activity.HomeActivity"
+            android:theme="@style/ThemeSplash"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
         <service android:name=".service.LocationService"></service>
-        <service android:name=".service.RunService"></service>
+        <service android:name=".service.RunService"
+                 android:enabled="true"/>
         <activity
             android:name=".activity.toady_movement.run.RunActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity
+            android:name=".dynamic.view.CreateDynamicActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
 
@@ -203,6 +212,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
     <!-- Bluetooth end -->
+
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 

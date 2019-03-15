@@ -34,9 +34,9 @@ public class LocationService extends Service {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("LocationService","显示通知栏");
         //Android O上才显示通知栏
         if(Build.VERSION.SDK_INT >= 26) {
+            Log.i("LocationService","显示通知栏");
             showNotify();
         }
         return super.onStartCommand(intent, flags, startId);

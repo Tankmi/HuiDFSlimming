@@ -3,8 +3,11 @@ package com.huidf.slimming.view.home.sport;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
@@ -20,8 +23,7 @@ import android.view.ViewTreeObserver;
 import com.huidf.slimming.R;
 
 import huitx.libztframework.utils.LayoutUtil;
-import huitx.libztframework.utils.MathUtils;
-import huitx.libztframework.utils.UnitConversion;
+import huitx.libztframework.utils.NumberConversion;
 
 
 /**
@@ -102,15 +104,24 @@ public class SportCircularView extends View {
         return mPaint;
     }
 
+    Bitmap pointBitmap;
+    int height_point;
+    int width_point;
+    /** 围绕中心旋转的圆点，外部显示半径 */
+    private float pointWidth;
+
     public void init()
     {
         Resources res = getResources();
         tb = res.getDimension(R.dimen.detection_10);
 
         lineWidth = LayoutUtil.getInstance().getWidgetWidth(15, true);
-        circlestart = lineWidth / 2;
+        pointWidth = LayoutUtil.getInstance().getWidgetWidth(11.5f);
+//        circlestart = lineWidth / 2 + pointWidth/2;
+        circlestart = lineWidth / 2 + pointWidth/2;
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
@@ -129,6 +140,25 @@ public class SportCircularView extends View {
         Log.i("spoort_list", "getWidth():" + getWidth() + " circleWidth:" + circleWidth);
         rectf_c1 = new RectF();
         rectf_c1.set(circlestart, circlestart, circleWidth, circleWidth);
+
+
+        pointBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.iv_circular_point);
+        width_point = pointBitmap.getWidth();
+        height_point = pointBitmap.getHeight();
+        // 设置想要的大小
+        int newWidth_point = (int) LayoutUtil.getInstance().getWidgetWidth(23);
+        int newHeight_point = (int) LayoutUtil.getInstance().getWidgetWidth(23);
+        // 计算缩放比例
+        float scaleWidth_point = ((float) newWidth_point) / width_point;
+        float scaleHeight_point = ((float) newHeight_point) / height_point;
+        // 取得想要缩放的matrix参数
+        Matrix matrix_point = new Matrix();
+        matrix_point.postScale(scaleWidth_point, scaleHeight_point);
+        // 得到新的图片
+        pointBitmap = Bitmap.createBitmap(pointBitmap, 0, 0, width_point,
+                height_point, matrix_point, true);
+        width_point = pointBitmap.getWidth();
+        height_point = pointBitmap.getHeight();
     }
 
     /**
@@ -139,7 +169,6 @@ public class SportCircularView extends View {
     {
         super.onDraw(canvas);
 //        canvas.drawColor(0xff72fe01);
-
         drawText(canvas);
         drawCircle(canvas);
     }
@@ -149,19 +178,35 @@ public class SportCircularView extends View {
 
         paint_scales.setColor(colorLineBack);
         canvas.drawArc(rectf_c1, 0, maxNum, false, paint_scales);   //绘制背景
-
 //		// 绘制圆弧
         if (arc_y > 0) {
             paint_scales.setColor(colorLinePb);
             canvas.drawArc(rectf_c1, -90, arc_y, false, paint_scales);  //绘制进度
             canvas.save();
         }
+
+        canvas.translate(circlestart / 2 + circleWidth / 2, circlestart / 2 + circleWidth / 2); // 移动圆心到画布的中央
+//		canvas.drawText( (int)arc_y +"", 0, 0, paint_text);
+        canvas.save();
+        canvas.rotate(arc_y); // 旋转画布
+
+//        canvas.drawText( (int)arc_y +"", 0, 0, paint_text);
+//        canvas.drawText( (int)arc_y +"", -(pointWidth), 0, paint_text);
+//        canvas.drawText( (int)arc_y +"", 0,  -((circleWidth - circlestart )/ 2 +pointWidth), paint_text);
+        try {
+            canvas.drawBitmap(pointBitmap,
+                    -(pointWidth),
+                    -((circleWidth - circlestart )/ 2 +pointWidth), null); // 上面
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        canvas.restore(); // 恢复画布之前的状态
     }
 
     /** 绘制文字描述 */
     public void drawText(Canvas canvas)
     {
-        float mTextSize = tb * 2.75f;
+        float mTextSize = tb * 3.6f;
         TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setStyle(Style.STROKE);
         textPaint.setTextSize(mTextSize);
@@ -178,9 +223,9 @@ public class SportCircularView extends View {
                 drawHeight,
                 textPaint);
 
-        mTextSize = tb * 1.2f;
+        mTextSize = tb * 1.8f;
         textPaint.setTextSize(mTextSize);
-        text = "已完成" + UnitConversion.reducedPoint(mValue);
+        text = "已完成" + NumberConversion.reducedPoint(mValue);
         float unitWidth = Layout.getDesiredWidth("%", textPaint);
         textWidth = Layout.getDesiredWidth(text, textPaint);
         drawHeight = getHeight()/2 + textHeight -

@@ -20,7 +20,7 @@
         />
 
 
-    <com.huidf.slimming.view.loading.RadioHorizonalRuler2
+    <com.huidf.slimming.view.loading.RadioHorizonalRulerDecimals
         android:id="@+id/view_guidance_weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

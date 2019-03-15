@@ -108,15 +108,15 @@ public class PerfectInfoBaseActivity extends BaseFragmentActivity implements Vie
     {
         RequestParams params = PreferenceEntity.getLoginParams();
         String height = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_HEIGHT, 160 + "");
-        String weight = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 70 + "");
-        String targetWeight = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_TARGET_WEIGHT, 66 + "");
+        float weight = PreferencesUtils.getFloat(mContext, PreferenceEntity.KEY_USER_INITIAL_WEIGHT),
+        targetWeight = PreferencesUtils.getFloat(mContext, PreferenceEntity.KEY_USER_TARGET_WEIGHT, 50.0f );
         String targetCycle = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_LOSE_WEIGHT_PERIOD, 66 + "");
         String sex = PreferencesUtils.getString(mContext, PreferenceEntity.KEY_USER_SEX, "1");
 
         params.addBodyParameter("birthday", PreferenceEntity.perfectInfoBirthday + " 00:00:00");
         params.addBodyParameter("height", height);
-        params.addBodyParameter("weight", weight);
-        params.addBodyParameter("targetWeight", targetWeight);
+        params.addBodyParameter("weight", weight + "");
+        params.addBodyParameter("targetWeight", targetWeight + "");
         params.addBodyParameter("targetCycle", targetCycle);
         params.addBodyParameter("targetTime", PreferenceEntity.ValueLostWeightTime + "");
         params.addBodyParameter("sex", sex);

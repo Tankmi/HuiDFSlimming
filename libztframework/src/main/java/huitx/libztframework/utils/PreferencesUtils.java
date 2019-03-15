@@ -32,6 +32,13 @@ public class PreferencesUtils {
 
     public static String PREFERENCE_NAME = "TrineaAndroidCommon";
 
+
+    /** 清空SP */
+    public static boolean clearData(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return settings.edit().clear().commit();
+    }
+
     /**
      * put string preferences
      * 

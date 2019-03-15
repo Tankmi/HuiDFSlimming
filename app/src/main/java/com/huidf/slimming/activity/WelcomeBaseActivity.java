@@ -13,6 +13,7 @@ import android.view.Window;
 import com.huidf.slimming.R;
 import com.huidf.slimming.activity.home.foodsport_scheme.FoodCalorieActivity;
 import com.huidf.slimming.activity.home.foodsport_scheme.FoodSportSchemeActivity;
+import com.huidf.slimming.activity.home.sport.SportHisActivity;
 import com.huidf.slimming.activity.home.weight.WeightActivity;
 import com.huidf.slimming.activity.home.weight.history.WeightHistoryActivity;
 import com.huidf.slimming.activity.personal_center.UserInfoActivity;
@@ -22,6 +23,7 @@ import com.huidf.slimming.activity.user.SelLoginActivity;
 import com.huidf.slimming.activity.user.perfect_info.PerfectInfoActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
+import com.huidf.slimming.dynamic.view.CreateDynamicActivity;
 import com.huidf.slimming.entity.user.UserEntity;
 
 import java.lang.ref.WeakReference;
@@ -76,27 +78,20 @@ public class WelcomeBaseActivity extends Activity implements ConsultNet {
 //                            intent_home = new Intent(mContext, EarActivity.class);    //耳穴检测
                     }
                     break;
-//                case 2:    //跳转到引导页
-//                    PreferencesUtils.putBoolean(mContext, PreferenceEntity.KEY_IS_FIRST_OPEN, true);
-//                    intent_home = new Intent(mContext, GuidanceActivity.class);
-//                    break;
-//                case 3:    //跳转到运动
-//                    intent_home = new Intent(mContext, BraceletActivity.class);
-//                    break;
                 default:
                     break;
             }
-//			intent_home = new Intent(mContext, HomeActivity.class);
-//			intent_home = new Intent(mContext, SelectPhotoActivity.class);
-//            intent_home = new Intent(mContext, TodayMovementActivity.class);
-//            intent_home = new Intent(mContext, RankingListActivity.class);
-//            intent_home = new Intent(mContext, RunActivity.class);
-//            intent_home = new Intent(mContext, FoodCalorieActivity.class);
-//            intent_home = new Intent(mContext, UserInfoActivity.class);
+//            intent_home = new Intent(mContext, PerfectInfoActivity.class);
+//            intent_home = new Intent(mContext, PerfectInfoActivity.class);
+//            intent_home = new Intent(mContext, CreateDynamicActivity.class);
 
             startActivity(intent_home);
             toFinish();
         }
+    }
+
+    private synchronized void finalTest(){  //判断所有任务是否执行完成
+
     }
 
     @Override

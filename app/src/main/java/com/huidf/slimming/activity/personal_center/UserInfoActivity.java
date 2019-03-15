@@ -199,8 +199,7 @@ public class UserInfoActivity extends UserInfoBaseActivity {
                         })
                         .show();
             }else{
-                ActivityCompat.requestPermissions(UserInfoActivity.this,
-                        new String[]{mPermission}, onActivityResultCode);
+                ActivityCompat.requestPermissions(UserInfoActivity.this,  new String[]{mPermission}, onActivityResultCode);
             }
 
         } else {

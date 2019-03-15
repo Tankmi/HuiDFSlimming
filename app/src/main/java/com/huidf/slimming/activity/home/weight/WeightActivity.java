@@ -95,7 +95,7 @@ public class WeightActivity extends WeightBaseActivity {
 //        playQueueFragment.setDataInfo(null);
         playQueueFragment.setOnSelDataListener(new WeightSelDialogFragment.onSelDataListener() {
             @Override
-            public int onSelData(int value)
+            public int onSelData(float value)
             {
 //                commitRunningInfo(mEntity,value,equalCalorie);
                 submitWeightInfo(value,2);

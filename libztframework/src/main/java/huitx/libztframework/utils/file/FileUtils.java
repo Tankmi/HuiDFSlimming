@@ -1,7 +1,10 @@
 package huitx.libztframework.utils.file;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +16,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import huitx.libztframework.utils.StringUtils;
@@ -562,4 +566,5 @@ public class FileUtils {
 		}
 		return null;
 	}
+
 }

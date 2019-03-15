@@ -201,14 +201,12 @@ public class RadioHorizonalRuler extends View {
 
     private void changeMoveAndValue()
     {
-        Log.i("RadioRuler", "changeMoveAndValue Move:   " + mMove + "mLineDivider:" + mLineDivider + "mDensity:" + mDensity);
         int tValue = (int) (mMove / (mLineDivider * mDensity));
-        Log.i("RadioRuler", "changeMoveAndValue tValue:   " + tValue);
+        LOG("tValue: " + tValue);
         if (Math.abs(tValue) > 0) {  //计算绝对值
             mValue += tValue;
             mMove -= tValue * mLineDivider * mDensity;
             if (mValue <= mMinValue || mValue > mMaxValue) {
-                Log.i("RadioRuler", "changeMoveAndValue tValue:   " + tValue);
                 mValue = mValue <= mMinValue ? mMinValue : mMaxValue;
                 mMove = 0;
                 mScroller.forceFinished(true);
@@ -325,7 +323,6 @@ public class RadioHorizonalRuler extends View {
                     canvas.drawLine(xPosition, 0, xPosition, ITEM_MIN_HEIGHT, linePaint);
                 }
                 if ((mValue + i) == mMaxValue) {  //绘制最大值,最大值有可能不是刻度间隔的整数倍
-
                     canvas.drawText(String.valueOf(mValue + i), xPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
                 }
             }

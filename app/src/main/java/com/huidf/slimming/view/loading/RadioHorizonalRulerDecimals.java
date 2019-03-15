@@ -15,20 +15,21 @@ import android.view.ViewConfiguration;
 import android.widget.Scroller;
 
 import huitx.libztframework.utils.LayoutUtil;
+import huitx.libztframework.utils.NumberConversion;
 
 
 /**
- * 水平刻度尺
+ * 水平刻度尺,带小数点
  *
  * @author ZhuTao
  * @date 2017/3/17
  * @params
  */
 
-public class RadioHorizonalRuler2 extends View {
+public class RadioHorizonalRulerDecimals extends View {
 
     public interface OnValueChangeListener {
-        public void onValueChange(int value);
+        public void onValueChange(float value);
     }
 
     private Scroller mScroller;  //滑动
@@ -37,11 +38,9 @@ public class RadioHorizonalRuler2 extends View {
     private OnValueChangeListener mListener;
 
     @SuppressWarnings("deprecation")
-    public RadioHorizonalRuler2(Context context, AttributeSet attrs)
+    public RadioHorizonalRulerDecimals(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        Log.i("RadioRuler", "RadioRuler 构造方法 获得允许fling动作的最小速度值" + mMinVelocity);
-
         mScroller = new Scroller(getContext());
         mDensity = getContext().getResources().getDisplayMetrics().density;
         mMinVelocity = ViewConfiguration.get(getContext()).getScaledMinimumFlingVelocity();  //获得允许fling动作的最小速度值 150
@@ -53,19 +52,21 @@ public class RadioHorizonalRuler2 extends View {
     /**
      * 初始值，最大值，最小值，间隔
      */
-    public void initViewParam(int defaultValue, int maxValue, int minValue, int model)
+    public void initViewParam(float defaultValue, float maxValue, float minValue, int model)
     {
-        Log.i("RadioRuler", "initViewParam");
         switch (model) {
             case MOD_TYPE_HALF:
+                mDividendType = DIVIDEEND_HALF;
                 mModType = MOD_TYPE_HALF;
-                mLineDivider = ITEM_HALF_DIVIDER;
-                mValue = defaultValue * 2;
-                mMaxValue = maxValue * 2;
+                mLineDivider = ITEM_HALF_DIVIDER * mDensity;
+                mValue = defaultValue;
+                mMaxValue = maxValue;
+                mMinValue = minValue;
                 break;
-            case MOD_TYPE_ONE:
-                mModType = MOD_TYPE_ONE;
-                mLineDivider = ITEM_ONE_DIVIDER;
+            case MOD_TYPE_TEN:
+                mDividendType = DIVIDEEND_TEN;
+                mModType = MOD_TYPE_TEN;
+                mLineDivider = ITEM_TEN_DIVIDER * mDensity;
                 mValue = defaultValue;
                 mMaxValue = maxValue;
                 mMinValue = minValue;
@@ -88,7 +89,7 @@ public class RadioHorizonalRuler2 extends View {
      */
     public void setValueChangeListener(OnValueChangeListener listener)
     {
-        Log.i("RadioRuler", "setValueChangeListener");
+        LOG( "setValueChangeListener");
         mListener = listener;
     }
 
@@ -97,9 +98,9 @@ public class RadioHorizonalRuler2 extends View {
      *
      * @return
      */
-    public int getValue()
+    public float getValue()
     {
-        Log.i("RadioRuler", "getValue");
+        LOG( "getValue");
         return mValue;
     }
 
@@ -120,28 +121,6 @@ public class RadioHorizonalRuler2 extends View {
         drawMiddleLine(canvas);  //绘制红色指示线，以及阴影效果
     }
 
-
-    /**
-     * 计算没有数字显示位置的辅助方法
-     *
-     * @param value
-     * @param xPosition
-     * @param textWidth
-     * @return
-     */
-    private float countLeftStart(int value, float xPosition, float textWidth)
-    {
-        Log.i("RadioRuler", "countLeftStart 计算没有数字显示位置的辅助方法");
-        float xp = 0f;
-        if (value < 20) {
-            xp = xPosition - (textWidth * 1 / 2);
-        } else {
-            xp = xPosition - (textWidth * 2 / 2);
-        }
-        return xp;
-    }
-
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -156,21 +135,17 @@ public class RadioHorizonalRuler2 extends View {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                Log.i("RadioRuler", "onTouchEvent ACTION_DOWN");
-                mScroller.forceFinished(true);
-
+                mScroller.forceFinished(true);  //停止所有滑动动画
                 mLastX = xPosition;
                 mMove = 0;
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.i("RadioRuler", "onTouchEvent ACTION_MOVE");
                 mMove += (mLastX - xPosition);
+//                LOG("ACTION_MOVE  mMove: " + mMove );
                 changeMoveAndValue();
                 break;
             case MotionEvent.ACTION_UP:
-                Log.i("RadioRuler", "onTouchEvent ACTION_UP");
             case MotionEvent.ACTION_CANCEL:  //后续触屏事件取消，
-                Log.i("RadioRuler", "onTouchEvent ACTION_CANCEL");
                 countMoveEnd();
                 countVelocityTracker(event);  //手势抬起后，判断时候需要再滚动一段距离
                 return false;
@@ -183,46 +158,48 @@ public class RadioHorizonalRuler2 extends View {
         return true;
     }
 
-    private void countVelocityTracker(MotionEvent event)
-    {
+    private void countVelocityTracker(MotionEvent event) {
 
         mVelocityTracker.computeCurrentVelocity(1000);  //计算一秒（1000毫秒）的速度
         float xVelocity = mVelocityTracker.getXVelocity();  //获取当前的横向的滚动速率
-        Log.i("RadioRuler", "countVelocityTracker 滑动速率计算，判断是否滚动 横向滚动速率xVelocity" + xVelocity);
+        LOG( "countVelocityTracker 滑动速率计算，判断是否滚动 横向滚动速率xVelocity" + xVelocity);
         if (Math.abs(xVelocity) > mMinVelocity) {  //通过横行速率的绝对值与mMinVelocity对比，大于的话就让Scroll进行滚动
             mScroller.fling(0, 0, (int) xVelocity, 0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
         }
     }
 
-    private void changeMoveAndValue()
-    {
-        Log.i("RadioRuler", "changeMoveAndValue Move:   " + mMove + "mLineDivider:" + mLineDivider + "mDensity:" + mDensity);
-        int tValue = (int) (mMove / (mLineDivider * mDensity));
-        Log.i("RadioRuler", "changeMoveAndValue tValue:   " + tValue);
+    private void changeMoveAndValue()  {
+        int tValue = (int)(mMove / mLineDivider);
+        LOG("mMove: " + mMove + "  ;tValue: " + tValue);
         if (Math.abs(tValue) > 0) {  //计算绝对值
-            mValue += tValue;
-            mMove -= tValue * mLineDivider * mDensity;
+            float mtValue = tValue / mDividendType;
+            mValue += mtValue;
+            mMove -= tValue * mLineDivider;
+//            mMove -= (int)(tValue * mLineDivider * 10.0f);
+//            mMove -= (int)(tValue * mLineDivider);
+            LOG("22222mMove: " + mMove);
             if (mValue <= mMinValue || mValue > mMaxValue) {
-                Log.i("RadioRuler", "changeMoveAndValue tValue:   " + tValue);
                 mValue = mValue <= mMinValue ? mMinValue : mMaxValue;
                 mMove = 0;
                 mScroller.forceFinished(true);
             }
+            dynamicValue();
             notifyValueChange();
         }
-        Log.i("RadioRuler", "changeMoveAndValue mValue:   " + mValue);
         postInvalidate();
     }
 
-    private void countMoveEnd()
-    {
+    private void dynamicValue(){
+        mValue = NumberConversion.preciseNumber(mValue,1);
+    }
 
-        int roundMove = Math.round(mMove / (mLineDivider * mDensity)); //差值不大于1的时候，四舍五入
-        Log.i("RadioRuler", "countMoveEnd roundMove:" + roundMove);
-        Log.i("RadioRuler", "countMoveEnd mValue:" + mValue);
-        mValue = mValue + roundMove;
+    private void countMoveEnd() {
+        int roundMove = Math.round(mMove / mLineDivider); //差值不大于1的时候，四舍五入
+//        mValue = mValue + roundMove/10.0f;
+        mValue = mValue + roundMove/mDividendType;
         mValue = mValue <= mMinValue ? mMinValue : mValue;
         mValue = mValue > mMaxValue ? mMaxValue : mValue;
+        dynamicValue();
 
         mLastX = 0;
         mMove = 0;
@@ -231,15 +208,14 @@ public class RadioHorizonalRuler2 extends View {
         postInvalidate();
     }
 
-    private void notifyValueChange()
-    {
-        Log.i("RadioRuler", "notifyValueChange");
+    private void notifyValueChange() {
         if (null != mListener) {
-            if (mModType == MOD_TYPE_ONE) {
+            if (mModType == MOD_TYPE_TEN) {
                 mListener.onValueChange(mValue);
             }
             if (mModType == MOD_TYPE_HALF) {
-                mListener.onValueChange(mValue / 2);
+//                mListener.onValueChange(mValue / 2);
+                mListener.onValueChange(mValue);
             }
         }
     }
@@ -249,14 +225,10 @@ public class RadioHorizonalRuler2 extends View {
      * 界面有变化的时候就会执行此方法
      */
     @Override
-    public void computeScroll()
-    {
-        Log.i("RadioRuler", "computeScroll");
+    public void computeScroll() {
         super.computeScroll();
-        if (mScroller.computeScrollOffset()) {
-            Log.i("RadioRuler", "mScroller.computeScrollOffset()");
+        if (mScroller.computeScrollOffset()) {  //界面正在滚动
             if (mScroller.getCurrX() == mScroller.getFinalX()) { // over  滚动方向X的偏移，滚动结束时的位置（仅对fling手势有效）
-
                 countMoveEnd();
             } else {
                 int xPosition = mScroller.getCurrX();
@@ -267,14 +239,13 @@ public class RadioHorizonalRuler2 extends View {
         }
     }
 
+    private static float EPSINON = 0.00001f;
     /**
      * 从中间往两边开始画刻度线
      *
      * @param canvas
      */
-    private void drawScaleLine(Canvas canvas)
-    {
-
+    private void drawScaleLine(Canvas canvas) {
         canvas.save();
 
         Paint linePaint = new Paint();
@@ -289,74 +260,79 @@ public class RadioHorizonalRuler2 extends View {
         float xPosition = 0, textWidth = Layout.getDesiredWidth("0", textPaint);
 
         for (int i = 0; drawCount <= (width - 30 * mDensity); i++) {
-//        	 Log.i("DrawLine", "绘制前i" + i + "          drawCount:" + drawCount + "width:" + width + "mMove:" + mMove);
-            int numSize = String.valueOf(mValue + i).length();  //获取文本的字数
+            float mDrawValue = mValue + i;
+//            LOG("mDrawValue: " + mDrawValue);
+//            LOG("(int)mDrawValue: " + (int)mDrawValue);
+//            LOG("MathUtils.compareFloat(mDrawValue,(int)mDrawValue): " + MathUtils.compareFloat(mDrawValue,(int)mDrawValue));
+            int numSize = String.valueOf(mDrawValue).length();  //获取文本的字数
 
-            xPosition = (width / 2 - mMove) + i * mLineDivider * mDensity;
-//            Log.i("DrawLine", "绘制前i" + i + "          xPosition:" + xPosition + "   getPaddingRight" + getPaddingRight());
+            xPosition = (width / 2 - mMove) + i * mLineDivider * mModType;
             if (xPosition + getPaddingRight() < mWidth) {
-                if ((mValue + i) % mModType == 0) {
-                    canvas.drawLine(xPosition, 0, xPosition, ITEM_MAX_HEIGHT, linePaint);
+                for (int j=0; j<mModType; j++) {
 
-                    if (mValue + i <= mMaxValue) {
-                        switch (mModType) {
-                            case MOD_TYPE_HALF:
-                                canvas.drawText(String.valueOf((mValue + i) / 2), countLeftStart(mValue + i, xPosition, textWidth), getHeight() - textWidth, textPaint);
-                                break;
-                            case MOD_TYPE_ONE:
-                                if ((mMaxValue - (mValue + i) < 3) || ((mValue + i) - mMinValue < 3))
-                                    break;//值与首尾值离的太近时，避免重叠，不绘制
-                                    canvas.drawText(String.valueOf(mValue + i), xPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
+                    float mFloatValue = mDrawValue + (1/mDividendType)*j;
+//                    float mFloatValue = mDrawValue + 0.1f*j;
+                     mFloatValue = NumberConversion.preciseNumber(mFloatValue,1);
+                    float mFloatxPosition = xPosition + j * mLineDivider;
 
-                                break;
-
-                            default:
-                                break;
+                    if ((int)(mFloatValue*10) % 10 == 0) {   //整数位，长刻度
+                        canvas.drawLine(mFloatxPosition, 0, mFloatxPosition, ITEM_MAX_HEIGHT, linePaint);
+                        if (mFloatValue < mMaxValue) {
+                            if (mMaxValue - mFloatValue >= 0.5f) //值与首尾值离的太近时，避免重叠，不绘制
+                                canvas.drawText(String.valueOf((int)mFloatValue), mFloatxPosition - (textWidth * numSize / 2),
+                                        getHeight() - textWidth / 4, textPaint);
                         }
                     }
-                } else if ((mValue + i) % mModType == 5) {  //绘制中间半长线
-                    canvas.drawLine(xPosition, 0, xPosition, ITEM_MEDIUM_HEIGHT, linePaint);
-                } else {
-                    canvas.drawLine(xPosition, 0, xPosition, ITEM_MIN_HEIGHT, linePaint);
-                }
-                if ((mValue + i) == mMaxValue) {  //绘制最大值,最大值有可能不是刻度间隔的整数倍
+                    else if ((int)(mFloatValue*10) % 10 == 5) {  //绘制中间半长线
+                        canvas.drawLine(mFloatxPosition, 0, mFloatxPosition, ITEM_MEDIUM_HEIGHT, linePaint);
+                    }
+                    else {
+                        canvas.drawLine(mFloatxPosition, 0, mFloatxPosition, ITEM_MIN_HEIGHT, linePaint);
+                    }
 
-                    canvas.drawText(String.valueOf(mValue + i), xPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
+                    if (mFloatValue == mMaxValue) {  //绘制最大值,最大值有可能不是刻度间隔的整数倍
+//                        canvas.drawText(String.valueOf(mFloatValue), mFloatxPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
+                        canvas.drawText(NumberConversion.reducedPoint(mFloatValue), mFloatxPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
+                    }
                 }
+
+
             }
 
-            xPosition = (width / 2 - mMove) - i * mLineDivider * mDensity;
-//            Log.i("DrawLine", "绘制前i" + i + "          xPosition:" + xPosition + "   getPaddingLeft" + getPaddingLeft());
+            xPosition = (width / 2 - mMove) - i * mLineDivider * mModType;
+            float mDrawValueLeft = mValue - i;
             if (xPosition > getPaddingLeft()) {
-                if ((mValue - i) % mModType == 0) {  //绘制长线，长线下绘制刻度数
-                    canvas.drawLine(xPosition, 0, xPosition, ITEM_MAX_HEIGHT, linePaint);
-                    if (mValue - i >= mMinValue) {
-                        switch (mModType) {
-                            case MOD_TYPE_HALF:
-                                canvas.drawText(String.valueOf((mValue - i) / 2), countLeftStart(mValue - i, xPosition, textWidth), getHeight() - textWidth, textPaint);
-                                break;
-                            case MOD_TYPE_ONE:
-                                if ((mMaxValue - (mValue - i) < 3) || ((mValue - i) - mMinValue < 3))
-                                    break;//值与首尾值离的太近时，避免重叠，不绘制
-                                canvas.drawText(String.valueOf(mValue - i), xPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
-                                break;
 
-                            default:
-                                break;
-                        }
+                for (int j=0; j<mModType; j++) {
+
+                    float mFloatValue = mDrawValueLeft - (1/mDividendType)*j;
+//                    float mFloatValue = mDrawValueLeft - 0.1f*j;
+                    mFloatValue = NumberConversion.preciseNumber(mFloatValue,1);
+                    float mFloatxPosition = xPosition - j * mLineDivider;
+
+                    if ((int) (mFloatValue * 10) % 10 == 0) {   //整数位，长刻度
+                        canvas.drawLine(mFloatxPosition, 0, mFloatxPosition, ITEM_MAX_HEIGHT, linePaint);
+                        if (mFloatValue - mMinValue >= 0.5f) //值与首尾值离的太近时，避免重叠，不绘制
+                            canvas.drawText(String.valueOf((int) mFloatValue), mFloatxPosition - (textWidth * numSize / 2),
+                                    getHeight() - textWidth / 4, textPaint);
                     }
-                } else if ((mValue - i) % mModType == 5) {  //绘制中间半长线
-                    canvas.drawLine(xPosition, 0, xPosition, ITEM_MEDIUM_HEIGHT, linePaint);
-                } else {  //绘制短线
-                    canvas.drawLine(xPosition, 0, xPosition, ITEM_MIN_HEIGHT, linePaint);
+                    else if ((int)(mFloatValue*10) % 10 == 5) {  //绘制中间半长线
+                        canvas.drawLine(mFloatxPosition, 0, mFloatxPosition, ITEM_MEDIUM_HEIGHT, linePaint);
+                    }
+                    else {
+                        canvas.drawLine(mFloatxPosition, 0, mFloatxPosition, ITEM_MIN_HEIGHT, linePaint);
+                    }
+
+                    if (mFloatValue == mMinValue) {  //绘制最值,最大值有可能不是刻度间隔的整数倍
+//                        canvas.drawText(String.valueOf(mFloatValue), mFloatxPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
+                        canvas.drawText(NumberConversion.reducedPoint(mFloatValue), mFloatxPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
+
+                    }
                 }
-                if ((mValue - i) == mMinValue) {  //绘制最小值,最小值有可能不是刻度间隔的整数倍
-                    canvas.drawText(String.valueOf(mValue - i), xPosition - (textWidth * numSize / 2), getHeight() - textWidth / 4, textPaint);
-                }
+
 
             }
-
-            drawCount += 2 * mLineDivider * mDensity;
+            drawCount += 2 * mLineDivider;
         }
 
         canvas.restore();
@@ -369,7 +345,6 @@ public class RadioHorizonalRuler2 extends View {
      */
     private void drawMiddleLine(Canvas canvas)
     {
-        Log.i("RadioRuler", "drawMiddleLine 绘制红线");
 
         // TOOD 常量太多，暂时放这，最终会放在类的开始，放远了怕很快忘记
         int gap = 12, indexWidth = LayoutUtil.getInstance().getWidgetWidth(6), indexTitleWidth = 24, indexTitleHight = 10, shadow = 6;
@@ -380,7 +355,6 @@ public class RadioHorizonalRuler2 extends View {
         Paint redPaint = new Paint();
         redPaint.setStrokeWidth(indexWidth);
         redPaint.setColor(color);
-//         canvas.drawLine(mWidth / 2,  6 * mDensity, mWidth / 2, ITEM_MAX_HEIGHT, redPaint);
         canvas.drawLine(mWidth / 2, 0, mWidth / 2, ITEM_SELECT_HEIGHT, redPaint);
 
 //        Paint ovalPaint = new Paint();
@@ -423,36 +397,30 @@ public class RadioHorizonalRuler2 extends View {
     private int mMinVelocity;
 
     //两个默认的间隔数
-    /**
-     * 2个间隔 ，没怎么用过，也没做具体适配
-     */
+    /** 2个间隔 ，没怎么用过，也没做具体适配 */
+    private static final float DIVIDEEND_HALF = 2.0f;
+    /** 10个间隔  */
+    private static final float DIVIDEEND_TEN = 10.0f;
+
+    /** 2个间隔 ，没怎么用过，也没做具体适配 */
     private static final int MOD_TYPE_HALF = 2;
-    /**
-     * 10个间隔
-     */
-    private static final int MOD_TYPE_ONE = 10;
+    /** 10个间隔  */
+    private static final int MOD_TYPE_TEN = 10;
 
-    private static final int ITEM_HALF_DIVIDER = 40;  //设置每个间隔的宽度（像素值）  40
-    private static final int ITEM_ONE_DIVIDER = 10;  //设置每个间隔的宽度（像素值）  5
+    private static final int ITEM_HALF_DIVIDER = 40;  //设置每个间隔的单位宽度  40
+    private static final int ITEM_TEN_DIVIDER = 10;  //设置每个间隔的单位宽度  10
 
-    private int mValue = 50, mMaxValue = 100, mMinValue = 0,
-            mModType = MOD_TYPE_HALF, mLineDivider = ITEM_HALF_DIVIDER;  //给这两位加了默认值 2 40
+    private float mValue = 50, mMaxValue = 100, mMinValue = 0, mDividendType = DIVIDEEND_HALF,
+            mLineDivider = ITEM_TEN_DIVIDER;
+            int mModType = MOD_TYPE_HALF;  //给这两位加了默认值 2 40
 
-    /**
-     * 选中刻度线的长度（中间的标识线）
-     */
+    /** 选中刻度线的长度（中间的标识线）  */
     private static final int ITEM_SELECT_HEIGHT = LayoutUtil.getInstance().getWidgetHeight(65);
-    /**
-     * 长刻度线的长度（中间的标识线）
-     */
+    /** 长刻度线的长度（中间的标识线） */
     private static final int ITEM_MAX_HEIGHT = LayoutUtil.getInstance().getWidgetHeight(35);
-    /**
-     * 中等长度刻度线的长度
-     */
+    /** 中等长度刻度线的长度 */
     private static final int ITEM_MEDIUM_HEIGHT = LayoutUtil.getInstance().getWidgetHeight(20);   //35
-    /**
-     * 短刻度线的长度
-     */
+    /** 短刻度线的长度 */
     private static final int ITEM_MIN_HEIGHT = LayoutUtil.getInstance().getWidgetHeight(13);
 
 

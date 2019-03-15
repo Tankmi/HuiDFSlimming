@@ -53,6 +53,10 @@ android {
         }
     }
 
+//    dataBinding{
+//        enable=true;
+//    }
+
 }
 
 dependencies {
@@ -87,10 +91,20 @@ dependencies {
     //3D地图so及jar
     implementation 'com.amap.api:3dmap:latest.integration'
     //    implementation 'com.amap.api:map2d:latest.integration'
-    //     定位功能
-    implementation 'com.amap.api:location:latest.integration'
-    // 搜索功能
-    implementation 'com.amap.api:search:latest.integration'
+//    //     定位功能
+//    implementation 'com.amap.api:location:latest.integration'
+//    // 搜索功能
+//    implementation 'com.amap.api:search:latest.integration'
     //高德end
     implementation files('libs/mengiiscalesdk.jar')
+    implementation files('libs/AMapTrack_1.0.0_AMapLocation_4.2.0_20180809.jar')
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.x.x'
+    //Retrofit
+
+    //EventBus
+//    provided 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
 }

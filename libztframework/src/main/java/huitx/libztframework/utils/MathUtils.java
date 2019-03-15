@@ -26,6 +26,11 @@ public class MathUtils {
         else return false;
     }
 
+
+    /** sp中获取缓存数据，转换成float类型，扎心操作，下次框架改回去*/
+    public static float getFloatForPreference(String data,float defaultValue){
+        return PreferencesUtils.getFloat(LibApplicationData.context, data, defaultValue);
+    }
     /** sp中获取缓存数据，转换成float类型，扎心操作，下次框架改回去*/
     public static float stringToFloatForPreference(String data,float defaultValue){
         String value = PreferencesUtils.getString(LibApplicationData.context, data, defaultValue + "");

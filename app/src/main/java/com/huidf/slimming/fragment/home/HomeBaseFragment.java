@@ -93,7 +93,7 @@ public class HomeBaseFragment extends BaseFragment implements OnClickListener {
 		} else if (mEntity.code == ContextConstant.RESPONSECODE_310) {    //登录信息过时跳转到登录页
 			reLoading();
 		} else {
-			ToastUtils.showToast(NewWidgetSetting.getInstance().filtrationStringbuffer(mEntity.msg, "接口信息异常！"));
+			ToastUtils.showToast(NewWidgetSetting.filtrationStringbuffer(mEntity.msg, "接口信息异常！"));
 		}
 	}
 
@@ -102,9 +102,9 @@ public class HomeBaseFragment extends BaseFragment implements OnClickListener {
 		setLoading(false,"");
 	}
 
-	HashMap<String,Integer> guide = new HashMap<>();
 	protected MyHandler mHandler;
 
+	@SuppressLint("HandlerLeak")
 	protected class MyHandler extends Handler {
 		final int GETSLEEPINFO = 10008;
 

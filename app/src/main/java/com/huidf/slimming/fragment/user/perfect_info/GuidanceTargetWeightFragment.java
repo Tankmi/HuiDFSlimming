@@ -9,9 +9,10 @@ import android.widget.TextView;
 import com.huidf.slimming.R;
 import com.huidf.slimming.base.BaseFragment;
 import com.huidf.slimming.context.PreferenceEntity;
-import com.huidf.slimming.view.loading.RadioHorizonalRuler;
+import com.huidf.slimming.view.loading.RadioHorizonalRulerDecimals;
 
 import huitx.libztframework.utils.MathUtils;
+import huitx.libztframework.utils.NumberConversion;
 import huitx.libztframework.utils.PreferencesUtils;
 
 /**
@@ -26,7 +27,7 @@ public class GuidanceTargetWeightFragment extends BaseFragment{
 
 	private ImageView iv_guidance_target_weight;
 	private TextView tv_guidance_target_weight;
-	private RadioHorizonalRuler view_guidance_target_weight;
+	private RadioHorizonalRulerDecimals view_guidance_target_weight;
 	private TextView tv_guidance_target_weight_value;
 	private TextView tv_guidance_target_weight_hint;
 	private TextView tv_guidance_target_weight_warning;
@@ -77,10 +78,9 @@ public class GuidanceTargetWeightFragment extends BaseFragment{
 		if(sex == 1) iv_guidance_target_weight.setBackgroundResource(R.drawable.iv_man_bef);
 		else iv_guidance_target_weight.setBackgroundResource(R.drawable.iv_woman_bef);
 
-		mWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50);
-		mTargetWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT,mWeight-1);
-//		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
-//		mTargetWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, mWeight);
+		mWeight =  PreferencesUtils.getFloat(mContext, PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50.0f);
+		mTargetWeight =  PreferencesUtils.getFloat(mContext, PreferenceEntity.KEY_USER_TARGET_WEIGHT,mWeight-1);
+//		mTargetWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT,mWeight-1);
 
 		float height = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 100) * 0.01f;
 		int minWeight = (int) (height*height*15.0f);
@@ -89,10 +89,10 @@ public class GuidanceTargetWeightFragment extends BaseFragment{
 
 		view_guidance_target_weight.initViewParam(mTargetWeight, mWeight-1, minWeight, 10);	//设置默认值，最大值，最小值，间隔
 		//设置监听
-		view_guidance_target_weight.setValueChangeListener(new RadioHorizonalRuler.OnValueChangeListener(){
+		view_guidance_target_weight.setValueChangeListener(new RadioHorizonalRulerDecimals.OnValueChangeListener(){
 
 			@Override
-			public void onValueChange(int value) {
+			public void onValueChange(float value) {
 				updateView(value);
 			}
 
@@ -101,18 +101,18 @@ public class GuidanceTargetWeightFragment extends BaseFragment{
 		updateView(view_guidance_target_weight.getValue());
 	}
 
-	private void updateView(int value){
+	private void updateView(float value){
 		mTargetWeight = value;
 		if(warnWeight >= value) tv_guidance_target_weight_warning.setText("目标体重过轻");
 		else tv_guidance_target_weight_warning.setText("");
-		tv_guidance_target_weight_hint.setText("将减去" + (mWeight - value ) + "KG");
+		tv_guidance_target_weight_hint.setText("将减去" + (NumberConversion.preciseNumber((mWeight - value),1)) + "KG");
 		tv_guidance_target_weight_value.setText(String.valueOf(value) + "KG");
 	}
 
-	private int mWeight,mTargetWeight,warnWeight;
+	private float mWeight,mTargetWeight,warnWeight;
 	/** 保存数据并确定是否可以正常进行下一步 */
 	public boolean isNext(){
-		PreferencesUtils.putString(mContext, PreferenceEntity.KEY_USER_TARGET_WEIGHT, mTargetWeight + "");
+		PreferencesUtils.putFloat(mContext, PreferenceEntity.KEY_USER_TARGET_WEIGHT, mTargetWeight);
 		return true;
 
 	}

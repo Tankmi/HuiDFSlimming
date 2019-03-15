@@ -190,8 +190,9 @@ public class WeightTableView extends View {
      */
     private void initYcoorData()
     {
-        float Weight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 70.0f);
-        float TargetWeight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, (Weight - 10));
+        float Weight = MathUtils.getFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 70.0f);
+        float TargetWeight = MathUtils.getFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, (Weight - 10));
+//        float TargetWeight = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, (Weight - 10));
 
         yCoors = new ArrayList<>();
         yCoors.add(TargetWeight);

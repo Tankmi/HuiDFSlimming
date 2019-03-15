@@ -1,6 +1,5 @@
 package com.huidf.slimming.base;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,15 +20,11 @@ import com.huidf.slimming.R;
 import com.huidf.slimming.activity.user.SelLoginActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
 import java.util.List;
-
 import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.interf.ConsultNet;
 import huitx.libztframework.net.GetNetData;
@@ -40,8 +34,10 @@ import huitx.libztframework.utils.NetUtils;
 import huitx.libztframework.utils.StatusBarCompat;
 import huitx.libztframework.utils.ToastUtils;
 import huitx.libztframework.utils.TransitionTime;
-import huitx.libztframework.utils.image_loader.AnimateFirstDisplayListener;
 
+/**
+ * xutis3.0  在onCreate中添加了注解绑定代码
+ */
 public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity implements ConsultNet {
 
 	public Context mContext;	//上下文
@@ -86,7 +82,7 @@ public abstract class BaseFragmentActivityForAnnotation extends FragmentActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		x.view().inject(this);
+		x.view().inject(this);	//注解绑定
 		  if (savedInstanceState != null) {
 			  LOG("非正常退出：" + savedInstanceState.getString("home_datas"));
         }

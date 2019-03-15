@@ -80,13 +80,16 @@ public class GuidanceLoseWeightPeriodFragment extends BaseFragment{
 		if(sex == 1) iv_guidance_lose_weight_period.setBackgroundResource(R.drawable.iv_man_bef);
 		else iv_guidance_lose_weight_period.setBackgroundResource(R.drawable.iv_woman_bef);
 
-		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
-		mTargetWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, mWeight);
+//		mWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT, 50);
+//		mTargetWeight = MathUtils.stringToIntForPreference(PreferenceEntity.KEY_USER_TARGET_WEIGHT, mWeight);
+		mWeight =  PreferencesUtils.getFloat(mContext, PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50.0f);
+		mTargetWeight =  PreferencesUtils.getFloat(mContext, PreferenceEntity.KEY_USER_TARGET_WEIGHT,mWeight-1);
 		loseWeight = mWeight - mTargetWeight;
-		int maxWeek = loseWeight * 10;
+		int maxWeek =  Math.round(loseWeight * 10);;
+//		int maxWeek = (int) loseWeight * 10;
 		warnWeight= mWeight * 0.01f;
 
-		view_glwp.initViewParam(maxWeek, maxWeek, loseWeight, 10);	//设置默认值，最大值，最小值，间隔
+		view_glwp.initViewParam(maxWeek, maxWeek, (int)loseWeight, 10);	//设置默认值，最大值，最小值，间隔
 		//设置监听
 		view_glwp.setValueChangeListener(new RadioHorizonalRuler.OnValueChangeListener(){
 
@@ -116,9 +119,9 @@ public class GuidanceLoseWeightPeriodFragment extends BaseFragment{
 		tv_glwp_hint.setText("预计在" + times + "(" + 7 * periodValue + "天之后)达成\n平均每周减重" + averageLoseWeight + "公斤");
 	}
 
-	private int mWeight,mTargetWeight,loseWeight,
+	private float mWeight,mTargetWeight,loseWeight;
 			/** 减肥周数 */
-			periodValue;
+			private int periodValue;
 	private float warnWeight;
 	/** 保存数据并确定是否可以正常进行下一步 */
 	public boolean isNext(){

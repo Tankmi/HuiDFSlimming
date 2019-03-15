@@ -5,12 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.huidf.slimming.R;
-import com.huidf.slimming.activity.toady_movement.run.RunBaseActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
 
 import huitx.libztframework.net.GetNetData;
 import huitx.libztframework.utils.LOGUtils;
+import huitx.libztframework.utils.PreferencesUtils;
 
 public class WelcomeActivity extends WelcomeBaseActivity {
 
@@ -75,7 +75,13 @@ public class WelcomeActivity extends WelcomeBaseActivity {
     }
 
     protected void selIntent(){
-        //		if (PreferencesUtils.getBoolean(mContext, PreferenceEntity.KEY_IS_FIRST_OPEN,false)) {	//打开过页面
+//        if (!PreferencesUtils.getBoolean(mContext, PreferenceEntity.KEY_IS_CLEAR_SP,false)) {    //没清空过缓存的话，清空一下
+//            if(PreferencesUtils.clearData(ApplicationData.context)){
+//                PreferencesUtils.putBoolean(mContext, PreferenceEntity.KEY_IS_CLEAR_SP,true);
+//                mHandler.sendEmptyMessageDelayed(0, 1000);
+//            }
+//            return;
+//        }
         if (PreferenceEntity.isLogin()) {
             mHandler.sendEmptyMessageDelayed(1, 1000);
         } else {

@@ -1,13 +1,11 @@
 package huitx.libztframework.utils;
 
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.RelativeSizeSpan;
+import android.content.Context;
 
 import java.text.DecimalFormat;
 
 /**
- * 数字位数精简转换
+ * 单位转换
  * @author ZhuTao
  * @date 2017/5/12
  * @params
@@ -15,103 +13,46 @@ import java.text.DecimalFormat;
 
 public class UnitConversion {
 
-	private static UnitConversion mUnitConversion;
-
-	public static UnitConversion getInstance(){
-		synchronized(UnitConversion.class){
-			if(mUnitConversion==null){
-				mUnitConversion=new UnitConversion();
-			}
-		}
-		return mUnitConversion;
-	}
-
-	/** 满万转万位 float类型的对象
-	*  @param  defaultData 需要转换的对象
-	*  @param  places 小数点后保留的位数
-	* */
-	public String turnOver(float defaultData,String places){
-		DecimalFormat df = new DecimalFormat("#0." + places);
-		if(defaultData>10000){
-			defaultData = defaultData/10000;
-
-			return df.format (defaultData) + "万";
-		}else if(defaultData <= 0) {
-			return 0 + "";
-		}else{
-			return df.format (defaultData) + "";
-		}
-	}
-
-	/** 满万转万位 int类型的对象
-	*  @param  defaultData 需要转换的对象
-	*  @param  places 小数点后保留的位数
-	* */
-	public String turnOver(int defaultData,String places){
-		DecimalFormat df = new DecimalFormat("#0." + places);
-		float data;
-		if(defaultData>10000){
-			data = (float)defaultData/10000.0f;
-
-			return df.format (data) + "万";
-		}else if(defaultData <= 0) {
-			return 0 + "";
-		}else{
-			return defaultData + "";
-		}
-	}
-
-	/**  int类型的对象 指定位数转换
-	*  @param  defaultData 需要转换的对象
-	*  @param  places 小数点后保留的位数 一个0代表一位
-	*  @param  place 满多少转
-	*  @param  replaceName 替代的单位名称
-	* */
-	public String turnOvers(int defaultData,String places,float place,String replaceName){
-		DecimalFormat df = new DecimalFormat("#0." + places);
-		float data;
-		if(defaultData>place){
-			data = (float)defaultData/place;
-
-			return df.format (data) + replaceName;
-		}else if(defaultData <= 0) {
-			return 0 + "";
-		}else{
-			return defaultData + "";
-		}
-	}
-
-	/** 字符串数据转int */
-	public Integer StringToInt(String data,int normal){
-		if(data == null || data.equals("")) return normal;
-		try{
-			return Integer.parseInt(data);
-		}catch (Exception e){
-			return normal;
-		}
+	/**
+	 * 根据手机分辨率从DP转成PX
+	 * @param context
+	 * @param dpValue
+	 * @return
+	 */
+	public static int dip2px(Context context, float dpValue) {
+		float scale = context.getResources().getDisplayMetrics().density;
+		return (int) (dpValue * scale + 0.5f);
 	}
 
 	/**
-	 * 精确小数点后的位数
-	 * @param data
-	 * @param places 小数点后保留的位数
+	 * 将sp值转换为px值，保证文字大小不变
+	 * @param spValue
 	 * @return
 	 */
-	public static float preciseNumber(float data, int places){
-		String pattern = "#.";
-		for(int i=0; i<places; i++){
-            pattern = pattern + "0";
-		}
-		DecimalFormat df = new DecimalFormat(pattern);
-		data = Float.parseFloat(df.format(data));
-
-		return data;
+	public static int sp2px(Context context, float spValue) {
+		final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+		return (int) (spValue * fontScale + 0.5f);
 	}
 
-	/** 精简小数点，小数点后为0时，不显示小数点后的位数 */
-	public static String reducedPoint(float data){
-		DecimalFormat df = new DecimalFormat("###.####");
+	/**
+	 * 根据手机的分辨率PX(像素)转成DP
+	 * @param context
+	 * @param pxValue
+	 * @return
+	 */
+	public static int px2dip(Context context, float pxValue) {
+		float scale = context.getResources().getDisplayMetrics().density;
+		return (int) (pxValue / scale + 0.5f);
+	}
 
-		return df.format(data);
+	/**
+	 * 将px值转换为sp值，保证文字大小不变
+	 * @param pxValue
+	 * @return
+	 */
+
+	public static int px2sp(Context context, float pxValue) {
+		final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+		return (int) (pxValue / fontScale + 0.5f);
 	}
 }

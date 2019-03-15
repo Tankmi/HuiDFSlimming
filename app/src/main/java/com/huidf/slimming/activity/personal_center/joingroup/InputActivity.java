@@ -1,34 +1,25 @@
 package com.huidf.slimming.activity.personal_center.joingroup;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.huidf.slimming.R;
-import com.huidf.slimming.adapter.ranking.RankingAdapter;
 import com.huidf.slimming.base.BaseFragmentActivityForAnnotation;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.context.UrlConstant;
 import com.huidf.slimming.entity.ranking.RankingEntity;
-import com.huidf.slimming.view.swiperecyclerview.SpacesItemDecoration;
-import com.huidf.slimming.view.swiperecyclerview.SwipeRecyclerView;
 
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.StringUtils;
 import huitx.libztframework.utils.ToastUtils;
-import huitx.libztframework.utils.UnitConversion;
 
 /**
  * @author ZhuTao

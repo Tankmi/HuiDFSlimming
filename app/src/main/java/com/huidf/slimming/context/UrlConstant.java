@@ -8,6 +8,7 @@ package com.huidf.slimming.context;
  */
 public class UrlConstant {
 
+//    public static final String IP = "192.168.0.126:8090"; // 测试服务器地址
     public static final String IP = "182.92.109.146:7779"; // 正式服务器地址
 
 	public static final String API_BASE = "http://" + IP +"/";
@@ -82,9 +83,7 @@ public class UrlConstant {
     // ***********************************个人中心
 
     // ***********************************首页
-
     public static final String API_INSERTSPORT= API_BASE + "sports/insertSport.do";  //今日运动，添加
-
     public static final String API_INSERTWEIGHJT = API_BASE + "sports/insertWeight.do";  //录入体重(手动、自动)
     public static final String API_GETNOWEIGHJT = API_BASE + "sports/getNowWeight.do";  //获取体重信息
     public static final String API_GETALLWEIGHJT = API_BASE + "sports/getAllWeight.do";  //获取体重历史记录信息
@@ -107,5 +106,12 @@ public class UrlConstant {
 
     /** 修改绑定的手机号 */
     public static String API_CHANGE_PHONE = API_BASE + "user/chgphone.do";
+
+
+    // ***********************************动态
+    /** 上传图片 */
+    public static final String API_UPLOADINGPICTURE = API_BASE + "H5/uploadImg.do";
+    /** 发帖 */
+    public static final String API_SENDDYNAMIC = API_BASE + "H5/postLuntan.do";
 
 }

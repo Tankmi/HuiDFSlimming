@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.huidf.slimming.R;
 import com.huidf.slimming.base.BaseDialogFragment;
 import com.huidf.slimming.context.PreferenceEntity;
-import com.huidf.slimming.view.loading.RadioHorizonalRuler2;
+import com.huidf.slimming.view.loading.RadioHorizonalRulerDecimals;
 
 import huitx.libztframework.utils.MathUtils;
 import huitx.libztframework.utils.NewWidgetSetting;
@@ -59,18 +59,19 @@ public class WeightSelDialogFragment extends BaseDialogFragment implements View.
     @Override
     protected void initLogic()
     {
-        int mWeight = (int)MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50);
+        float mWeight = MathUtils.getFloatForPreference(PreferenceEntity.KEY_USER_INITIAL_WEIGHT,50.0f);
         float height = MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_HEIGHT, 166) * 0.01f;
         int minWeight = (int) (height*height*15.0f);
 
-        view_guidance_weight.initViewParam(mWeight, 300, minWeight, 10);    //设置默认值，最大值，最小值，间隔
+        view_guidance_weight.initViewParam(mWeight, 300, minWeight, 10);    //设置默认值，最大值，最小值，间隔之间的分隔数目
+//        view_guidance_weight.initViewParam(50.1f, 100, 20, 10);    //设置默认值，最大值，最小值，间隔之间的分隔数目
 
         updateValue(mWeight);
         //设置监听
-        view_guidance_weight.setValueChangeListener(new RadioHorizonalRuler2.OnValueChangeListener() {
+        view_guidance_weight.setValueChangeListener(new RadioHorizonalRulerDecimals.OnValueChangeListener() {
 
             @Override
-            public void onValueChange(int value)
+            public void onValueChange(float value)
             {
                 updateValue(value);
             }
@@ -91,7 +92,7 @@ public class WeightSelDialogFragment extends BaseDialogFragment implements View.
 
     }
 
-    private void updateValue(int value)
+    private void updateValue(float value)
     {
         tv_movement_time_ruler_value.setText(value + "");
         NewWidgetSetting.setIdenticalLineTvColor(
@@ -140,7 +141,7 @@ public class WeightSelDialogFragment extends BaseDialogFragment implements View.
                 dismiss();
                 break;
             case R.id.tv_mtc_affirm:
-                int value = view_guidance_weight.getValue();
+                float value = view_guidance_weight.getValue();
                 if (mMovementListener != null)  mMovementListener.onSelData(value);
                 dismiss();
                 break;
@@ -155,10 +156,10 @@ public class WeightSelDialogFragment extends BaseDialogFragment implements View.
     }
 
     public interface onSelDataListener {
-        int onSelData(int value);
+        int onSelData(float value);
     }
 
     protected LinearLayout lin_movement_time_control;
     private TextView tv_movement_time_ruler_value, tv_mtc_cancel, tv_mtc_affirm;
-    private RadioHorizonalRuler2 view_guidance_weight;
+    private RadioHorizonalRulerDecimals view_guidance_weight;
 }

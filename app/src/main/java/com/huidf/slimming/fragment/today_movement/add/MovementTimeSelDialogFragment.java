@@ -1,6 +1,5 @@
 package com.huidf.slimming.fragment.today_movement.add;
 
-import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -19,8 +18,7 @@ import com.huidf.slimming.view.loading.RadioHorizonalRuler;
 
 import huitx.libztframework.utils.MathUtils;
 import huitx.libztframework.utils.NewWidgetSetting;
-import huitx.libztframework.utils.PreferencesUtils;
-import huitx.libztframework.utils.UnitConversion;
+import huitx.libztframework.utils.NumberConversion;
 
 public class MovementTimeSelDialogFragment extends BaseDialogFragment implements View.OnClickListener {
 
@@ -51,7 +49,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setAttributes(params);
 
-        mUserWeight =  MathUtils.stringToFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f);
+        mUserWeight =  MathUtils.getFloatForPreference(PreferenceEntity.KEY_USER_CURRENT_WEIGHT, 66.0f);
         ;
 
     }
@@ -96,7 +94,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
                 "  分钟", false);
 
         float equalCalorie = mUnit * (value / 60.0f);
-        equalCalorie = UnitConversion.preciseNumber(equalCalorie, 0);
+        equalCalorie = NumberConversion.preciseNumber(equalCalorie, 0);
         tv_movement_time_value.setText((int)equalCalorie + " 千卡");
 
 //        if (mMovementListener != null) {
@@ -114,7 +112,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
         Glide.with(mContext).load(mMovement.icon).into(iv_mtm);
         tv_mtm.setText(mMovement.name);
         mUnit = mUserWeight * mMovement.equValue;
-        mUnit = UnitConversion.preciseNumber(mUnit, 0);
+        mUnit = NumberConversion.preciseNumber(mUnit, 0);
         NewWidgetSetting.getInstance().setIdenticalLineTvColor(
                 tv_mtm, mContext.getResources().getColor(R.color.text_color_hint), 0.8f, (int)mUnit + " (千卡)/60分钟", true);
     }
@@ -197,7 +195,7 @@ public class MovementTimeSelDialogFragment extends BaseDialogFragment implements
             case R.id.tv_mtc_affirm:
                 int value = view_guidance_weight.getValue();
                 float equalCalorie = mUnit * (value / 60.0f);
-                equalCalorie = UnitConversion.preciseNumber(equalCalorie, 0);
+                equalCalorie = NumberConversion.preciseNumber(equalCalorie, 0);
                 if (mMovementListener != null)  mMovementListener.onSelMovementTime(value,(int)equalCalorie);
                 else LOG("回调事件为空！");
                 dismiss();

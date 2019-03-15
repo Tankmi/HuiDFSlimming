@@ -73,15 +73,15 @@ public class NewWidgetSetting {
 	 * @param text 文本
 	 * @param def 文本的默认值（不是默认文本）
 	 * @param state true，默认文本在前
+	 * @param hideUnit true，如果只显示文本的默认值（def），就不显示单位
 	 *
 	 */
-	public static void setViewText(TextView view,String text1,String text,String def,boolean state){
-		if(state){
-			view.setText(text1 + filtrationStringbuffer(text,def));
-		}else{
-			view.setText(filtrationStringbuffer(text,def) + text1);
-		}
-
+	public static void setViewText(TextView view,String text1,String text,String def,boolean state,boolean hideUnit){
+		text = filtrationStringbuffer(text,def);
+		if(state)
+			view.setText((hideUnit?text.equals(def)?"":text1:text1) + text);
+		else
+			view.setText(text + (hideUnit?text.equals(def)?"":text1:text1));
 	}
 
 	/**

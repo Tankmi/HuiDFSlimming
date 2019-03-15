@@ -44,6 +44,7 @@ public class UserEntity {
        public String header;
        /** 上传资格证，返回的图片地址 */
        public String pic;
+       public String img;
 
        /** 动态数 */
        public String count;
@@ -95,9 +96,9 @@ public class UserEntity {
        mData.sex =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_SEX);
        mData.age =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_AGE);
        mData.birthday =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_BIR);
-       mData.weight =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_INITIAL_WEIGHT);
-       mData.latestWeight =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_CURRENT_WEIGHT);
-       mData.targetWeight =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_TARGET_WEIGHT);
+       mData.weight =  PreferencesUtils.getFloat(ApplicationData.context, PreferenceEntity.KEY_USER_INITIAL_WEIGHT) + "";
+       mData.targetWeight =  PreferencesUtils.getFloat(ApplicationData.context, PreferenceEntity.KEY_USER_TARGET_WEIGHT) + "";
+       mData.latestWeight =  PreferencesUtils.getFloat(ApplicationData.context, PreferenceEntity.KEY_USER_CURRENT_WEIGHT) + "";
        mData.targetCycle =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_LOSE_WEIGHT_PERIOD);
        mData.targetTime =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_TARGET_WEIGHT_TIME);
        mData.count =  PreferencesUtils.getString(ApplicationData.context, PreferenceEntity.KEY_USER_DYNAMIC);
