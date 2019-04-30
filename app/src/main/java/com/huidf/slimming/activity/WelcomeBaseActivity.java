@@ -83,7 +83,7 @@ public class WelcomeBaseActivity extends Activity implements ConsultNet {
             }
 //            intent_home = new Intent(mContext, PerfectInfoActivity.class);
 //            intent_home = new Intent(mContext, PerfectInfoActivity.class);
-//            intent_home = new Intent(mContext, CreateDynamicActivity.class);
+            intent_home = new Intent(mContext, SelLoginActivity.class);
 
             startActivity(intent_home);
             toFinish();
@@ -157,7 +157,7 @@ public class WelcomeBaseActivity extends Activity implements ConsultNet {
                 LOG("  虚拟键盘 hasNavigationBar =  " + (!hasNavigationBar ? "没显示" : "显示了"));
                 PreferenceEntity.hasNavigationBar = hasNavigationBar;
 
-                LOG("状态栏的高度：" + status_bar_height + ",标题栏与状态栏的高度:" + top2 + ",标题栏与状态栏的高度占比:"
+                LOGUtils.LOG("状态栏的高度：" + status_bar_height + ",标题栏与状态栏的高度:" + top2 + ",标题栏与状态栏的高度占比:"
                         + PreferencesUtils.getFloat(this, "ScreenTitle")
                         + ",视图的宽度:" + width + ",视图的高度(不包括状态栏的高度):" + height + "屏幕高度（不包括虚拟功能高度）： " + widowHeight + ",屏幕的宽度:"
                         + PreferenceEntity.screenWidth + ",屏幕的高度:"

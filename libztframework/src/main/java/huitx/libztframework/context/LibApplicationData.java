@@ -152,6 +152,11 @@ public class LibApplicationData extends Application {
         }
     }
 
+    public void finishApp(){
+        exit();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
     //杀进程  
     public void onLowMemory() {
         super.onLowMemory();

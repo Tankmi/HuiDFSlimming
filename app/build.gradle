@@ -1,5 +1,24 @@
 apply plugin: 'com.android.application'
 
+def keystoreFilepath = ''
+def keystorePSW = ''
+def keystoreAlias = ''
+def keystoreAliasPSW = ''
+// default keystore file, PLZ config file path in local.properties
+def keyfile = file('s.keystore.temp')
+
+Properties properties = new Properties()
+// local.properties file in the root director
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+keystoreFilepath = properties.getProperty("keystore.path")
+
+if (keystoreFilepath) {
+    keystorePSW = properties.getProperty("keystore.password")
+    keystoreAlias = properties.getProperty("keystore.alias")
+    keystoreAliasPSW = properties.getProperty("keystore.alias_password")
+    keyfile = file(keystoreFilepath)
+}
+
 android {
     compileSdkVersion 26
     buildToolsVersion '28.0.2'
@@ -20,91 +39,164 @@ android {
         ]
         //高德
         ndk { //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","arm64-v8a","x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64"
         }
 
     }
+    signingConfigs {
+        release {
+            keyAlias keystoreAlias
+            keyPassword keystorePSW
+            storeFile keyfile
+            storePassword keystorePSW
+        }
+//        release {
+//            keyAlias 'jemer'
+//            keyPassword 'jemerapp'
+//            storeFile file('D:/android/android.keystore')
+//            storePassword 'jemerapp'
+//        }
+    }
     buildTypes {
+        // 注意：
+        //  1 .minifyEnabled 会对代码进行混淆和压缩，shrinkResources 会对比R文件对无用资源进行删除
+        //  2.minifyEnabled 设置为true时shrinkResources 的设置才会生效
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        repositories {
-            maven {
-                url "http://maven.google.com"
+//            signingConfig signingConfigs.release
+            //签名文件存在，则签名
+            if (keyfile.exists()) {
+                println("WITH -> buildTypes -> release: using jks key")
+                signingConfig signingConfigs.release
+            } else {
+                println("WITH -> buildTypes -> release: using default key")
             }
-            maven { url 'https://maven.aliyun.com/repository/google' }
-            maven { url 'https://maven.aliyun.com/repository/jcenter' }
-            maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
         }
     }
-
     lintOptions {
         abortOnError false
         checkReleaseBuilds false
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDirs = ['libs']
         }
     }
 
 //    dataBinding{
-//        enable=true;
+//        enabled = true;
 //    }
 
+    //自定义BuildConfig，工程编译后会生成BuildConfig类，该类会包含自定义字段。
+    //假设工程包含beijing和shandong两个productFlavors，且拥有各自不同的服务器等配置信息。
+    productFlavors {
+    }
 }
 
 dependencies {
+    configurations {
+        all*.exclude group: 'com.google.code.gson'
+    }
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    implementation 'com.android.support:percent:26.0.0-alpha1'
     implementation 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    implementation 'com.android.support:recyclerview-v7:26.0.0'
+
+
     //    implementation 'com.android.support:appcompat-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
+
+    implementation 'com.android.support:recyclerview-v7:26.0.0'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.5.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
+
     //Glide
+
     //微信登录
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     implementation project(':jjdxm-dialogui')
     implementation files('libs/open_sdk_r6019_lite.jar')
+
     //信鸽jar start
     implementation 'com.tencent.xinge:xinge:3.2.6-release'
+
     //jg包
     implementation 'com.tencent.jg:jg:1.1'
+
     //wup包
     implementation 'com.tencent.wup:wup:1.0.0.E-release'
+
     //mid包
     implementation 'com.tencent.mid:mid:4.0.6-release'
+
     //信鸽jar end
     implementation project(':xutils')
     implementation project(':libztframework')
+
     //高德start
+
     //3D地图so及jar
     implementation 'com.amap.api:3dmap:latest.integration'
+
     //    implementation 'com.amap.api:map2d:latest.integration'
-//    //     定位功能
-//    implementation 'com.amap.api:location:latest.integration'
-//    // 搜索功能
-//    implementation 'com.amap.api:search:latest.integration'
+
+    //    //     定位功能
+
+    //    implementation 'com.amap.api:location:latest.integration'
+
+    //    // 搜索功能
+
+    //    implementation 'com.amap.api:search:latest.integration'
+
     //高德end
     implementation files('libs/mengiiscalesdk.jar')
     implementation files('libs/AMapTrack_1.0.0_AMapLocation_4.2.0_20180809.jar')
-    //RxJava
+
+
+    //Rxjava + okhttp + retrofit  ---------------start
+    //    //rxjavaAdapter
+    //    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
+
+    //retrofit log打印
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    // Android 支持 Rxjava
+
+    // 此处一定要注意使用RxJava2的版本
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.x.x'
-    //Retrofit
+
+    // Android 支持 Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+
+    // 衔接 Retrofit & RxJava
+
+    // 此处一定要注意使用RxJava2的版本
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    // 衔接 Retrofit & RxJava
+
+    // 此处一定要注意使用RxJava2的版本
+
+    //    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    //    //rxjavaAdapter
+
+    //    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
+
+    // 支持Gson解析
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
+    //Rxjava + okhttp + retrofit  ---------------end
 
     //EventBus
-//    provided 'org.greenrobot:eventbus:3.0.0'
     implementation 'org.greenrobot:eventbus:3.0.0'
-
 }

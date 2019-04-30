@@ -327,9 +327,9 @@ public class HomeBaseActivity extends BaseFragmentActivity implements OnClickLis
                 ToastUtils.showToast("再按一次后退键退出程序");
                 exitTime = System.currentTimeMillis();
             } else {
-                ApplicationData.getInstance().exit();
+                ApplicationData.getInstance().finishApp();
 //				android.os.Process.killProcess(android.os.Process.myPid());
-                finish();
+//                finish();
             }
             return true;
         }

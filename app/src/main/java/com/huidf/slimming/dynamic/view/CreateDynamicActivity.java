@@ -19,6 +19,7 @@ import android.view.View;
 import com.huidf.slimming.R;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.dynamic.model.CreDynSelectPicEntity;
+import com.huidf.slimming.fragment.home.weight.HomeRefreshData;
 import com.huidf.slimming.util.ProviderUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,12 +70,14 @@ public class CreateDynamicActivity extends CreateDynamicBaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lin_selpic_camera: //拍照
+                LOG("1");
                 requestPermissionsIfAboveM(Picture_Camera);
                 break;
             case R.id.lin_selpic_photo: //相册
                 requestPermissionsIfAboveM(Picture_Photo);
                 break;
             case R.id.btn_title_view_right:	//发送
+                LOG("发送事件");
                 sendDynamic();
                 break;
 
@@ -98,7 +101,7 @@ public class CreateDynamicActivity extends CreateDynamicBaseActivity {
             if (mCurrentPhotoFile != null && mCurrentPhotoFile.exists() && mCurrentPhotoFile.length() > 0) {
                 selectedImagePath = mCurrentPhotoFile.getAbsolutePath();
                 if (!selectedImagePath.equals("")) {
-                    selectedImagePath = BitmapUtils.compressImg(selectedImagePath);
+                    selectedImagePath = BitmapUtils.compressImg(selectedImagePath,480,850);
                 }
             }else{	//没有获取到照片
                 LOG("mCurrentPhotoFile != null: " + "mCurrentPhotoFile = null");
@@ -107,7 +110,7 @@ public class CreateDynamicActivity extends CreateDynamicBaseActivity {
                 if(data!=null){
                     Uri uri = data.getData();
                     selectedImagePath = getPath(uri);
-                    selectedImagePath = BitmapUtils.compressImg(selectedImagePath);
+                    selectedImagePath = BitmapUtils.compressImg(selectedImagePath, 480,850);
                     LOG("selectedImagePath: " + selectedImagePath);
                     if (TextUtils.isEmpty(selectedImagePath)) {		//没有获取到图片
                         return;
@@ -119,7 +122,8 @@ public class CreateDynamicActivity extends CreateDynamicBaseActivity {
         if (file.exists() && file.length() > 0) {
             userHeader = "file://" + selectedImagePath;
             try {
-                uploadingCredentials(selectedImagePath);
+//                uploadingCredentials(selectedImagePath);
+                mDynamicPresenter.uploadingPic(selectedImagePath);
             } catch (Exception e) {
                 e.printStackTrace();
             }

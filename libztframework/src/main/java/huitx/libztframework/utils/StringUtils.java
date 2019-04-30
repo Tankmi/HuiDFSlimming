@@ -72,9 +72,8 @@ public class StringUtils {
     * @return
     */
    public static String replaceJson(String str) {
-   String dest = "";
+   String dest = str;
    if (str != null) {
-
        Pattern p1 = Pattern.compile("\\\\n");
        Matcher m1 = p1.matcher(str);
        dest = m1.replaceAll("n1b2n3b4n5cqd");

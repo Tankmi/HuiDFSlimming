@@ -1,6 +1,8 @@
 package com.huidf.slimming.context;
 
 import android.util.Log;
+
+import com.bumptech.glide.RequestBuilder;
 import com.huidf.slimming.entity.user.UserEntity;
 import org.xutils.http.RequestParams;
 
@@ -11,6 +13,7 @@ import huitx.libztframework.utils.LOGUtils;
 import huitx.libztframework.utils.MD5Utils;
 import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.PreferencesUtils;
+import okhttp3.Request;
 
 public class PreferenceEntity extends LibPreferenceEntity{
 	/** 标记是否初始化过icon */
@@ -157,6 +160,15 @@ public class PreferenceEntity extends LibPreferenceEntity{
 		params.addHeader("user", map.get("user") + "");// 用户名
 		params.addHeader("imei", map.get("imei") + "");// 手机唯一码
 		return params;
+	}
+
+
+	public  static Request getLoginParamsForOkHttp(Request request){
+		HashMap map = PreferenceEntity.getLoginData();
+		return request.newBuilder()
+				.addHeader("id", (String) map.get("id"))
+				.addHeader("user", (String) map.get("user"))
+				.addHeader("imei", (String) map.get("imei")).build();
 	}
 
 	// ***********************************用户信息

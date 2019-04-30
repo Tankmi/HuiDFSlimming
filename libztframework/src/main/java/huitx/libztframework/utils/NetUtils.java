@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+
 import huitx.libztframework.R;
 import huitx.libztframework.context.LibApplicationData;
 
@@ -20,7 +22,7 @@ public class NetUtils{
 	 * @param context
 	 * @return
 	 */
-	public static int getAPNType(Context context) {
+	public static int getAPNType(@NonNull Context context) {
 		int netType = -1;
 		ConnectivityManager connMgr = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -45,23 +47,18 @@ public class NetUtils{
 	
 	/**
 	 * 检查是否有网络
-	 * 
-	 * @param context
-	 * @return
 	 */
 	public static boolean isAPNType() {
-
 		return isAPNType(LibApplicationData.context);
 	}
+
 	public static boolean isAPNType(Context context) {
-		ConnectivityManager connMgr = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connMgr = (ConnectivityManager) context .getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-		if (networkInfo == null) {
-			Resources resource = (Resources) context.getResources();
-			ToastUtils.showToast("" + resource.getString(R.string.netstate_error));
-			return false;
-		}
-		return true;
+		if (networkInfo != null && networkInfo.isConnected())  return true;
+		ToastUtils.showToast("" + context.getResources().getString(R.string.netstate_error));
+		return false;
+
+
 	}
 }

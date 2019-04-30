@@ -16,6 +16,8 @@ import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.dynamic.view.CreateDynamicActivity;
 import com.huidf.slimming.web.activity.WebViewActivity;
 
+import huitx.libztframework.utils.LOGUtils;
+
 
 /**
 * @Title: ReportCycleActivity.java
@@ -26,8 +28,6 @@ import com.huidf.slimming.web.activity.WebViewActivity;
 * @version V1.0
 */
 public class HomeActivity extends HomeBaseActivity {
-
-   public Boolean statefalse = false;
 
    public HomeActivity() {
        super(R.layout.activity_main);
@@ -81,12 +81,12 @@ public class HomeActivity extends HomeBaseActivity {
        }
    }
 
+   //保存页面的缓存信息，在onCreate方法中可以进行数据的初始化
    @Override
    protected void onSaveInstanceState(Bundle outState) {
        // TODO Auto-generated method stub
        super.onSaveInstanceState(outState);
        outState.putString("home_datas", "非正常退出！");
-       LOG("Home非正常退出");
    }
 
    @Override

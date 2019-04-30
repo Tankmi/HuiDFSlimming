@@ -103,49 +103,9 @@ public class BitmapUtils {
 	 * @param path
 	 * @return
 	 */
-	public static String compressImg(String path){
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
-		BitmapFactory.decodeFile(path,options);
-		options.inSampleSize = calculateInSampleSize(options,480,850);
-		options.inJustDecodeBounds = false;
-		Bitmap bitmap = BitmapFactory.decodeFile(path,options);	//压缩对应的倍数
-		if(bitmap == null){
-			return "";
-		}
-		int degree = readPictureDegree(path);
-		bitmap = BitmapUtils.rotateBitmap(bitmap, degree);
-
-//		File file=net File("/mnt/sdcard/pic/01.jpg");//将要保存图片的路径
-		File file=new File(PHOTO_DIR,System.currentTimeMillis() + ".jpg");//将要保存图片的路径
-		try {
-			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-			bos.flush();
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if(bitmap != null){
-			bitmap.recycle();
-			bitmap = null;
-		}
-		if (file.exists() && file.length() > 0) {
-			return file.getAbsolutePath();
-		}else{
-			return "";
-		}
-		
-	}
-	
-	/**
-	 * 将sd卡上的图片压缩到指定的比例，并旋转角度
-	 * @param path
-	 * @return
-	 */
 	public static String compressImg(String path,int width,int height){
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inJustDecodeBounds = true;
+		options.inJustDecodeBounds = true;	//仅返回图片信息
 		BitmapFactory.decodeFile(path,options);
 		options.inSampleSize = calculateInSampleSize(options,width,height);
 		options.inJustDecodeBounds = false;

@@ -42,17 +42,22 @@ public class LayoutUtil {
     private float normalH;
     /** 状态栏的高度 */
     private float StatusBarHeight;
-
     private static LayoutUtil mLayoutUtilInstance;
 
-    public static LayoutUtil getInstance() {
-        synchronized (LayoutUtil.class) {
-            if (mLayoutUtilInstance == null) {
-                mLayoutUtilInstance = new LayoutUtil();
+    public static LayoutUtil getInstance() {    //双重检验锁，实现线程安全
+        if(mLayoutUtilInstance == null){
+            synchronized (LayoutUtil.class){
+                if(mLayoutUtilInstance == null){
+                    mLayoutUtilInstance = new LayoutUtil();
+                }
             }
-            setIsFullScreen(false);
         }
+        setIsFullScreen(false);
         return mLayoutUtilInstance;
+    }
+
+    private Object readResolve(){
+        return getInstance();
     }
 
     public LayoutUtil() {

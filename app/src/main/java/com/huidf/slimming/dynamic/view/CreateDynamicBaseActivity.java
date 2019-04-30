@@ -18,6 +18,8 @@ import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.context.UrlConstant;
 import com.huidf.slimming.dynamic.adapter.DynamicPhotoAdapter;
 import com.huidf.slimming.dynamic.model.CreDynSelectPicEntity;
+import com.huidf.slimming.dynamic.view.net.DynamicController;
+import com.huidf.slimming.dynamic.view.net.DynamicPresenter;
 import com.huidf.slimming.entity.ranking.RankingEntity;
 import com.huidf.slimming.entity.user.UserEntity;
 
@@ -28,6 +30,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.utils.NetUtils;
@@ -35,7 +38,9 @@ import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.ToastUtils;
 
 
-public class CreateDynamicBaseActivity extends BaseActivity implements OnClickListener, DynamicPhotoAdapter.OnPictureOperateInterface {
+public class CreateDynamicBaseActivity extends BaseActivity implements OnClickListener, DynamicPhotoAdapter.OnPictureOperateInterface,DynamicController.CreateDynamicView {
+
+    protected DynamicPresenter mDynamicPresenter;
 
     /**
      * 输入框
@@ -72,6 +77,9 @@ public class CreateDynamicBaseActivity extends BaseActivity implements OnClickLi
 
         onPictureOperate(0);
         initRecyclerView();
+
+        mDynamicPresenter = new DynamicPresenter();
+        mDynamicPresenter.attachView(this);
     }
 
 
@@ -93,18 +101,18 @@ public class CreateDynamicBaseActivity extends BaseActivity implements OnClickLi
 
     //上传图片
     protected void uploadingCredentials(String path) {
-        RequestParams params = PreferenceEntity.getLoginParams();
+//        RequestParams params = PreferenceEntity.getLoginParams();
         File file = new File(path);
-        if (file.exists() && file.length() > 0) {
-            params.addBodyParameter("pic", file);
-        } else {
-            ToastUtils.showToast("图片选择失败，请重试！");
-            return;
-        }
-        HashMap map = PreferenceEntity.getLoginData();
-        params.addBodyParameter("uId", map.get("id") + "");
-        mgetNetData.GetData(this, UrlConstant.API_UPLOADINGPICTURE, UPLOADINGPICTURE, params);
-        setLoading(true, "");
+//        if (file.exists() && file.length() > 0) {
+//            params.addBodyParameter("pic", file);
+//        } else {
+//            ToastUtils.showToast("图片选择失败，请重试！");
+//            return;
+//        }
+//        HashMap map = PreferenceEntity.getLoginData();
+//        params.addBodyParameter("uId", map.get("id") + "");
+//        mgetNetData.GetData(this, UrlConstant.API_UPLOADINGPICTURE, UPLOADINGPICTURE, params);
+//        setLoading(true, "");
     }
 
     //发送动态
@@ -118,16 +126,22 @@ public class CreateDynamicBaseActivity extends BaseActivity implements OnClickLi
             return;
         }
         HashMap map = PreferenceEntity.getLoginData();
-        RequestParams params = PreferenceEntity.getLoginParams();
-        params.addBodyParameter("content", ET_InputView.getText().toString());
-        LOG("mAdapter.getPictureUrls()：" + mAdapter.getPictureUrls());
-        params.addBodyParameter("piclist", mAdapter.getPictureUrls());
-        params.addBodyParameter("uId", map.get("id") + "");
-        mgetNetData.GetData(this, UrlConstant.API_SENDDYNAMIC, SENDDYNAMIC, params);
-        setLoading(true, "");
+//        RequestParams params = PreferenceEntity.getLoginParams();
+//        params.addBodyParameter("content", ET_InputView.getText().toString());
+//        LOG("mAdapter.getPictureUrls()：" + mAdapter.getPictureUrls());
+//        params.addBodyParameter("piclist", mAdapter.getPictureUrls());
+//        params.addBodyParameter("uId", map.get("id") + "");
+//        mgetNetData.GetData(this, UrlConstant.API_SENDDYNAMIC, SENDDYNAMIC, params);
+//        setLoading(true, "");
+
+        Map<String,String> mMap = new HashMap<>();
+        mMap.put("content", ET_InputView.getText().toString());
+        mMap.put("piclist", mAdapter.getPictureUrls());
+        mMap.put("uId", map.get("id") + "");
+        mDynamicPresenter.createDynamic(mMap);
+
+
     }
-
-
     @Override
     public void paddingDatas(String mData, int type) {
         setLoading(false, "");
@@ -176,6 +190,53 @@ public class CreateDynamicBaseActivity extends BaseActivity implements OnClickLi
 
     }
 
+    @Override
+    public void uploadingPicSuccess(UserEntity mUserEntity) {
+        LOG("图片上传成功");
+        LinkedList<CreDynSelectPicEntity> mLists = new LinkedList<>();
+        CreDynSelectPicEntity userEntity = new CreDynSelectPicEntity(userHeader);
+        userEntity.setUrl(mUserEntity.data.img);
+        mLists.add(userEntity);
+        mAdapter.addData(mLists);
+    }
+
+    @Override
+    public void uploadingPicFail(String msg) {
+        LOG("图片上传失败");
+    }
+
+    @Override
+    public void sendDynamicSuccess(boolean state) {
+        ToastUtils.showToast("发帖成功");
+        EventBus.getDefault().post(true);
+        finish();
+    }
+
+    @Override
+    public void sendDynamicFail(String msg) {
+        ToastUtils.showToast("发帖失败");
+    }
+
+    @Override
+    public void loadingShow() {
+        setLoading(true, "");
+    }
+
+    @Override
+    public void loadingDissmis() {
+        setLoading(false, "");
+    }
+
+    @Override
+    public void loginOut() {
+        reLoading();
+    }
+
+    @Override
+    public void setPresenter(Object presenter) {
+
+    }
+
     protected class MyHandler extends Handler {
         protected final int ANIMATION_START = 100;  //启动倒计时背景渲染动画
 
@@ -210,6 +271,10 @@ public class CreateDynamicBaseActivity extends BaseActivity implements OnClickLi
 
     @Override
     protected void destroyClose() {
+        if(mDynamicPresenter != null ){
+            mDynamicPresenter.detachView();
+            mDynamicPresenter = null;
+        }
     }
 
 }

@@ -1,23 +1,25 @@
 package com.huidf.slimming.fragment.home;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import com.huidf.slimming.R;
 import com.huidf.slimming.activity.home.foodsport_scheme.FoodSportSchemeActivity;
 import com.huidf.slimming.activity.home.sleep.SleepHisActivity;
-import com.huidf.slimming.activity.home.sleep.SleepHisBaseActivity;
 import com.huidf.slimming.activity.home.sport.SportHisActivity;
 import com.huidf.slimming.activity.home.weight.WeightActivity;
 import com.huidf.slimming.activity.home.weight.history.WeightHistoryActivity;
 import com.huidf.slimming.activity.toady_movement.TodayMovementActivity;
 import com.huidf.slimming.context.PreferenceEntity;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import huitx.libztframework.utils.MathUtils;
+import com.huidf.slimming.fragment.home.weight.HomeRefreshData;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import huitx.libztframework.utils.LOGUtils;
 
 
 /**
@@ -30,8 +32,7 @@ import huitx.libztframework.utils.MathUtils;
 
 public class HomeFragment extends HomeBaseFragment {
 
-    public HomeFragment()
-    {
+    public HomeFragment() {
         super(R.layout.fragment_home);
         TAG = getClass().getSimpleName();
     }
@@ -43,42 +44,42 @@ public class HomeFragment extends HomeBaseFragment {
     }
 
     @Override
-    protected void initHead()
-    {
+    protected void initHead() {
         if (mHandler == null) mHandler = new MyHandler(getActivity());
     }
 
     @Override
-    protected void initLogic()
-    {
+    protected void initLogic() {
         super.initLogic();
+
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         LOG("PreferenceEntity.isRefreshHomeData:  " + PreferenceEntity.isRefreshHomeData);
-        if(!isInit || PreferenceEntity.isRefreshHomeData){
-            getChoiceness();
+        if (!isInit || PreferenceEntity.isRefreshHomeData) {
+            refreshHomeData();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventBusRefresh(HomeRefreshData state){
+        LOG("EventBus 回调" + state.isRefreshData);
+        if(state.isRefreshData){
+            PreferenceEntity.isRefreshHomeData = true;
         }
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         super.onClick(view);
         Intent intent = null;
 
         switch (view.getId()) {
-//            case R.id.iv_choiceness_article:    //健康指南
-//            case R.id.lin_cc_1:    //病友案例1
-//            case R.id.lin_cc_2:    //病友案例2
-//                String url = (String) view.getTag();
-//                intent = new Intent(mContext, WebViewActivity.class);
-//                intent.putExtra("url", UrlConstant.API_BASEH5 + url);
-////			intent.putExtra("title_name", "" + "");
-//                intent.putExtra("is_refresh", false);
-//                break;
             case R.id.tv_ht_today_movement:    //今日运动
                 intent = new Intent(getActivity(), TodayMovementActivity.class);
                 break;
@@ -103,15 +104,18 @@ public class HomeFragment extends HomeBaseFragment {
     }
 
     @Override
-    protected void pauseClose()
-    {
+    protected void pauseClose() {
         super.pauseClose();
     }
 
     @Override
-    protected void destroyClose()
-    {
+    protected void destroyClose() {
         super.destroyClose();
         if (mHandler != null) mHandler.removeCallbacksAndMessages(null);
+
+        if (EventBus.getDefault().isRegistered(this)) {
+            LOGUtils.LOG("解除EventBus 注册");
+            EventBus.getDefault().unregister(this);
+        }
     }
 }

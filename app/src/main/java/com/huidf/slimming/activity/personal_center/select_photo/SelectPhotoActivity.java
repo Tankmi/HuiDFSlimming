@@ -102,8 +102,9 @@ public class SelectPhotoActivity extends SelectPhotoBaseActivity {
         }
         if (requestCode == PHOTO_CUT_OUT_DATA) {//裁剪
             if(data!=null && data.getExtras() != null){
-                Bitmap bmap =  (Bitmap) data.getExtras().get("data");
-                selectedImagePath = BitmapUtils.getImg(bmap);
+                Bitmap bitmap =  (Bitmap) data.getExtras().get("data");
+                selectedImagePath = BitmapUtils.getImg(bitmap);
+                if(bitmap != null) bitmap.recycle();
                 modifyOperation(selectedImagePath);
             }
         }

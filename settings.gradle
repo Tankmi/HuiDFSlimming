@@ -1,1 +1,1 @@
-include ':app', ':libztframework', ':xutils', ':jjdxm-dialogui'
+include ':app', ':libztframework', ':xutils', ':jjdxm-dialogui', ':JavaTest'

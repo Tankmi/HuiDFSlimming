@@ -283,6 +283,7 @@ public abstract class BaseFragmentActivity extends FragmentActivity implements C
 	protected void setTitleBackgroudColor(int color){
 		rel_title_view_main.setBackgroundColor(mContext.getResources().getColor(color));
 	}
+
 	/**
 	 * 避免每次都进行强转
 	 *

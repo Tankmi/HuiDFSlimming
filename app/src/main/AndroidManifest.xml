@@ -3,6 +3,7 @@
 
     <application
         android:name=".context.ApplicationData"
+        android:resizeableActivity="false"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -27,7 +28,7 @@
         <activity
             android:name=".activity.WelcomeActivity"
             android:theme="@style/ThemeSplash"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|keyboardHidden|screenLayout"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -159,7 +160,6 @@
 
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-
                 <data android:scheme="tencent101518907"/>
             </intent-filter>
         </activity>

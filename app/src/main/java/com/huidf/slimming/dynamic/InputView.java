@@ -263,7 +263,10 @@ public class InputView extends LinearLayout implements AdapterView.OnItemClickLi
     ObservableOnSubscribe<String> mSubscriber = new ObservableOnSubscribe<String>() {
         @Override
         public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+            //执行异步操作
             if (!PreferenceEntity.isInitIcons) FaceConversionUtil.getInstace().getFileText(context);
+
+            //回调给观察者
             emitter.onNext("init");
             emitter.onComplete();
             PreferenceEntity.isInitIcons = true;

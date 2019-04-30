@@ -175,8 +175,7 @@ public class SelectPhotoBaseActivity extends BaseFragmentActivity implements OnC
 //	protected File createCreamePath;
 
 	/* 拍照的照片存储位置 */
-	private final File PHOTO_DIR = new File(
-			Environment.getExternalStorageDirectory() + PreferenceEntity.KEY_CACHE_PATH);
+	private final File PHOTO_DIR = new File(Environment.getExternalStorageDirectory() + PreferenceEntity.KEY_CACHE_PATH);
 	String fileName = "";
 	protected File mCurrentPhotoFile;// 照相机拍照得到的图片
 	protected String selectedImagePath = "";

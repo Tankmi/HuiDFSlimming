@@ -1,5 +1,6 @@
 package com.huidf.slimming.fragment.user.login;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.huidf.slimming.R;
@@ -71,9 +72,20 @@ public class LoginFragment extends LoginBindBaseFragment {
         }
     }
 
+    /**
+     * 当Fragment的显示状态通过FragmentTransition改变时(hide和show),就会回调这个函数,参数hidden将告诉你这个Fragment现在是被隐藏还是显示着.
+     * @param hidden
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
+
     @Override
     protected void pauseClose() {
         super.pauseClose();
+
         imm.hideSoftInputFromWindow(et_login_account.getWindowToken(), 0); //强制隐藏键盘
     }
 

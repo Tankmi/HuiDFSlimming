@@ -371,7 +371,9 @@ public class SelLoginActivity extends BaseFragmentActivity implements View.OnCli
     {
         if (loginFragment == null) loginFragment = new LoginFragment();
         if (fragmentManager == null) fragmentManager = getSupportFragmentManager();
+
         FragmentTransaction fragmentTran = fragmentManager.beginTransaction();
+
         if (isShow) {
             if (loginFragment.isAdded()) fragmentTran.show(loginFragment);
             else fragmentTran.replace(R.id.fram_login_sel, loginFragment, MAIN_CONTENT_TAG);
@@ -413,6 +415,7 @@ public class SelLoginActivity extends BaseFragmentActivity implements View.OnCli
         } else finish();  //没有显示的话，直接finish
         fragmentTran.commitAllowingStateLoss();
     }
+
 
 
     @Override

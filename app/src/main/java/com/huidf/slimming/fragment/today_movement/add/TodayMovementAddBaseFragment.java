@@ -19,8 +19,10 @@ import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.context.UrlConstant;
 import com.huidf.slimming.entity.today_movement.MovementEntity;
 import com.huidf.slimming.entity.user.UserEntity;
+import com.huidf.slimming.fragment.home.weight.HomeRefreshData;
 import com.huidf.slimming.view.swiperecyclerview.SpacesItemDecoration;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 
 import java.util.LinkedList;
@@ -59,7 +61,7 @@ public class TodayMovementAddBaseFragment extends BaseFragment implements
 		if(mUserEntity.code == ContextConstant.RESPONSECODE_200){
 			if(type == API_INSERTSPORT){	//提交运动数据
 				ToastUtils.showToast(mUserEntity.msg);
-				PreferenceEntity.isRefreshHomeData = true;
+				EventBus.getDefault().post(new HomeRefreshData(true));
 				if(mListener!=null){
 					mListener.OnButtonClickListener();
 				}

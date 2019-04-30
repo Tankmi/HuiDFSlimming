@@ -106,7 +106,7 @@ public class UserSetActivity extends UserSetBaseActivity {
                 if (resultCode == 200) {
                     String uri = data.getExtras().getString("intent_photo_uri");
                     if (!uri.equals("")) {
-                        uri = BitmapUtils.compressImg(uri);
+                        uri = BitmapUtils.compressImg(uri,480,850);
                         File file = new File(uri);
                         if (file.exists() && file.length() > 0) {
                             userHeader = "file://" + uri;

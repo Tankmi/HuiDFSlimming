@@ -29,10 +29,13 @@ import com.huidf.slimming.base.BaseFragmentActivityForAnnotation;
 import com.huidf.slimming.context.PreferenceEntity;
 import com.huidf.slimming.context.UrlConstant;
 import com.huidf.slimming.entity.home.weight.UploadingDataEntity;
+import com.huidf.slimming.fragment.home.weight.HomeRefreshData;
 import com.mengii.scale.api.MengiiSDK;
 import com.mengii.scale.api.OnMengiiScaleListener;
 import com.mengii.scale.model.MUser;
 import com.mengii.scale.model.MWeight;
+
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ViewInject;
 import java.lang.ref.WeakReference;
@@ -142,7 +145,7 @@ public class WeightBaseActivity extends BaseFragmentActivityForAnnotation implem
         }
         if (mTopicentity.code == ContextConstant.RESPONSECODE_200) {
             if (type == mHandler.POSTWEIGHTDATA) {    //提交体重测量值
-                PreferenceEntity.isRefreshHomeData = true;
+                EventBus.getDefault().post(new HomeRefreshData(true));
 //               ToastUtils.showToast(mTopicentity.msg);
                 insertData = false;
                 isShowDialog = true;

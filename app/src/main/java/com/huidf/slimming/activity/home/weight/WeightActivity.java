@@ -8,10 +8,12 @@ import com.huidf.slimming.R;
 import com.huidf.slimming.activity.user.perfect_info.PerfectInfoActivity;
 import com.huidf.slimming.context.ApplicationData;
 import com.huidf.slimming.context.PreferenceEntity;
+import com.huidf.slimming.fragment.home.weight.HomeRefreshData;
 import com.huidf.slimming.fragment.home.weight.WeightSelDialogFragment;
 import com.mengii.scale.api.MengiiSDK;
 import com.mengii.scale.model.MUser;
 
+import org.greenrobot.eventbus.EventBus;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 
@@ -114,7 +116,7 @@ public class WeightActivity extends WeightBaseActivity {
         if(REINSTALLUSERINFO == requestCode){
             if(resultCode == 200){
                 LOG("更新数据");
-                PreferenceEntity.isRefreshHomeData = true;
+                EventBus.getDefault().post(new HomeRefreshData(true));
                 mHandler.sendEmptyMessage(mHandler.GETWEIGHTDATA);
             }
         }
