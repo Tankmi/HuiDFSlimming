@@ -24,6 +24,7 @@ import huitx.libztframework.context.ContextConstant;
 import huitx.libztframework.utils.NewWidgetSetting;
 import huitx.libztframework.utils.PreferencesUtils;
 import huitx.libztframework.utils.ToastUtils;
+import huitx.libztframework.utils.WidgetSetting;
 
 /**
  * @author ZhuTao
@@ -51,6 +52,7 @@ public class RankingListActivity extends BaseFragmentActivityForAnnotation imple
     @Override
     protected void initHead()
     {
+        //branch
         setStatusBarColor(false, true, mContext.getResources().getColor(R.color.weight_main_color));
         mBtnLeft.setBackgroundResource(R.drawable.btn_back_white);
         setTitleBackgroudColor(R.color.weight_main_color);
@@ -60,6 +62,7 @@ public class RankingListActivity extends BaseFragmentActivityForAnnotation imple
         flag = getIntent().getIntExtra("flag", -1);
         setTittle((flag == 1 ? "日" : flag == 2 ? "周" : "月") + "排行", R.color.white);
         LOG("data(1,运动，2，体重) type:  " + mType + " ;flag:  " + flag);
+
     }
 
     @Override
